@@ -66,6 +66,9 @@ namespace TGC.Group.Model
         private const float MOVEMENT_SPEED = 1f;
         private float orbitaDeRotacion;
 
+        private TGCVector3 centroCaraSuperiorP2;
+
+
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
         ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
@@ -165,19 +168,27 @@ namespace TGC.Group.Model
 
             RenderizarPlataformas();
 
-            if (estaEnLaPlataforma1)
-            {
-                personaje.Transform = transformacionBox;
-            }
+            centroCaraSuperiorP2 = HallarCentroCaraSuperior(plataforma2);
+
+            var arrow = TgcArrow.fromDirection(centroCaraSuperiorP2, new TGCVector3(0,50,0));
+            arrow.Render();
+
+
+            //if (estaEnLaPlataforma1)
+            //{
+            //    personaje.Transform = transformacionBox;
+            //}
             if (estaEnLaPlataforma2)
             {
-                personaje.Transform = TGCMatrix.Scaling(personaje.Scale) * transformacionBox2;
+                //personaje.Transform = TGCMatrix.Scaling(personaje.Scale) * transformacionBox2;
 
-               // personaje.Transform =
-               //TGCMatrix.Scaling(personaje.Scale)
-               //            * TGCMatrix.RotationYawPitchRoll(personaje.Rotation.Y, personaje.Rotation.X, personaje.Rotation.Z)
-               //            * TGCMatrix.Translation(personaje.Position)
-               //            * transformacionBox2;
+                personaje.Transform =
+                           TGCMatrix.Scaling(personaje.Scale)
+                           * TGCMatrix.RotationYawPitchRoll(personaje.Rotation.Y, personaje.Rotation.X, personaje.Rotation.Z)
+                           * ultimaPos
+                           * plataforma2.Transform;
+
+                personaje.BoundingBox.transform(personaje.Transform);
             }
             else
             {
@@ -187,7 +198,7 @@ namespace TGC.Group.Model
                        * TGCMatrix.Translation(personaje.Position)
                        * ultimaPos;
 
-            personaje.BoundingBox.transform(personaje.Transform);
+                personaje.BoundingBox.transform(personaje.Transform);
             }
 
             personaje.BoundingBox.Render();
@@ -236,13 +247,13 @@ namespace TGC.Group.Model
             plataforma1.Transform = transformacionBox;
             plataforma1.Render();
             plataforma1.BoundingBox.transform(plataforma1.Transform);
-            plataforma1.BoundingBox.Render();
+           
 
             //Dibujar la segunda plataforma en pantalla
             plataforma2.Transform = transformacionBox2;
             plataforma2.Render();
             plataforma2.BoundingBox.transform(plataforma2.Transform);
-            plataforma2.BoundingBox.Render();
+         
 
             //Recalculamos la orbita de rotacion
             orbitaDeRotacion += MOVEMENT_SPEED * ElapsedTime;
@@ -319,27 +330,21 @@ namespace TGC.Group.Model
                 planoBack.BoundingBox.setRenderColor(Color.Yellow);
             }
 
-            if (ChocoConPlataforma(personaje, plataforma1))
-            {
-                estaEnLaPlataforma1 = true;
+            estaEnLaPlataforma1 = ChocoConPlataforma(plataforma1);
 
-                //MoverSegunPlataforma(personaje, plataforma1);
-            }
-            else
-            {
-                //ultimaPos *= TGCMatrix.Translation(movimiento);
-            }
+            estaEnLaPlataforma2 = ChocoConPlataforma(plataforma2);
 
-            if (ChocoConPlataforma(personaje, plataforma2))
+            if (estaEnLaPlataforma2)
             {
-                estaEnLaPlataforma2 = true;
+                var rayoCaraSuperior = new TgcRay(HallarCentroCaraSuperior(plataforma2), TGCVector3.Up);
 
-                //MoverSegunPlataforma(personaje, plataforma2);
+                var puntoInterseccion = TGCVector3.Empty;
+
+                var resultado = TgcCollisionUtils.intersectRayAABB(rayoCaraSuperior, plataforma2.BoundingBox, out puntoInterseccion);
+
+                
             }
-            else
-            {
-                //ultimaPos *= TGCMatrix.Translation(movimiento);
-            }
+               
 
             if (moving)
             {
@@ -390,9 +395,37 @@ namespace TGC.Group.Model
                 
         }
 
-        private bool ChocoConPlataforma(TgcSkeletalMesh personaje, TgcMesh plataforma)
+        private bool ChocoConPlataforma(TgcMesh plataforma)
         {
-            return TgcCollisionUtils.testAABBAABB(plataforma.BoundingBox, personaje.BoundingBox);
+            //centroCaraSuperiorP2 = HallarCentroCaraSuperior(plataforma2);
+
+            //var caraSuperiorPlataforma2 = plataforma.BoundingBox.computeFaces()[0];
+
+            //vectorNormalUp = new TGCVector3(centroCaraSuperiorP2.X, centroCaraSuperiorP2.Y, centroCaraSuperiorP2.Z);
+
+            var rayoCaraSuperior = new TgcRay(HallarCentroCaraSuperior(plataforma), TGCVector3.Up);
+
+            var puntoInterseccion = TGCVector3.Empty;
+
+            var resultado = TgcCollisionUtils.intersectRayAABB(rayoCaraSuperior, personaje.BoundingBox, out puntoInterseccion);
+
+            if (resultado)
+            {
+                Console.WriteLine(String.Format("Hubo Colision"));
+                Console.WriteLine(String.Format("Punto interseccion: ({0}, {1}, {2})", puntoInterseccion.X, puntoInterseccion.Y, puntoInterseccion.Z));
+            }
+
+            return resultado;
+            //return TgcCollisionUtils.testAABBAABB(plataforma.BoundingBox, personaje.BoundingBox);
+        }
+
+        private TGCVector3 HallarCentroCaraSuperior(TgcMesh plataforma) {
+            var PMin = plataforma.BoundingBox.PMin;
+            var PMax = plataforma.BoundingBox.PMax;
+
+            var centro = new TGCVector3((PMax.X + PMin.X)/2, (PMax.Y + PMin.Y) / 2, (PMax.Z + PMin.Z) / 2);
+
+            return new TGCVector3(centro.X, centro.Y + ((FastMath.Abs(PMax.Y) - FastMath.Abs(PMax.Y))/2),centro.Z);
         }
 
         private bool ChocoConLimite(TgcSkeletalMesh personaje, TgcMesh planoIzq) {
