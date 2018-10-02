@@ -20,8 +20,9 @@ namespace TGC.Group.Model
         private List<Rayo> rayosMenosY;
         private TGCVector3 posicionInicial;
 
-        public MeshTipoCaja(TGCVector3 posicionInicial)
+        public MeshTipoCaja(TGCVector3 posicionInicial, TgcMesh mesh)
         {
+            this.mesh = mesh;
             this.rayosX = new List<Rayo>();
             this.rayosMenosX = new List<Rayo>();
             this.rayosY = new List<Rayo>();
@@ -34,8 +35,7 @@ namespace TGC.Group.Model
         }
 
         private void Init() {
-            var loader = new TgcSceneLoader();
-            mesh = loader.loadSceneFromFile(GameModel.Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
+            
             mesh.AutoTransform = false;
             mesh.Transform = TGCMatrix.Translation(posicionInicial);
             mesh.BoundingBox.transform(mesh.Transform);

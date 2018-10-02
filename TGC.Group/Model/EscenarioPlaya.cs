@@ -55,8 +55,11 @@ namespace TGC.Group.Model
 
         private void GenerarCajas() {
             cajas = new List<MeshTipoCaja>();
-            
-            cajas.Add(new MeshTipoCaja(new TGCVector3(0,0,-100)));
+
+            var loader = new TgcSceneLoader();
+            var mesh = loader.loadSceneFromFile(GameModel.Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
+
+            cajas.Add(new MeshTipoCaja(new TGCVector3(0,0,-100), mesh));
         }
 
         public override void Render() {
