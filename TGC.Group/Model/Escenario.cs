@@ -62,5 +62,6 @@ namespace TGC.Group.Model
                     break;
             }
         }
+        public abstract void DisposeAll();
     }
 }

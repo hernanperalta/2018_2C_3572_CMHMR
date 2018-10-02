@@ -169,5 +169,13 @@ namespace TGC.Group.Model
                 }
             }
         }
+
+        public override void DisposeAll()
+        {
+            planoIzq.Dispose();
+            planoFront.Dispose();
+            planoPiso.Dispose();
+            escena.DisposeAll();
+        }
     }
 }

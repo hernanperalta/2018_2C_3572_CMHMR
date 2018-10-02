@@ -92,6 +92,7 @@
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
     <Compile Include="Model\Escenario.cs" />
+    <Compile Include="Model\EscenarioPlataforma.cs" />
     <Compile Include="Model\EscenarioPlaya.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\MeshTipoCaja.cs" />

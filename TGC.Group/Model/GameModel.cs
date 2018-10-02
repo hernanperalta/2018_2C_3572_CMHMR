@@ -1,19 +1,11 @@
 using Microsoft.DirectX.DirectInput;
-using System.Drawing;
 using TGC.Core.Direct3D;
 using TGC.Core.Example;
-using TGC.Core.Input;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
-using TGC.Core.SkeletalAnimation;
 using TGC.Core.Geometry;
-using TGC.Core.Mathematica;
-using TGC.Core.BoundingVolumes;
-using TGC.Core.Collision;
-using TGC.Core.Textures;
 using TGC.Group.Camera;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace TGC.Group.Model
@@ -79,9 +71,9 @@ namespace TGC.Group.Model
 
             escenarios = new Dictionary<string, Escenario>();
 
-            escenarios["playa"] = new EscenarioPlaya(this, personaje);
+            escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
 
-            escenarioActual = escenarios["playa"];
+            escenarioActual = escenarios["plataforma"];
 
             //var loader = new TgcSceneLoader();
             //caja1 = loader.loadSceneFromFile(Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
@@ -161,11 +153,11 @@ namespace TGC.Group.Model
         public override void Dispose()
         {
             //Dispose del mesh.
-            //escenarioActual.DisposeAll();
+            escenarioActual.DisposeAll();
             personaje.Dispose();
-            escenarioActual.planoIzq.Dispose(); // solo se borran los originales
-            escenarioActual.planoFront.Dispose(); // solo se borran los originales
-            escenarioActual.planoPiso.Dispose();
+            //escenarioActual.planoIzq.Dispose(); // solo se borran los originales
+            //escenarioActual.planoFront.Dispose(); // solo se borran los originales
+            //escenarioActual.planoPiso.Dispose();
 
             //foreach (TgcMesh mesh in meshesColisionables) {
             //    mesh.Dispose(); // mmm, no se que pasaria con las instancias...
