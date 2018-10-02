@@ -75,6 +75,11 @@ namespace TGC.Group.Model
 
         public override void Update()
         {
+            
+        }
+
+        public override void Colisiones()
+        {
             movimiento = personaje.movimiento;
 
             CalcularColisionesConPlanos();

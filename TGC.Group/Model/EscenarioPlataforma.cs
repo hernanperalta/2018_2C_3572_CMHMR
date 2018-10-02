@@ -51,10 +51,10 @@ namespace TGC.Group.Model
 
             planoDer = planoIzq.createMeshInstance("planoDer");
             planoDer.AutoTransform = false;
-            planoDer.Transform = TGCMatrix.Translation(-35, -15, -7) * TGCMatrix.Scaling(1, 2f, 1.1f);
+            planoDer.Transform = TGCMatrix.Translation(-35, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
             planoDer.BoundingBox.transform(planoDer.Transform);
 
-            planoIzq.Transform = TGCMatrix.Translation(0, -15, -7) * TGCMatrix.Scaling(1, 2f, 1.1f);
+            planoIzq.Transform = TGCMatrix.Translation(0, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
             planoIzq.BoundingBox.transform(planoIzq.Transform);
 
             planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
@@ -62,15 +62,15 @@ namespace TGC.Group.Model
 
             planoBack = planoFront.createMeshInstance("planoBack");
             planoBack.AutoTransform = false;
-            planoBack.Transform = TGCMatrix.Translation(50, 0, 70);
+            planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
             planoBack.BoundingBox.transform(planoBack.Transform);
 
-            planoFront.Transform = TGCMatrix.Translation(50, 0, -65);
+            planoFront.Transform = TGCMatrix.Translation(50, 0, -535);
             planoFront.BoundingBox.transform(planoFront.Transform);
 
             planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
-            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, -20, 200));
+            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, -20, -200));
 
         }
 
@@ -92,7 +92,10 @@ namespace TGC.Group.Model
 
             transformacionBox = Mover * Trasladar * Rot * Trasladar * RotInversa;
             transformacionBox2 = Mover2 * Trasladar2 * RotInversa * Trasladar2 * Rot;
+        }
 
+        public override void Colisiones()
+        {
             movimiento = personaje.movimiento;
 
             CalcularColisionesConPlanos();

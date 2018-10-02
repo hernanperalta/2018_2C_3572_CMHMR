@@ -31,6 +31,8 @@ namespace TGC.Group.Model
 
         public abstract void Update();
 
+        public abstract void Colisiones();
+
         public abstract void CalcularColisionesConPlanos();
 
         public abstract void CalcularColisionesConMeshes();

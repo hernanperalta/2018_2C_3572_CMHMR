@@ -67,7 +67,7 @@ namespace TGC.Group.Model
 
             escenarios["playa"] = new EscenarioPlaya(this, personaje);
 
-            escenarioActual = escenarios["plataforma"];
+            escenarioActual = escenarios["playa"];
 
             //var loader = new TgcSceneLoader();
             //caja1 = loader.loadSceneFromFile(Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
@@ -103,9 +103,15 @@ namespace TGC.Group.Model
 
             personaje.Update();
 
-            escenarioActual.Update();
+            //escenarioActual.Update();
+            foreach(Escenario escenario in escenarios.Values)
+            {
+                escenario.Update();
+            }
 
-            if (Input.keyDown(Key.Q))
+            escenarioActual.Colisiones();
+
+            if (Input.keyPressed(Key.Q))
             {
                 BoundingBox = !BoundingBox;
             }
@@ -127,17 +133,17 @@ namespace TGC.Group.Model
 
             personaje.Render();
 
-            escenarioActual.Render();
+            foreach (Escenario escenario in escenarios.Values)
+            {
+                escenario.Render();
+            }
+
+            //escenarioActual.Render();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }
 
-        
-
-        
-
-        
 
         /// <summary>
         ///     Se llama cuando termina la ejecución del ejemplo.
