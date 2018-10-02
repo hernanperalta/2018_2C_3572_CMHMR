@@ -77,9 +77,9 @@ namespace TGC.Group.Model
             var rayoIzqCaraY = new RayoY(new TGCVector3(mesh.BoundingBox.PMax.X, centroCaraY.Y, centroCaraMenosZ.Z), new TGCVector3(0, 1, 0));
             var rayoDerCaraY = new RayoY(new TGCVector3(mesh.BoundingBox.PMin.X, centroCaraY.Y, centroCaraMenosZ.Z), new TGCVector3(0, 1, 0));
 
-            var rayoCaraYMasAdelante = new RayoY(new TGCVector3(centroCaraY.X, centroCaraY.Y, centroCaraY.Z * 4), new TGCVector3(0, 1, 0));
-            var rayoIzqCaraYMasAdelante = new RayoY(new TGCVector3(mesh.BoundingBox.PMax.X, centroCaraY.Y, centroCaraY.Z * 4), new TGCVector3(0, 1, 0));
-            var rayoDerCaraYMasAdelante = new RayoY(new TGCVector3(mesh.BoundingBox.PMin.X, centroCaraY.Y, centroCaraY.Z * 4), new TGCVector3(0, 1, 0));
+            var rayoCaraYMasAdelante = new RayoY(new TGCVector3(centroCaraY.X, centroCaraY.Y, centroCaraZ.Z), new TGCVector3(0, 1, 0));
+            var rayoIzqCaraYMasAdelante = new RayoY(new TGCVector3(mesh.BoundingBox.PMax.X, centroCaraY.Y, centroCaraZ.Z), new TGCVector3(0, 1, 0));
+            var rayoDerCaraYMasAdelante = new RayoY(new TGCVector3(mesh.BoundingBox.PMin.X, centroCaraY.Y, centroCaraZ.Z), new TGCVector3(0, 1, 0));
 
             var rayoCaraYMasAtras = new RayoY(new TGCVector3(centroCaraY.X, centroCaraY.Y, centroCaraX.Z), new TGCVector3(0, 1, 0));
             var rayoIzqCaraYMasAtras = new RayoY(new TGCVector3(mesh.BoundingBox.PMax.X, centroCaraY.Y, centroCaraX.Z), new TGCVector3(0, 1, 0));
