@@ -96,6 +96,9 @@ namespace TGC.Group.Model
 
             transformacionBox = Mover * Trasladar * Rot * Trasladar * RotInversa;
             transformacionBox2 = Mover2 * Trasladar2 * RotInversa * Trasladar2 * Rot;
+
+            plataforma1.Update(transformacionBox);
+            plataforma2.Update(transformacionBox2);
         }
 
         public override void Colisiones()
