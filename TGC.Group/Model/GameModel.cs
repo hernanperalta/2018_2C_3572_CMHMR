@@ -38,20 +38,12 @@ namespace TGC.Group.Model
         public bool BoundingBox { get; set; }
         private const float VELOCIDAD_DESPLAZAMIENTO = 50f;
         private Personaje personaje = new Personaje();
-        private TgcMesh caja1;
         private GameCamera camara;
-        private TGCVector3 movimiento;
         
         private TGCMatrix movimientoCaja;
         private Dictionary<string, Escenario> escenarios;
         private Escenario escenarioActual;
-        
 
-        // Solo para mostrar
-        private MeshTipoCaja caja1Mesh;
-        //
-
-        private TgcArrow segment = new TgcArrow();
 
         //Constantes para velocidades de movimiento de plataforma
         private const float MOVEMENT_SPEED = 1f;
@@ -72,6 +64,8 @@ namespace TGC.Group.Model
             escenarios = new Dictionary<string, Escenario>();
 
             escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
+
+            escenarios["playa"] = new EscenarioPlaya(this, personaje);
 
             escenarioActual = escenarios["plataforma"];
 
