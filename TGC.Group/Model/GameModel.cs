@@ -1,19 +1,11 @@
 using Microsoft.DirectX.DirectInput;
-using System.Drawing;
 using TGC.Core.Direct3D;
 using TGC.Core.Example;
-using TGC.Core.Input;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
-using TGC.Core.SkeletalAnimation;
 using TGC.Core.Geometry;
-using TGC.Core.Mathematica;
-using TGC.Core.BoundingVolumes;
-using TGC.Core.Collision;
-using TGC.Core.Textures;
 using TGC.Group.Camera;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace TGC.Group.Model
@@ -46,20 +38,12 @@ namespace TGC.Group.Model
         public bool BoundingBox { get; set; }
         private const float VELOCIDAD_DESPLAZAMIENTO = 50f;
         private Personaje personaje = new Personaje();
-        private TgcMesh caja1;
         private GameCamera camara;
-        private TGCVector3 movimiento;
         
         private TGCMatrix movimientoCaja;
         private Dictionary<string, Escenario> escenarios;
         private Escenario escenarioActual;
-        
 
-        // Solo para mostrar
-        private MeshTipoCaja caja1Mesh;
-        //
-
-        private TgcArrow segment = new TgcArrow();
 
         //Constantes para velocidades de movimiento de plataforma
         private const float MOVEMENT_SPEED = 1f;
@@ -78,6 +62,8 @@ namespace TGC.Group.Model
             personaje.Init(this);
 
             escenarios = new Dictionary<string, Escenario>();
+
+            escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
 
             escenarios["playa"] = new EscenarioPlaya(this, personaje);
 
@@ -117,9 +103,15 @@ namespace TGC.Group.Model
 
             personaje.Update();
 
-            escenarioActual.Update();
+            //escenarioActual.Update();
+            foreach(Escenario escenario in escenarios.Values)
+            {
+                escenario.Update();
+            }
 
-            if (Input.keyDown(Key.Q))
+            escenarioActual.Colisiones();
+
+            if (Input.keyPressed(Key.Q))
             {
                 BoundingBox = !BoundingBox;
             }
@@ -141,17 +133,17 @@ namespace TGC.Group.Model
 
             personaje.Render();
 
-            escenarioActual.Render();
+            foreach (Escenario escenario in escenarios.Values)
+            {
+                escenario.Render();
+            }
+
+            //escenarioActual.Render();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }
 
-        
-
-        
-
-        
 
         /// <summary>
         ///     Se llama cuando termina la ejecución del ejemplo.
@@ -161,11 +153,11 @@ namespace TGC.Group.Model
         public override void Dispose()
         {
             //Dispose del mesh.
-            //escenarioActual.DisposeAll();
+            escenarioActual.DisposeAll();
             personaje.Dispose();
-            escenarioActual.planoIzq.Dispose(); // solo se borran los originales
-            escenarioActual.planoFront.Dispose(); // solo se borran los originales
-            escenarioActual.planoPiso.Dispose();
+            //escenarioActual.planoIzq.Dispose(); // solo se borran los originales
+            //escenarioActual.planoFront.Dispose(); // solo se borran los originales
+            //escenarioActual.planoPiso.Dispose();
 
             //foreach (TgcMesh mesh in meshesColisionables) {
             //    mesh.Dispose(); // mmm, no se que pasaria con las instancias...

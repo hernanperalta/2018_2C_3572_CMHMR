@@ -31,6 +31,8 @@ namespace TGC.Group.Model
 
         public abstract void Update();
 
+        public abstract void Colisiones();
+
         public abstract void CalcularColisionesConPlanos();
 
         public abstract void CalcularColisionesConMeshes();
@@ -62,5 +64,6 @@ namespace TGC.Group.Model
                     break;
             }
         }
+        public abstract void DisposeAll();
     }
 }

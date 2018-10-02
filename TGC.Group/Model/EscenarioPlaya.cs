@@ -29,10 +29,10 @@ namespace TGC.Group.Model
 
             planoDer = planoIzq.createMeshInstance("planoDer");
             planoDer.AutoTransform = false;
-            planoDer.Transform = TGCMatrix.Translation(-12, 0, -22) * TGCMatrix.Scaling(1, 1, 2.2f);
+            planoDer.Transform = TGCMatrix.Translation(-38, 0, -43) * TGCMatrix.Scaling(1, 1, 3f);
             planoDer.BoundingBox.transform(planoDer.Transform);
 
-            planoIzq.Transform = TGCMatrix.Translation(25, 0, -22) * TGCMatrix.Scaling(1, 1, 2.2f);
+            planoIzq.Transform = TGCMatrix.Translation(0, 0, -43) * TGCMatrix.Scaling(1, 1, 3f);
             planoIzq.BoundingBox.transform(planoIzq.Transform);
 
             planoFront = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
@@ -43,12 +43,12 @@ namespace TGC.Group.Model
             planoBack.Transform = TGCMatrix.Translation(50, 0, 70);
             planoBack.BoundingBox.transform(planoBack.Transform);
 
-            planoFront.Transform = TGCMatrix.Translation(50, 0, -197);
+            planoFront.Transform = TGCMatrix.Translation(50, 0, -330);
             planoFront.BoundingBox.transform(planoFront.Transform);
 
             planoPiso = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
-            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(0, 0, 200));
+            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2.9f) * TGCMatrix.Translation(-25, 0, 250));
 
             GenerarCajas();
         }
@@ -56,7 +56,7 @@ namespace TGC.Group.Model
         private void GenerarCajas() {
             cajas = new List<MeshTipoCaja>();
             
-            cajas.Add(new MeshTipoCaja());
+            cajas.Add(new MeshTipoCaja(new TGCVector3(0,0,-100)));
         }
 
         public override void Render() {
@@ -74,6 +74,11 @@ namespace TGC.Group.Model
         }
 
         public override void Update()
+        {
+            
+        }
+
+        public override void Colisiones()
         {
             movimiento = personaje.movimiento;
 
@@ -138,7 +143,8 @@ namespace TGC.Group.Model
                 {
                     if (caja.ChocoConFrente(personaje))
                     {
-                        var movimientoCaja = TGCMatrix.Translation(0, 0, movimiento.Z * 3); // + distancia minima del rayo
+                        var movimientoCaja = TGCMatrix.Translation(0, 0, movimiento.Z); // + distancia minima del rayo
+                        movimiento.Z /= 3;
                         caja.Update(movimientoCaja);
                         break;
                     }
@@ -168,6 +174,14 @@ namespace TGC.Group.Model
                     }
                 }
             }
+        }
+
+        public override void DisposeAll()
+        {
+            planoIzq.Dispose();
+            planoFront.Dispose();
+            planoPiso.Dispose();
+            escena.DisposeAll();
         }
     }
 }

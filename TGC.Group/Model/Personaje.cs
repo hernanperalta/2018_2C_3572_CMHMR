@@ -58,7 +58,7 @@ namespace TGC.Group.Model
             //Configurar animacion inicial
             Mesh.playAnimation("Parado", true);
             //Escalarlo porque es muy grande
-            Mesh.Position = new TGCVector3(25, 0, 50);
+            Mesh.Position = new TGCVector3(0, 0, 50);
             Mesh.Scale = new TGCVector3(0.15f, 0.15f, 0.15f);
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
         }
