@@ -35,12 +35,14 @@ namespace TGC.Group.Model
         float Gravedad = -60f;
         float VelocidadTerminal = -50f;
         float DesplazamientoMaximoY = 5f;
+        private bool PuedeSaltar;
         //
 
         public void Init(GameModel context)
         {
             Context = context;
             string mediaDir = context.MediaDir;
+            PuedeSaltar = true;
 
             var skeletalLoader = new TgcSkeletalLoader();
             Mesh = skeletalLoader.loadMeshAndAnimationsFromFile(
@@ -102,7 +104,7 @@ namespace TGC.Group.Model
                 moving = true;
             }
             //
-            if (input.keyPressed(Key.Space))
+            if (input.keyPressed(Key.Space) && PuedeSaltar)
             {
                 VelocidadY = VelocidadSalto;
             }
@@ -118,6 +120,8 @@ namespace TGC.Group.Model
 
         public void Movete(TGCVector3 movimiento)
         {
+            PuedeSaltar = movimiento.Y == 0;
+
             if (moving)
             {
                 Mesh.playAnimation("Caminando", true);
