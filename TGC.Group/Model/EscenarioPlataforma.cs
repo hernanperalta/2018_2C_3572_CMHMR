@@ -61,16 +61,16 @@ namespace TGC.Group.Model
             planoIzq.Transform = TGCMatrix.Translation(0, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
             planoIzq.BoundingBox.transform(planoIzq.Transform);
 
-            planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
-            planoFront.AutoTransform = false;
+            //planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
+            //planoFront.AutoTransform = false;
 
-            planoBack = planoFront.createMeshInstance("planoBack");
+            planoBack = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
             planoBack.AutoTransform = false;
             planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
             planoBack.BoundingBox.transform(planoBack.Transform);
 
-            planoFront.Transform = TGCMatrix.Translation(50, 0, -535);
-            planoFront.BoundingBox.transform(planoFront.Transform);
+            //planoFront.Transform = TGCMatrix.Translation(50, 0, -535);
+            //planoFront.BoundingBox.transform(planoFront.Transform);
 
             planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
@@ -146,18 +146,18 @@ namespace TGC.Group.Model
                 if (ChocoConLimite(personaje, planoDer))
                     NoMoverHacia(Key.D);
 
-                if (ChocoConLimite(personaje, planoFront))
-                { // HUBO CAMBIO DE ESCENARIO
-                  /* Aca deberiamos hacer algo como no testear mas contra las cosas del escenario anterior y testear
-                    contra las del escenario actual. 
-                  */
+                //if (ChocoConLimite(personaje, planoFront))
+                //{ // HUBO CAMBIO DE ESCENARIO
+                //  /* Aca deberiamos hacer algo como no testear mas contra las cosas del escenario anterior y testear
+                //    contra las del escenario actual. 
+                //  */
 
-                    planoFront.BoundingBox.setRenderColor(Color.AliceBlue);
-                }
-                else
-                {
-                    planoFront.BoundingBox.setRenderColor(Color.Yellow);
-                }
+                //    planoFront.BoundingBox.setRenderColor(Color.AliceBlue);
+                //}
+                //else
+                //{
+                //    planoFront.BoundingBox.setRenderColor(Color.Yellow);
+                //}
 
                 if (ChocoConLimite(personaje, planoPiso))
                 {
@@ -190,7 +190,7 @@ namespace TGC.Group.Model
             if (contexto.BoundingBox)
             {
                 planoBack.BoundingBox.Render();
-                planoFront.BoundingBox.Render();
+                //planoFront.BoundingBox.Render();
                 planoIzq.BoundingBox.Render();
                 planoDer.BoundingBox.Render();
                 planoPiso.BoundingBox.Render();

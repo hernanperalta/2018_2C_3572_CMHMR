@@ -111,6 +111,21 @@ namespace TGC.Group.Model
 
             escenarioActual.Colisiones();
 
+            if (personaje.Mesh.Transform.Origin.Z < -335)
+            { // HUBO CAMBIO DE ESCENARIO
+              /* Aca deberiamos hacer algo como no testear mas contra las cosas del escenario anterior y testear
+                contra las del escenario actual. 
+              */
+
+                //planoFront.BoundingBox.setRenderColor(Color.AliceBlue);
+                escenarioActual = escenarios["plataforma"];
+            }
+            else
+            {
+                //planoFront.BoundingBox.setRenderColor(Color.Yellow);
+                escenarioActual = escenarios["playa"];
+            }
+
             if (Input.keyPressed(Key.Q))
             {
                 BoundingBox = !BoundingBox;
