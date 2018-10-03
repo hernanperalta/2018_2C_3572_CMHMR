@@ -26,6 +26,7 @@ namespace TGC.Group.Model
         {
             get => Mesh.BoundingBox;
         }
+        public TGCMatrix TransformPlataforma;
 
         private GameModel Context;
         //
@@ -74,6 +75,7 @@ namespace TGC.Group.Model
             moving = false;
             colisionaEnY = false;
             movimiento = TGCVector3.Empty;
+            TransformPlataforma = TGCMatrix.Identity;
             //transformacionPersonaje = TGCMatrix.Identity;
 
             if (input.keyDown(Key.W))
@@ -134,6 +136,7 @@ namespace TGC.Group.Model
             Mesh.Transform =
                 TGCMatrix.Scaling(Mesh.Scale)
                 * TGCMatrix.RotationYawPitchRoll(Mesh.Rotation.Y, Mesh.Rotation.X, Mesh.Rotation.Z)
+                * TransformPlataforma
                 * ultimaPosicion;
 
             Mesh.BoundingBox.transform(Mesh.Transform);

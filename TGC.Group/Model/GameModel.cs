@@ -67,7 +67,7 @@ namespace TGC.Group.Model
 
             escenarios["playa"] = new EscenarioPlaya(this, personaje);
 
-            escenarioActual = escenarios["plataforma"];
+            escenarioActual = escenarios["playa"];
 
             //var loader = new TgcSceneLoader();
             //caja1 = loader.loadSceneFromFile(Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
