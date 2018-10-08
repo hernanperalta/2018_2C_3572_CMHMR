@@ -47,7 +47,7 @@ namespace TGC.Group.Model
             plataforma1Mesh.AutoTransform = false;
             //plataforma2Mesh.AutoTransform = false;
 
-            plataforma1 = new MeshTipoCaja(new TGCVector3(0,0,0), plataforma1Mesh, false);
+            plataforma1 = new Plataforma(new TGCVector3(0,0,0), plataforma1Mesh);
             //plataforma2 = new MeshTipoCaja(new TGCVector3(0, 0, 0), plataforma2Mesh);
 
             planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoHorizontal-TgcScene.xml").Meshes[0];

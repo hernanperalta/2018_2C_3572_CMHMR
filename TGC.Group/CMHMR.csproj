@@ -91,12 +91,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
+    <Compile Include="Model\Caja.cs" />
     <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\EscenarioPlataforma.cs" />
     <Compile Include="Model\EscenarioPlaya.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\MeshTipoCaja.cs" />
     <Compile Include="Model\Personaje.cs" />
+    <Compile Include="Model\Plataforma.cs" />
     <Compile Include="Model\Rayo.cs" />
     <Compile Include="Model\RayoX.cs" />
     <Compile Include="Model\RayoY.cs" />
