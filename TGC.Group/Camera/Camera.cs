@@ -7,6 +7,7 @@ using TGC.Core.Camara;
 using TGC.Core.Mathematica;
 using TGC.Group.Model;
 using Microsoft.DirectX.DirectInput;
+using TGC.Core.Collision;
 
 namespace TGC.Group.Camera
 {
@@ -59,13 +60,16 @@ namespace TGC.Group.Camera
 
         public override void UpdateCamera(float elapsedTime)
         {
-            TGCVector3 targetCenter;
+            TGCVector3 targetCenter, q;
             CalculatePositionTarget(out position, out targetCenter);
-
-            if (contexto.Input.keyDown(Key.LeftControl))
+            foreach (var obstaculo in contexto.ColisionablesConCamara())
             {
-                position.Y /= 2;
+                if (TgcCollisionUtils.intersectSegmentAABB(targetCenter, position, obstaculo, out q))
+                {
+                    position.Y = 10;
+                }
             }
+            
 
             SetCamera(position, targetCenter);
         }
@@ -106,7 +110,7 @@ namespace TGC.Group.Camera
             //alejarse, luego rotar y lueg ubicar camara en el centro deseado
             targetCenter = TGCVector3.Add(Target, TargetDisplacement);
             var m = TGCMatrix.Translation(0, OffsetHeight, OffsetForward)
-                * TGCMatrix.RotationY(RotationY)
+                //* TGCMatrix.RotationY(RotationY)
                 * TGCMatrix.Translation(targetCenter);
 
             //Extraer la posicion final de la matriz de transformacion

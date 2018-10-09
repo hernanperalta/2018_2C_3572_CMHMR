@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using TGC.Core.BoundingVolumes;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
 
@@ -10,7 +11,9 @@ namespace TGC.Group.Model
     public class EscenarioPlaya : Escenario
     {
         private TgcScene escena;
-        
+        public TgcMesh planoArbol;
+        private List<TgcBoundingAxisAlignBox> colisionablesConCamara;
+
         private List<MeshTipoCaja> cajas;
         // Planos de limite
 
@@ -50,6 +53,15 @@ namespace TGC.Group.Model
             planoPiso.AutoTransform = false;
             planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2.9f) * TGCMatrix.Translation(-25, 0, 250));
 
+
+            // para probar colision con camara
+            colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
+            planoArbol = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
+            planoArbol.AutoTransform = false;
+            planoArbol.BoundingBox.transform(TGCMatrix.Scaling(1.5f, 1, 0.5f) * TGCMatrix.Translation(-40, 30, 0));
+            colisionablesConCamara.Add(planoArbol.BoundingBox);
+            //
+
             GenerarCajas();
         }
 
@@ -73,6 +85,7 @@ namespace TGC.Group.Model
                 planoIzq.BoundingBox.Render();
                 planoDer.BoundingBox.Render();
                 planoPiso.BoundingBox.Render();
+                planoArbol.BoundingBox.Render();
             }
         }
 
@@ -164,6 +177,11 @@ namespace TGC.Group.Model
                     }
                 }
             }
+        }
+
+        public override List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
+        {
+            return colisionablesConCamara;
         }
 
         public override void DisposeAll()

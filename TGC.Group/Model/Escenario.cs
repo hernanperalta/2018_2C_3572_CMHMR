@@ -1,5 +1,7 @@
 ﻿using Microsoft.DirectX.DirectInput;
 using System;
+using System.Collections.Generic;
+using TGC.Core.BoundingVolumes;
 using TGC.Core.Collision;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
@@ -65,5 +67,6 @@ namespace TGC.Group.Model
             }
         }
         public abstract void DisposeAll();
+        public abstract List<TgcBoundingAxisAlignBox> ColisionablesConCamara();
     }
 }

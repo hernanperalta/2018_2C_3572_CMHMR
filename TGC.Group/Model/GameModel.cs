@@ -7,6 +7,7 @@ using TGC.Core.Geometry;
 using TGC.Group.Camera;
 using System;
 using System.Collections.Generic;
+using TGC.Core.BoundingVolumes;
 
 namespace TGC.Group.Model
 {
@@ -47,6 +48,11 @@ namespace TGC.Group.Model
 
         //Constantes para velocidades de movimiento de plataforma
         private const float MOVEMENT_SPEED = 1f;
+
+        public List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
+        {
+            return escenarioActual.ColisionablesConCamara();
+        }
 
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
