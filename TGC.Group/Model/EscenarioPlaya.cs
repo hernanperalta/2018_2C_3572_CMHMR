@@ -22,7 +22,7 @@ namespace TGC.Group.Model
         {
             var MediaDir = contexto.MediaDir;
             var loader = new TgcSceneLoader();
-            this.escena = loader.loadSceneFromFile(MediaDir + "primer-nivel\\Playa final\\Playa-TgcScene.xml");
+            this.escena = loader.loadSceneFromFile(MediaDir + "primer-nivel\\playa\\playa-TgcScene.xml");
 
             planoIzq = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
@@ -57,7 +57,7 @@ namespace TGC.Group.Model
             cajas = new List<MeshTipoCaja>();
 
             var loader = new TgcSceneLoader();
-            var mesh = loader.loadSceneFromFile(GameModel.Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
+            var mesh = loader.loadSceneFromFile(GameModel.Media + "primer-nivel\\playa\\caja-TgcScene.xml").Meshes[0];
 
             cajas.Add(new MeshTipoCaja(new TGCVector3(0,0,-100), mesh, true));
         }

@@ -79,9 +79,9 @@ namespace TGC.Group.Model
 
             //escenarios["camino"] = new EscenarioCamino(this, personaje);
 
-            escenarios["pozo"] = new EscenarioPozo(this, personaje);
+            //escenarios["pozo"] = new EscenarioPozo(this, personaje);
 
-            escenarios["piramide"] = new EscenarioPiramide(this, personaje);
+            //escenarios["piramide"] = new EscenarioPiramide(this, personaje);
 
             //escenarios["hielo"] = new EscenarioHielo(this, personaje);
 
@@ -95,6 +95,25 @@ namespace TGC.Group.Model
         ///     ante ellas.
         /// </summary>
         /// 
+
+        public bool between(float num, float lower, float upper)
+        {
+            return (lower <= num && num < upper);
+        }
+
+        public void actualizarEscenario()
+        {
+            float posicionMeshEjeZ = personaje.Mesh.Transform.Origin.Z;
+
+            if (between(posicionMeshEjeZ, -330f, 0f))
+                escenarioActual = escenarios["playa"];
+
+            if (between(posicionMeshEjeZ, -465f, -330f))
+                escenarioActual = escenarios["plataforma"];
+
+            //if (between(posicionMeshEjeZ, ???f, -465f))
+            //    escenarioActual = escenarios["plataforma"];
+        }
 
         public override void Update()
         {
@@ -118,22 +137,9 @@ namespace TGC.Group.Model
                 escenario.Update();
             }
 
+            actualizarEscenario();
+
             escenarioActual.Colisiones();
-
-            if (personaje.Mesh.Transform.Origin.Z < -335)
-            { // HUBO CAMBIO DE ESCENARIO
-              /* Aca deberiamos hacer algo como no testear mas contra las cosas del escenario anterior y testear
-                contra las del escenario actual. 
-              */
-
-                //planoFront.BoundingBox.setRenderColor(Color.AliceBlue);
-                escenarioActual = escenarios["plataforma"];
-            }
-            else
-            {
-                //planoFront.BoundingBox.setRenderColor(Color.Yellow);
-                escenarioActual = escenarios["playa"];
-            }
 
             if (Input.keyPressed(Key.Q))
             {

@@ -15,7 +15,7 @@ namespace TGC.Group.Model
         protected override void Init()
         {
             var loader = new TgcSceneLoader();
-            scene = loader.loadSceneFromFile(GameModel.Media + "\\primer-nivel\\pozo-plataformas\\tgc-scene\\Piramide final\\Piramide-TgcScene.xml");
+            scene = loader.loadSceneFromFile(GameModel.Media + "\\primer-nivel\\Piramide final\\Piramide-TgcScene.xml");
                 
             planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
