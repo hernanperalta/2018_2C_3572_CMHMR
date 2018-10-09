@@ -11,7 +11,13 @@ namespace TGC.Group.Model
     public class Caja : MeshTipoCaja
     {
         public Caja(TGCVector3 posicionInicial, TgcMesh mesh) : base (posicionInicial, mesh){
+            
+        }
 
+        protected override void GenerarCaras() {
+            this.caras = new List<Cara>();
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(new DesplazarEnZ()).CaraZ(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(new DesplazarEnZ()).CaraMenosZ(ModificacionEnY()).Build());
         }
 
         public override void Update(TGCMatrix movimientoCaja)

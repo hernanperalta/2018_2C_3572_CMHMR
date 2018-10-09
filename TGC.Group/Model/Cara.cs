@@ -10,9 +10,10 @@ namespace TGC.Group.Model
         protected IAnteColision accionAnteColision;
         protected MeshTipoCaja meshTipoCaja;
 
-        public Cara(MeshTipoCaja meshTipoCaja, IAnteColision accionAnteColision) {
+        public Cara(MeshTipoCaja meshTipoCaja, IAnteColision accionAnteColision, List<Rayo> rayos) {
             this.accionAnteColision = accionAnteColision;
             this.meshTipoCaja = meshTipoCaja;
+            this.rayos = rayos;
             GenerarRayos();
         }
 
