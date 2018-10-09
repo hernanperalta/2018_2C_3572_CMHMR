@@ -78,7 +78,7 @@ namespace TGC.Group.Model
 
             BoundingBox = true;
 
-            camara = new GameCamera(personaje.Position, 60, 200);
+            camara = new GameCamera(personaje.Position, 60, 200, this);
             Camara = camara;
         }
 

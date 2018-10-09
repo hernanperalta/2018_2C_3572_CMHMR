@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using TGC.Core.Camara;
 using TGC.Core.Mathematica;
+using TGC.Group.Model;
+using Microsoft.DirectX.DirectInput;
 
 namespace TGC.Group.Camera
 {
     public class GameCamera : TgcCamera
     {
         private TGCVector3 position;
-
+        private GameModel contexto;
         /// <summary>
         ///     Crear una nueva camara 
         /// </summary>
@@ -20,20 +22,12 @@ namespace TGC.Group.Camera
             resetValues();
         }
 
-        public GameCamera(TGCVector3 target, float offsetHeight, float offsetForward) : this()
+        public GameCamera(TGCVector3 target, float offsetHeight, float offsetForward, GameModel contexto) : this()
         {
             Target = target;
             OffsetHeight = offsetHeight;
             OffsetForward = offsetForward;
-        }
-
-        public GameCamera(TGCVector3 target, TGCVector3 targetDisplacement, float offsetHeight, float offsetForward)
-            : this()
-        {
-            Target = target;
-            TargetDisplacement = targetDisplacement;
-            OffsetHeight = offsetHeight;
-            OffsetForward = offsetForward;
+            this.contexto = contexto;
         }
 
         /// <summary>
@@ -67,6 +61,12 @@ namespace TGC.Group.Camera
         {
             TGCVector3 targetCenter;
             CalculatePositionTarget(out position, out targetCenter);
+
+            if (contexto.Input.keyDown(Key.LeftControl))
+            {
+                position.Y /= 2;
+            }
+
             SetCamera(position, targetCenter);
         }
 
@@ -105,7 +105,9 @@ namespace TGC.Group.Camera
         {
             //alejarse, luego rotar y lueg ubicar camara en el centro deseado
             targetCenter = TGCVector3.Add(Target, TargetDisplacement);
-            var m = TGCMatrix.Translation(0, OffsetHeight, OffsetForward) * TGCMatrix.RotationY(RotationY) * TGCMatrix.Translation(targetCenter);
+            var m = TGCMatrix.Translation(0, OffsetHeight, OffsetForward)
+                * TGCMatrix.RotationY(RotationY)
+                * TGCMatrix.Translation(targetCenter);
 
             //Extraer la posicion final de la matriz de transformacion
             pos = new TGCVector3(m.M41, m.M42, m.M43);
