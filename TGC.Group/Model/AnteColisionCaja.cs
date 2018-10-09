@@ -14,20 +14,7 @@ namespace TGC.Group.Model
 
         }
 
-        public void Colisionar(MeshTipoCaja meshTipoCaja, Personaje personaje)
-        {
-            if (SeEstaMoviendoHaciaMi(personaje))
-            {
-                var movimientoCaja = TGCMatrix.Translation(Desplazamiento(personaje)); // + distancia minima del rayo
-                AgregarRozamiento(personaje);
-                meshTipoCaja.Update(movimientoCaja);
-            }
-        }
+        public abstract void Colisionar(MeshTipoCaja meshTipoCaja, Personaje personaje);
 
-        protected abstract bool SeEstaMoviendoHaciaMi(Personaje personaje);
-
-        protected abstract TGCVector3 Desplazamiento(Personaje personaje);
-
-        protected abstract void AgregarRozamiento(Personaje personaje);
     }
 }

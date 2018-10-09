@@ -7,21 +7,18 @@ namespace TGC.Group.Model
     public abstract class Cara
     {
         protected List<Rayo> rayos;
-        protected IAnteColision accionAnteColision;
+        protected List<IAnteColision> accionesAnteColision;
         protected MeshTipoCaja meshTipoCaja;
 
-        public Cara(MeshTipoCaja meshTipoCaja, IAnteColision accionAnteColision, List<Rayo> rayos) {
-            this.accionAnteColision = accionAnteColision;
+        public Cara(MeshTipoCaja meshTipoCaja, List<IAnteColision> accionesAnteColision, List<Rayo> rayos) {
+            this.accionesAnteColision = accionesAnteColision;
             this.meshTipoCaja = meshTipoCaja;
             this.rayos = rayos;
-            GenerarRayos();
         }
-
-        protected abstract void GenerarRayos();
 
         public void TesteoDeColision(Personaje personaje) {
             if (HuboColision(personaje)) {
-                accionAnteColision.Colisionar(meshTipoCaja, personaje);
+                accionesAnteColision.ForEach((accion) => accion.Colisionar(meshTipoCaja, personaje));
             }
         }
 
@@ -38,6 +35,11 @@ namespace TGC.Group.Model
             }
 
             return false;
+        }
+
+        internal void RenderizaRayos()
+        {
+            rayos.ForEach((rayo) => rayo.Render());
         }
     }
 }

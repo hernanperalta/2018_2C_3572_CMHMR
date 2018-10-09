@@ -94,12 +94,13 @@
     <Compile Include="Model\AnteColision.cs" />
     <Compile Include="Model\AnteColisionCaja.cs" />
     <Compile Include="Model\Caja.cs" />
+    <Compile Include="Model\CambiarPisoAlPersonaje.cs" />
     <Compile Include="Model\Cara.cs" />
     <Compile Include="Model\CaraBuilder.cs" />
     <Compile Include="Model\CaraX.cs" />
     <Compile Include="Model\CaraY.cs" />
     <Compile Include="Model\CaraZ.cs" />
-    <Compile Include="Model\DesplazarEnZ.cs" />
+    <Compile Include="Model\Desplazar.cs" />
     <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\EscenarioPlataforma.cs" />
     <Compile Include="Model\EscenarioPlaya.cs" />

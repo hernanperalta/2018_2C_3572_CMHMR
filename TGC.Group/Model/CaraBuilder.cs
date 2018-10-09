@@ -13,13 +13,14 @@ namespace TGC.Group.Model
     {
         private List<Rayo> rayos;
         private MeshTipoCaja mesh;
-        private IAnteColision accionAnteColision;
-        private delegate Cara constructor(MeshTipoCaja mesh, IAnteColision accion, List<Rayo> rayos);
+        private List<IAnteColision> accionesAnteColision;
+        private delegate Cara constructor(MeshTipoCaja mesh, List<IAnteColision> acciones, List<Rayo> rayos);
         private constructor caraConstructor;
 
         private CaraBuilder()
         {
             rayos = new List<Rayo>();
+            accionesAnteColision = new List<IAnteColision>();
         }
 
         public static CaraBuilder Instance()
@@ -44,7 +45,7 @@ namespace TGC.Group.Model
             rayos.Add(rayoIzqCaraX);
             rayos.Add(rayoDerCaraX);
 
-            caraConstructor = (mesh, accionAnteColision, rayos) => new CaraX(mesh, accionAnteColision, rayos);
+            caraConstructor = (mesh, accionesAnteColision, rayos) => new CaraX(mesh, accionesAnteColision, rayos);
 
             return this;
         }
@@ -61,7 +62,7 @@ namespace TGC.Group.Model
             rayos.Add(rayoIzqCaraMenosX);
             rayos.Add(rayoDerCaraMenosX);
 
-            caraConstructor = (mesh, accionAnteColision, rayos) => new CaraX(mesh, accionAnteColision, rayos); 
+            caraConstructor = (mesh, accionesAnteColision, rayos) => new CaraX(mesh, accionesAnteColision, rayos); 
 
             return this;
         }
@@ -97,7 +98,7 @@ namespace TGC.Group.Model
             rayos.Add(rayoIzqCaraYMasAtras);
             rayos.Add(rayoDerCaraYMasAtras);
 
-            caraConstructor = (mesh, accionAnteColision, rayos) => new CaraY(mesh, accionAnteColision, rayos);
+            caraConstructor = (mesh, accionesAnteColision, rayos) => new CaraY(mesh, accionesAnteColision, rayos);
 
             return this;
         }
@@ -114,7 +115,7 @@ namespace TGC.Group.Model
             rayos.Add(rayoIzqCaraMenosY);
             rayos.Add(rayoDerCaraMenosY);
 
-            caraConstructor = (mesh, accionAnteColision, rayos) => new CaraY(mesh, accionAnteColision, rayos);
+            caraConstructor = (mesh, accionesAnteColision, rayos) => new CaraY(mesh, accionesAnteColision, rayos);
 
             return this;
         }
@@ -132,7 +133,7 @@ namespace TGC.Group.Model
             rayos.Add(rayoIzqCaraZ);
             rayos.Add(rayoDerCaraZ);
 
-            caraConstructor = (mesh, accionAnteColision, rayos) => new CaraZ(mesh, accionAnteColision, rayos);
+            caraConstructor = (mesh, accionesAnteColision, rayos) => new CaraZ(mesh, accionesAnteColision, rayos);
 
             return this;
         }
@@ -149,13 +150,13 @@ namespace TGC.Group.Model
             rayos.Add(rayoIzqCaraMenosZ);
             rayos.Add(rayoDerCaraMenosZ);
 
-            caraConstructor = (mesh, accionAnteColision, rayos) => new CaraZ(mesh, accionAnteColision, rayos);
+            caraConstructor = (mesh, accionesAnteColision, rayos) => new CaraZ(mesh, accionesAnteColision, rayos);
 
             return this;
         }
 
         public CaraBuilder Accion(IAnteColision accion) {
-            this.accionAnteColision = accion;
+            this.accionesAnteColision.Add(accion);
             return this;
         }
 
@@ -163,13 +164,13 @@ namespace TGC.Group.Model
             if (!rayos.Any())
                 throw new ArgumentException("No hay rayos agregados a la cara!");
 
-            if(accionAnteColision == null)
-                throw new ArgumentException("No hay una accion ante colision seteada!");
+            if(!accionesAnteColision.Any())
+                throw new ArgumentException("Debe haber al menos una accion ante colision seteada!");
 
             if(mesh == null)
                 throw new ArgumentException("No hay un mesh tipo caja seteado!");
 
-            return caraConstructor(mesh, accionAnteColision, rayos);
+            return caraConstructor(mesh, accionesAnteColision, rayos);
         }
         
        

@@ -4,7 +4,7 @@ namespace TGC.Group.Model
 {
     internal class CaraY : Cara
     {
-        public CaraY(MeshTipoCaja meshTipoCaja, IAnteColision accionAnteColision, List<Rayo> rayos) : base(meshTipoCaja, accionAnteColision, rayos)
+        public CaraY(MeshTipoCaja meshTipoCaja, List<IAnteColision> accionesAnteColision, List<Rayo> rayos) : base(meshTipoCaja, accionesAnteColision, rayos)
         {
         }
     }

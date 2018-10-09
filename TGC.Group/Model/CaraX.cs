@@ -8,7 +8,7 @@ namespace TGC.Group.Model
 {
     public class CaraX : Cara
     {
-        public CaraX(MeshTipoCaja meshTipoCaja, IAnteColision accionAnteColision, List<Rayo> rayos) : base(meshTipoCaja, accionAnteColision, rayos) {
+        public CaraX(MeshTipoCaja meshTipoCaja, List<IAnteColision> accionesAnteColision, List<Rayo> rayos) : base(meshTipoCaja, accionesAnteColision, rayos) {
 
         }
 

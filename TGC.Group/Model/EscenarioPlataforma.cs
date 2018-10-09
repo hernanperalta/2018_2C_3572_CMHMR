@@ -19,7 +19,7 @@ namespace TGC.Group.Model
         //Plataformas
         private TgcMesh plataforma1Mesh;
         //private TgcMesh plataforma2Mesh;
-        private MeshTipoCaja plataforma1;
+        private Plataforma plataforma1;
         //private MeshTipoCaja plataforma2;
         //Transformaciones
         private TGCMatrix transformacionBox;
@@ -114,7 +114,7 @@ namespace TGC.Group.Model
 
         public override void CalcularColisionesConMeshes()
         {
-            if (plataforma1.ChocoArriba(personaje))
+            if (plataforma1.TestearColisionContra(personaje))
             {
                 if (movimiento.Y < 0)
                 {

@@ -11,13 +11,18 @@ namespace TGC.Group.Model
     public class Caja : MeshTipoCaja
     {
         public Caja(TGCVector3 posicionInicial, TgcMesh mesh) : base (posicionInicial, mesh){
-            
+            this.caras = new List<Cara>();
         }
 
         protected override void GenerarCaras() {
-            this.caras = new List<Cara>();
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(new DesplazarEnZ()).CaraZ(ModificacionEnY()).Build());
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(new DesplazarEnZ()).CaraMenosZ(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaAdelante()).CaraZ(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaAtras()).CaraMenosZ(ModificacionEnY()).Build());
+
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaDerecha()).CaraX(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaIzquierda()).CaraMenosX(ModificacionEnY()).Build());
+
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(new CambiarPisoAlPersonaje()).CaraY().Build());
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraMenosY().Build());
         }
 
         public override void Update(TGCMatrix movimientoCaja)
@@ -33,54 +38,54 @@ namespace TGC.Group.Model
             return 2;
         }
 
-        public override void TestarColisionContra(Personaje personaje)
-        {
-            if (ChocoConFrente(personaje))
-            {
-                //EmpujarSiSeEstaMoviendoEn("z");
-                var movimientoCaja = TGCMatrix.Translation(0, 0, personaje.movimiento.Z); // + distancia minima del rayo
-                personaje.movimiento.Z /= 3;
-                Update(movimientoCaja);
-                return;
-            }
-            else if (ChocoAtras(personaje))
-            {
-                //NoMoverHacia(Key.S);
-                //break;
-                var movimientoCaja = TGCMatrix.Translation(0, 0, personaje.movimiento.Z); // + distancia minima del rayo
-                personaje.movimiento.Z /= 3;
-                Update(movimientoCaja);
-                return;
+        //public override void TestarColisionContra(Personaje personaje)
+        //{
+        //    if (ChocoConFrente(personaje))
+        //    {
+        //        //EmpujarSiSeEstaMoviendoEn("z");
+        //        var movimientoCaja = TGCMatrix.Translation(0, 0, personaje.movimiento.Z); // + distancia minima del rayo
+        //        personaje.movimiento.Z /= 3;
+        //        Update(movimientoCaja);
+        //        return;
+        //    }
+        //    else if (ChocoAtras(personaje))
+        //    {
+        //        //NoMoverHacia(Key.S);
+        //        //break;
+        //        var movimientoCaja = TGCMatrix.Translation(0, 0, personaje.movimiento.Z); // + distancia minima del rayo
+        //        personaje.movimiento.Z /= 3;
+        //        Update(movimientoCaja);
+        //        return;
 
-            }
-            else if (ChocoALaIzquierda(personaje))
-            {
-                //NoMoverHacia(Key.D);
-                //break;
-                var movimientoCaja = TGCMatrix.Translation(personaje.movimiento.X, 0, 0); // + distancia minima del rayo
-                personaje.movimiento.Z /= 3;
-                Update(movimientoCaja);
-                return;
+        //    }
+        //    else if (ChocoALaIzquierda(personaje))
+        //    {
+        //        //NoMoverHacia(Key.D);
+        //        //break;
+        //        var movimientoCaja = TGCMatrix.Translation(personaje.movimiento.X, 0, 0); // + distancia minima del rayo
+        //        personaje.movimiento.Z /= 3;
+        //        Update(movimientoCaja);
+        //        return;
 
-            }
-            else if (ChocoALaDerecha(personaje))
-            {
-                //NoMoverHacia(Key.A);
-                //break;
-                var movimientoCaja = TGCMatrix.Translation(personaje.movimiento.X, 0, 0); // + distancia minima del rayo
-                personaje.movimiento.Z /= 3;
-                Update(movimientoCaja);
-                return;
-            }
-            else if (ChocoArriba(personaje))
-            {
-                if (personaje.movimiento.Y < 0)
-                {
-                    personaje.movimiento.Y = 0;
-                    personaje.ColisionoEnY();
-                }
-                return;
-            }
-        }
+        //    }
+        //    else if (ChocoALaDerecha(personaje))
+        //    {
+        //        //NoMoverHacia(Key.A);
+        //        //break;
+        //        var movimientoCaja = TGCMatrix.Translation(personaje.movimiento.X, 0, 0); // + distancia minima del rayo
+        //        personaje.movimiento.Z /= 3;
+        //        Update(movimientoCaja);
+        //        return;
+        //    }
+        //    else if (ChocoArriba(personaje))
+        //    {
+        //        if (personaje.movimiento.Y < 0)
+        //        {
+        //            personaje.movimiento.Y = 0;
+        //            personaje.ColisionoEnY();
+        //        }
+        //        return;
+        //    }
+        //}
     }
 }

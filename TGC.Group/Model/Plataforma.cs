@@ -21,7 +21,19 @@ namespace TGC.Group.Model
             base.Update(movimientoCaja);
             mesh.Transform = movimientoCaja;
             mesh.BoundingBox.transform(mesh.Transform);
-            GenerarRayos();
+            GenerarCaras();
+        }
+
+        protected override void GenerarCaras()
+        {
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraZ(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraMenosZ(ModificacionEnY()).Build());
+
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraX(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraMenosX(ModificacionEnY()).Build());
+
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(new CambiarPisoAlPersonaje()).CaraY().Build());
+            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraMenosY().Build());
         }
 
         protected override int ModificacionEnY()

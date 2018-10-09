@@ -36,7 +36,9 @@ namespace TGC.Group.Model
 
         protected abstract void GenerarCaras();
 
-        protected abstract void ClearCaras();
+        protected void ClearCaras() {
+            this.caras.Clear();
+        }
 
         protected abstract int ModificacionEnY();
 
@@ -50,7 +52,7 @@ namespace TGC.Group.Model
             GenerarCaras();
         }
 
-        public void TestarColisionContra(Personaje personaje) {
+        public void TestearColisionContra(Personaje personaje) {
             foreach (Cara cara in caras)
             {
                 cara.TesteoDeColision(personaje);
