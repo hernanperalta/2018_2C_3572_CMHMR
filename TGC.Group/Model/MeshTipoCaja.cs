@@ -19,6 +19,7 @@ namespace TGC.Group.Model
         protected List<Rayo> rayosY;
         protected List<Rayo> rayosMenosY;
         protected TGCVector3 posicionInicial;
+        private List<Cara> caras;
         //private bool soyUnaCaja;
 
         protected MeshTipoCaja(TGCVector3 posicionInicial, TgcMesh mesh)
@@ -50,11 +51,11 @@ namespace TGC.Group.Model
             //    GenerarRayosPlataformas();
             //}
 
-            GenerarRayos();
+            GenerarCaras();
 
         }
 
-        protected virtual void GenerarRayos() {
+        protected virtual void GenerarCaras() {
             // el orden es el mismo que retorna el metodo computeFaces de un BB, visto de frente (hacia -z) => Up, Down, Front, Back, Right, Left
             var rayos = new List<Rayo>();
 
@@ -151,7 +152,7 @@ namespace TGC.Group.Model
             mesh.Render();
         }
 
-        public virtual void Update(TGCMatrix movimientoCaja){
+        public virtual void Update(TGCMatrix movimientoCaja) {
             ClearRayos();
         }
 
@@ -164,45 +165,11 @@ namespace TGC.Group.Model
             rayosMenosZ.Clear();
         }
 
-        public bool ChocoConFrente(Personaje personaje) {
-            return this.TesteoDeRayos(personaje, rayosZ);   
-        }
-
-        public bool ChocoALaIzquierda(Personaje personaje) {
-            return this.TesteoDeRayos(personaje, rayosX);
-        }
-
-        public bool ChocoArriba(Personaje personaje)
-        {
-            return this.TesteoDeRayos(personaje, rayosY);
-        }
-
-        public bool ChocoALaDerecha(Personaje personaje) {
-            return this.TesteoDeRayos(personaje, rayosMenosX);
-        }
-
-        public bool ChocoAtras(Personaje personaje)
-        {
-            return this.TesteoDeRayos(personaje, rayosMenosZ);
-        }
-
-        public bool ChocoAbajo(Personaje personaje)
-        {
-            return this.TesteoDeRayos(personaje, rayosMenosY);
-        }
-
-        protected bool TesteoDeRayos(Personaje personaje, List<Rayo> rayos) {
-            var puntoInterseccion = TGCVector3.Empty;
-
-            foreach (Rayo rayo in rayos)
+        public void TestarColisionContra(Personaje personaje) {
+            foreach (Cara cara in caras)
             {
-                rayo.Colisionar(personaje.Mesh);
-
-                if (rayo.HuboColision())
-                    return true;
+                cara.TesteoDeColision(personaje);
             }
-
-            return false;
         }
 
         protected TGCVector3 HallarCentroDeCara(String dirCara)
