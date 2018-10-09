@@ -61,25 +61,32 @@ namespace TGC.Group.Model
 
             personaje.Init(this);
 
-            escenarios = new Dictionary<string, Escenario>();
+            cargarEscenarios();
 
-            escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
-
-            escenarios["playa"] = new EscenarioPlaya(this, personaje);
-
-            escenarioActual = escenarios["playa"];
-
-            //var loader = new TgcSceneLoader();
-            //caja1 = loader.loadSceneFromFile(Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
-            //caja1.AutoTransform = false;
-            //caja1.Transform = TGCMatrix.Translation(10, 0, 0);
-            //movimientoCaja = caja1.Transform;
-            
-
-            BoundingBox = true;
+            BoundingBox = false;
 
             camara = new GameCamera(personaje.Position, 60, 200);
             Camara = camara;
+        }
+
+        public void cargarEscenarios()
+        {
+            escenarios = new Dictionary<string, Escenario>();
+
+            escenarios["playa"] = new EscenarioPlaya(this, personaje);
+
+            escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
+
+            //escenarios["camino"] = new EscenarioCamino(this, personaje);
+
+            escenarios["pozo"] = new EscenarioPozo(this, personaje);
+
+            escenarios["piramide"] = new EscenarioPiramide(this, personaje);
+
+            //escenarios["hielo"] = new EscenarioHielo(this, personaje);
+
+            escenarioActual = escenarios["playa"];
+
         }
 
         /// <summary>
@@ -87,6 +94,8 @@ namespace TGC.Group.Model
         ///     Se debe escribir toda la lógica de computo del modelo, así como también verificar entradas del usuario y reacciones
         ///     ante ellas.
         /// </summary>
+        /// 
+
         public override void Update()
         {
             PreUpdate();
