@@ -114,15 +114,18 @@ namespace TGC.Group.Model
 
         public override void CalcularColisionesConMeshes()
         {
-            if (plataforma1.TestearColisionContra(personaje))
-            {
-                if (movimiento.Y < 0)
-                {
-                    movimiento.Y = 0;
-                    personaje.ColisionoEnY();
-                }
-                personaje.TransformPlataforma = transformacionBox;
-            }
+            plataforma1.TestearColisionContra(personaje);
+
+            // NO BORRAR TODAVIA
+            //if (plataforma1.TestearColisionContra(personaje))
+            //{
+            //    if (movimiento.Y < 0)
+            //    {
+            //        movimiento.Y = 0;
+            //        personaje.ColisionoEnY();
+            //    }
+            //    personaje.TransformPlataforma = transformacionBox;
+            //}
         }
 
         public override void CalcularColisionesConPlanos()

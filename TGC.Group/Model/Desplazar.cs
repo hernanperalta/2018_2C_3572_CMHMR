@@ -90,14 +90,5 @@ namespace TGC.Group.Model
                                  );
         }
 
-        public static Desplazar HaciaNingunLado() {
-            return new Desplazar(null,
-                                 null,
-                                 null,
-                                 (personaje) => false
-                                 );
-        }
-
-        
     }
 }

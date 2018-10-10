@@ -69,13 +69,6 @@ namespace TGC.Group.Model
 
             escenarioActual = escenarios["playa"];
 
-            //var loader = new TgcSceneLoader();
-            //caja1 = loader.loadSceneFromFile(Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
-            //caja1.AutoTransform = false;
-            //caja1.Transform = TGCMatrix.Translation(10, 0, 0);
-            //movimientoCaja = caja1.Transform;
-            
-
             BoundingBox = true;
 
             camara = new GameCamera(personaje.Position, 60, 200);
@@ -91,7 +84,7 @@ namespace TGC.Group.Model
         {
             PreUpdate();
 
-            movimientoCaja = TGCMatrix.Identity;
+            //movimientoCaja = TGCMatrix.Identity;
 
             //// Agrego a la lista de meshes colisionables tipo caja, todas las cosas del pedazo de escenario donde estoy contra las que puedo colisionar.
             //caja1Mesh = new MeshTipoCaja(caja1);

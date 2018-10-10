@@ -16,24 +16,51 @@ namespace TGC.Group.Model
 
         }
 
-        public override void Update(TGCMatrix movimientoCaja)
+        public override void Update(TGCMatrix movimiento)
         {
-            base.Update(movimientoCaja);
-            mesh.Transform = movimientoCaja;
+            mesh.Transform = movimiento;
             mesh.BoundingBox.transform(mesh.Transform);
-            GenerarCaras();
+            base.Update(movimiento);
         }
 
         protected override void GenerarCaras()
         {
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraZ(ModificacionEnY()).Build());
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraMenosZ(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(new ChoqueRigido())
+                                 .CaraZ(ModificacionEnY())
+                                 .Build());
 
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraX(ModificacionEnY()).Build());
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraMenosX(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(new ChoqueRigido())
+                                 .CaraMenosZ(ModificacionEnY())
+                                 .Build());
 
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(new CambiarPisoAlPersonaje()).CaraY().Build());
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraMenosY().Build());
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(new ChoqueRigido())
+                                 .CaraX(ModificacionEnY())
+                                 .Build());
+
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(new ChoqueRigido())
+                                 .CaraMenosX(ModificacionEnY())
+                                 .Build());
+
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(new CambiarPisoAlPersonaje())
+                                 .Accion(new AplicarTransformacionDePlataformaAPersonaje())
+                                 .CaraY()
+                                 .Build());
+
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(new ChoqueRigido())
+                                 .CaraMenosY()
+                                 .Build());
         }
 
         protected override int ModificacionEnY()

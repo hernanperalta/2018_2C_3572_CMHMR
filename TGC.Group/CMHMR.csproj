@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="Model\AnteColision.cs" />
     <Compile Include="Model\AnteColisionCaja.cs" />
+    <Compile Include="Model\AplicarTransformacionDePlataformaAPersonaje.cs" />
     <Compile Include="Model\Caja.cs" />
     <Compile Include="Model\CambiarPisoAlPersonaje.cs" />
     <Compile Include="Model\Cara.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Model\EscenarioPlaya.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\MeshTipoCaja.cs" />
+    <Compile Include="Model\ChoqueRigido.cs" />
     <Compile Include="Model\Personaje.cs" />
     <Compile Include="Model\Plataforma.cs" />
     <Compile Include="Model\Rayo.cs" />

@@ -24,6 +24,7 @@ namespace TGC.Group.Model
         protected MeshTipoCaja(TGCVector3 posicionInicial, TgcMesh mesh)
         {
             this.mesh = mesh;
+            this.caras = new List<Cara>();
           
             this.posicionInicial = posicionInicial;
 
@@ -37,7 +38,7 @@ namespace TGC.Group.Model
         protected abstract void GenerarCaras();
 
         protected void ClearCaras() {
-            this.caras.Clear();
+            this.caras = new List<Cara>();
         }
 
         protected abstract int ModificacionEnY();

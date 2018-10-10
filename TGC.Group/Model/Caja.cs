@@ -11,26 +11,52 @@ namespace TGC.Group.Model
     public class Caja : MeshTipoCaja
     {
         public Caja(TGCVector3 posicionInicial, TgcMesh mesh) : base (posicionInicial, mesh){
-            this.caras = new List<Cara>();
+            
         }
 
         protected override void GenerarCaras() {
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaAdelante()).CaraZ(ModificacionEnY()).Build());
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaAtras()).CaraMenosZ(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(Desplazar.HaciaAdelante())
+                                 .CaraZ(ModificacionEnY())
+                                 .Build());
 
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaDerecha()).CaraX(ModificacionEnY()).Build());
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaIzquierda()).CaraMenosX(ModificacionEnY()).Build());
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(Desplazar.HaciaAtras())
+                                 .CaraMenosZ(ModificacionEnY())
+                                 .Build());
 
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(new CambiarPisoAlPersonaje()).CaraY().Build());
-            caras.Add(CaraBuilder.Instance().Mesh(this).Accion(Desplazar.HaciaNingunLado()).CaraMenosY().Build());
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(Desplazar.HaciaDerecha())
+                                 .CaraX(ModificacionEnY())
+                                 .Build());
+
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(Desplazar.HaciaIzquierda())
+                                 .CaraMenosX(ModificacionEnY())
+                                 .Build());
+
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(new CambiarPisoAlPersonaje())
+                                 .CaraY()
+                                 .Build());
+
+            caras.Add(CaraBuilder.Instance()
+                                 .Mesh(this)
+                                 .Accion(new ChoqueRigido())
+                                 .CaraMenosY()
+                                 .Build());
         }
 
         public override void Update(TGCMatrix movimientoCaja)
         {
-            base.Update(movimientoCaja);
             mesh.Transform *= movimientoCaja;
             mesh.BoundingBox.transform(mesh.Transform);
-            GenerarCaras();
+            base.Update(movimientoCaja);
         }
 
         protected override int ModificacionEnY()
