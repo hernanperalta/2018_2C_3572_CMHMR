@@ -2,8 +2,6 @@ using Microsoft.DirectX.DirectInput;
 using TGC.Core.Direct3D;
 using TGC.Core.Example;
 using TGC.Core.Mathematica;
-using TGC.Core.SceneLoader;
-using TGC.Core.Geometry;
 using TGC.Group.Camera;
 using System;
 using System.Collections.Generic;
@@ -79,11 +77,11 @@ namespace TGC.Group.Model
 
             //escenarios["camino"] = new EscenarioCamino(this, personaje);
 
-            //escenarios["pozo"] = new EscenarioPozo(this, personaje);
+            escenarios["pozo"] = new EscenarioPozo(this, personaje);
 
-            //escenarios["piramide"] = new EscenarioPiramide(this, personaje);
+            escenarios["piramide"] = new EscenarioPiramide(this, personaje);
 
-            //escenarios["hielo"] = new EscenarioHielo(this, personaje);
+            escenarios["hielo"] = new EscenarioHielo(this, personaje);
 
             escenarioActual = escenarios["playa"];
 

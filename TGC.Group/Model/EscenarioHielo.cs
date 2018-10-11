@@ -15,9 +15,9 @@ namespace TGC.Group.Model
         protected override void Init()
         {
             var loader = new TgcSceneLoader();
-            scene = loader.loadSceneFromFile(GameModel.Media + "\\primer-nivel\\pozo-plataformas\\tgc-scene\\hielo\\");
+            scene = loader.loadSceneFromFile(GameModel.Media + "\\escenarios\\hielo\\hielo-TgcScene.xml");
 
-            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoHorizontal-TgcScene.xml").Meshes[0];
+            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
 
             planoDer = planoIzq.createMeshInstance("planoDer");
@@ -31,7 +31,7 @@ namespace TGC.Group.Model
             //planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
             //planoFront.AutoTransform = false;
 
-            planoBack = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
+            planoBack = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
             planoBack.AutoTransform = false;
             planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
             planoBack.BoundingBox.transform(planoBack.Transform);
@@ -39,7 +39,7 @@ namespace TGC.Group.Model
             //planoFront.Transform = TGCMatrix.Translation(50, 0, -535);
             //planoFront.BoundingBox.transform(planoFront.Transform);
 
-            planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
+            planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
             planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, -20, -200));
 
