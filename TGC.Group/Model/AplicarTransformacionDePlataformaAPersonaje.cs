@@ -4,7 +4,7 @@
     {
         public void Colisionar(MeshTipoCaja meshTipoCaja, Personaje personaje)
         {
-            personaje.Mesh.Transform = meshTipoCaja.mesh.Transform;
+            personaje.TransformPlataforma = meshTipoCaja.mesh.Transform;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace TGC.Group.Model
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
-                                 .Accion(new ChoqueRigido())
+                                 .Accion(new ChoqueRigido(Eje.MenosY))
                                  .CaraMenosY()
                                  .Build());
         }
