@@ -58,8 +58,10 @@ namespace TGC.Group.Model
 
             var loader = new TgcSceneLoader();
             var mesh = loader.loadSceneFromFile(GameModel.Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
+            var mesh2 = mesh.createMeshInstance("mesh2");
 
             cajas.Add(new Caja(new TGCVector3(0,0,-100), mesh));
+            cajas.Add(new Caja(new TGCVector3(0, 0, -150), mesh2));
         }
 
         public override void Render() {
