@@ -164,5 +164,10 @@ namespace TGC.Group.Model
             if (movimiento.X == 0 && movimiento.Z == 0)
                 this.moving = false;
         }
+
+        public void Restaurar()
+        {
+            Movete(new TGCVector3(0,+30, 200));
+        }
     }
 }
