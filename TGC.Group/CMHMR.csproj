@@ -105,6 +105,7 @@
     <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\EscenarioPlataforma.cs" />
     <Compile Include="Model\EscenarioPlaya.cs" />
+    <Compile Include="Model\Escenarios\EscenarioMenu.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\MeshTipoCaja.cs" />
     <Compile Include="Model\ChoqueRigido.cs" />
