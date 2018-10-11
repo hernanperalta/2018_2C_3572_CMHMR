@@ -47,20 +47,20 @@ namespace TGC.Group.Model
             switch (key)
             {
                 case Key.A:
-                    if (movimiento.X > 0) // los ejes estan al reves de como pensaba, o lo entendi mal.
-                        movimiento.X = 0;
+                    if (personaje.movimiento.X > 0) // los ejes estan al reves de como pensaba, o lo entendi mal.
+                        personaje.movimiento.X = 0;
                     break;
                 case Key.D:
-                    if (movimiento.X < 0)
-                        movimiento.X = 0;
+                    if (personaje.movimiento.X < 0)
+                        personaje.movimiento.X = 0;
                     break;
                 case Key.S:
-                    if (movimiento.Z > 0)
-                        movimiento.Z = 0;
+                    if (personaje.movimiento.Z > 0)
+                        personaje.movimiento.Z = 0;
                     break;
                 case Key.W:
-                    if (movimiento.Z < 0)
-                        movimiento.Z = 0;
+                    if (personaje.movimiento.Z < 0)
+                        personaje.movimiento.Z = 0;
                     break;
             }
         }

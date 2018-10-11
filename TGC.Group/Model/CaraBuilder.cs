@@ -103,15 +103,15 @@ namespace TGC.Group.Model
             rayos.Add(rayoDerCaraYMasAtras);
 
             // RAYOS DIAGONALES:
-            var rayoCaraYAbajoIzq = new RayoY(new TGCVector3((centroCaraX.X + centroCaraY.X)/2,centroCaraY.Y, (centroCaraZ.Z + centroCaraY.Z)/2), new TGCVector3(0, 1, 0));
-            var rayoIzqCaraYAbajoDer = new RayoY(new TGCVector3((centroCaraY.X + centroCaraMenosX.X) / 2, centroCaraY.Y, (centroCaraZ.Z + centroCaraY.Z) / 2), new TGCVector3(0, 1, 0));
-            var rayoDerCaraYArribaIzq = new RayoY(new TGCVector3((centroCaraX.X + centroCaraY.X) / 2, centroCaraY.Y, (centroCaraY.Z + centroCaraMenosZ.Z)/2), new TGCVector3(0, 1, 0));
-            var rayoDerCaraYArribaDer = new RayoY(new TGCVector3((centroCaraY.X + centroCaraMenosX.X) / 2, centroCaraY.Y, (centroCaraY.Z + centroCaraMenosZ.Z) / 2), new TGCVector3(0, 1, 0));
+            //var rayoCaraYAbajoIzq = new RayoY(new TGCVector3((centroCaraX.X + centroCaraY.X)/2,centroCaraY.Y, (centroCaraZ.Z + centroCaraY.Z)/2), new TGCVector3(0, 1, 0));
+            //var rayoIzqCaraYAbajoDer = new RayoY(new TGCVector3((centroCaraY.X + centroCaraMenosX.X) / 2, centroCaraY.Y, (centroCaraZ.Z + centroCaraY.Z) / 2), new TGCVector3(0, 1, 0));
+            //var rayoDerCaraYArribaIzq = new RayoY(new TGCVector3((centroCaraX.X + centroCaraY.X) / 2, centroCaraY.Y, (centroCaraY.Z + centroCaraMenosZ.Z)/2), new TGCVector3(0, 1, 0));
+            //var rayoDerCaraYArribaDer = new RayoY(new TGCVector3((centroCaraY.X + centroCaraMenosX.X) / 2, centroCaraY.Y, (centroCaraY.Z + centroCaraMenosZ.Z) / 2), new TGCVector3(0, 1, 0));
 
-            rayos.Add(rayoCaraYAbajoIzq);
-            rayos.Add(rayoIzqCaraYAbajoDer);
-            rayos.Add(rayoDerCaraYArribaIzq);
-            rayos.Add(rayoDerCaraYArribaDer);
+            //rayos.Add(rayoCaraYAbajoIzq);
+            //rayos.Add(rayoIzqCaraYAbajoDer);
+            //rayos.Add(rayoDerCaraYArribaIzq);
+            //rayos.Add(rayoDerCaraYArribaDer);
 
             caraConstructor = (mesh, accionesAnteColision, rayos) => new CaraY(mesh, accionesAnteColision, rayos);
 
@@ -189,7 +189,7 @@ namespace TGC.Group.Model
         }
         
        
-        private TGCVector3 HallarCentroDeCara(String dirCara)
+        public TGCVector3 HallarCentroDeCara(String dirCara)
         {
             var PMin = mesh.BoundingBox.PMin;
             var PMax = mesh.BoundingBox.PMax;

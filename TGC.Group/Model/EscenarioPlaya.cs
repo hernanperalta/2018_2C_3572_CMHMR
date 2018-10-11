@@ -83,13 +83,13 @@ namespace TGC.Group.Model
 
         public override void Colisiones()
         {
-            movimiento = personaje.movimiento;
+            //movimiento = personaje.movimiento;
 
             CalcularColisionesConPlanos();
 
             CalcularColisionesConMeshes();
 
-            personaje.Movete(movimiento);
+            personaje.Movete(personaje.movimiento);
         }
 
         public override void CalcularColisionesConPlanos()
@@ -116,9 +116,9 @@ namespace TGC.Group.Model
 
                 if (ChocoConLimite(personaje, planoPiso))
                 {
-                    if (movimiento.Y < 0)
+                    if (personaje.movimiento.Y < 0)
                     {
-                        movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
+                        personaje.movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
                         personaje.ColisionoEnY();
                     }
                 }
