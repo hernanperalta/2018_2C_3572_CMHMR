@@ -73,7 +73,9 @@ namespace TGC.Group.Model
             var centroCaraMenosZ = HallarCentroDeCara("-z");
             var centroCaraZ = HallarCentroDeCara("z");
             var centroCaraX = HallarCentroDeCara("x");
+            var centroCaraMenosX = HallarCentroDeCara("-x");
 
+            // RAYOS MAS ALEJADOS, MENOS Z
             var rayoCaraY = new RayoY(new TGCVector3(centroCaraY.X, centroCaraY.Y, centroCaraMenosZ.Z), new TGCVector3(0, 1, 0));
             var rayoIzqCaraY = new RayoY(new TGCVector3(mesh.BoundingBox.PMax.X, centroCaraY.Y, centroCaraMenosZ.Z), new TGCVector3(0, 1, 0));
             var rayoDerCaraY = new RayoY(new TGCVector3(mesh.BoundingBox.PMin.X, centroCaraY.Y, centroCaraMenosZ.Z), new TGCVector3(0, 1, 0));
@@ -82,6 +84,7 @@ namespace TGC.Group.Model
             rayos.Add(rayoIzqCaraY);
             rayos.Add(rayoDerCaraY);
 
+            // RAYOS MAS CERCANOS, Z
             var rayoCaraYMasAdelante = new RayoY(new TGCVector3(centroCaraY.X, centroCaraY.Y, centroCaraZ.Z), new TGCVector3(0, 1, 0));
             var rayoIzqCaraYMasAdelante = new RayoY(new TGCVector3(mesh.BoundingBox.PMax.X, centroCaraY.Y, centroCaraZ.Z), new TGCVector3(0, 1, 0));
             var rayoDerCaraYMasAdelante = new RayoY(new TGCVector3(mesh.BoundingBox.PMin.X, centroCaraY.Y, centroCaraZ.Z), new TGCVector3(0, 1, 0));
@@ -90,6 +93,7 @@ namespace TGC.Group.Model
             rayos.Add(rayoIzqCaraYMasAdelante);
             rayos.Add(rayoDerCaraYMasAdelante);
 
+            // RAYOS DEL MEDIO
             var rayoCaraYMasAtras = new RayoY(new TGCVector3(centroCaraY.X, centroCaraY.Y, centroCaraX.Z), new TGCVector3(0, 1, 0));
             var rayoIzqCaraYMasAtras = new RayoY(new TGCVector3(mesh.BoundingBox.PMax.X, centroCaraY.Y, centroCaraX.Z), new TGCVector3(0, 1, 0));
             var rayoDerCaraYMasAtras = new RayoY(new TGCVector3(mesh.BoundingBox.PMin.X, centroCaraY.Y, centroCaraX.Z), new TGCVector3(0, 1, 0));
@@ -97,6 +101,17 @@ namespace TGC.Group.Model
             rayos.Add(rayoCaraYMasAtras);
             rayos.Add(rayoIzqCaraYMasAtras);
             rayos.Add(rayoDerCaraYMasAtras);
+
+            // RAYOS DIAGONALES:
+            var rayoCaraYAbajoIzq = new RayoY(new TGCVector3((centroCaraX.X - centroCaraY.X)/2,centroCaraY.Y, (centroCaraZ.Z - centroCaraX.Z)/2), new TGCVector3(0, 1, 0));
+            var rayoIzqCaraYAbajoDer = new RayoY(new TGCVector3((centroCaraY.X - centroCaraMenosX.X) / 2, centroCaraY.Y, (centroCaraX.Z - centroCaraY.Z) / 2), new TGCVector3(0, 1, 0));
+            var rayoDerCaraYArribaIzq = new RayoY(new TGCVector3((centroCaraX.X - centroCaraY.X) / 2, centroCaraY.Y, (centroCaraY.Z - centroCaraMenosZ.Z)/2), new TGCVector3(0, 1, 0));
+            var rayoDerCaraYArribaDer = new RayoY(new TGCVector3((centroCaraY.X - centroCaraMenosX.X) / 2, centroCaraY.Y, (centroCaraY.Z - centroCaraMenosZ.Z) / 2), new TGCVector3(0, 1, 0));
+
+            rayos.Add(rayoCaraYAbajoIzq);
+            rayos.Add(rayoIzqCaraYAbajoDer);
+            rayos.Add(rayoDerCaraYArribaIzq);
+            rayos.Add(rayoDerCaraYArribaDer);
 
             caraConstructor = (mesh, accionesAnteColision, rayos) => new CaraY(mesh, accionesAnteColision, rayos);
 

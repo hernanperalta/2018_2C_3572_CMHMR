@@ -40,7 +40,6 @@ namespace TGC.Group.Model
         private Personaje personaje = new Personaje();
         private GameCamera camara;
         
-        private TGCMatrix movimientoCaja;
         private Dictionary<string, Escenario> escenarios;
         private Escenario escenarioActual;
 
