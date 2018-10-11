@@ -10,22 +10,19 @@ using TGC.Core.BoundingVolumes;
 
 namespace TGC.Group.Model
 {
-    public class Personaje
+    public class Personaje : Colisionable
     {
         public TgcSkeletalMesh Mesh { get; set; }
         public bool moving;
         public bool colisionaEnY;
         private TGCMatrix ultimaPosicion;
-        public TGCVector3 movimiento;
+        //public TGCVector3 movimiento;
         private const float VelocidadDesplazamiento = 50f;
         public TGCVector3 Position
         {
             get => Mesh.Transform.Origin;
         }
-        public TgcBoundingAxisAlignBox BoundingBox
-        {
-            get => Mesh.BoundingBox;
-        }
+        
         public TGCMatrix TransformPlataforma;
 
         private GameModel Context;
@@ -37,6 +34,12 @@ namespace TGC.Group.Model
         float DesplazamientoMaximoY = 5f;
         private bool PuedeSaltar;
         //
+
+        public override TgcBoundingAxisAlignBox BoundingBox()
+        {
+            return this.Mesh.BoundingBox;
+        }
+
 
         public void Init(GameModel context)
         {
@@ -158,7 +161,7 @@ namespace TGC.Group.Model
             Mesh.Dispose();
         }
 
-        internal void ColisionoEnY()
+        public override void ColisionoEnY()
         {
             this.colisionaEnY = true;
             if (movimiento.X == 0 && movimiento.Z == 0)
@@ -169,5 +172,7 @@ namespace TGC.Group.Model
         {
             Movete(new TGCVector3(0,+30, 200));
         }
+
+        
     }
 }

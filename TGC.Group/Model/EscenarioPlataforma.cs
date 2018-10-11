@@ -211,5 +211,10 @@ namespace TGC.Group.Model
             scene.DisposeAll();
             plataforma1Mesh.Dispose();
         }
+
+        public override void CalcularColisionesEntreMeshes()
+        {
+           
+        }
     }
 }

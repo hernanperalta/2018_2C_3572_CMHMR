@@ -91,6 +91,8 @@ namespace TGC.Group.Model
 
             CalcularColisionesConMeshes();
 
+            CalcularColisionesEntreMeshes();
+
             personaje.Movete(personaje.movimiento);
         }
 
@@ -134,6 +136,17 @@ namespace TGC.Group.Model
                 foreach (Caja caja in cajas)
                 {
                     caja.TestearColisionContra(personaje);
+                }
+            }
+        }
+
+        public override void CalcularColisionesEntreMeshes()
+        {
+            foreach (Caja caja in cajas)
+            {
+                var cajasFiltradas = cajas.FindAll((caja2) => !caja2.Equals(caja));
+                foreach (Caja otraCaja in cajasFiltradas) {
+                    caja.TestearColisionContra(otraCaja);
                 }
             }
         }

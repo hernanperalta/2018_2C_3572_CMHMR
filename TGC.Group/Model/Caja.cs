@@ -8,7 +8,7 @@ using TGC.Core.SceneLoader;
 
 namespace TGC.Group.Model
 {
-    public class Caja : MeshTipoCaja
+    public class Caja : MeshTipoCaja 
     {
         public Caja(TGCVector3 posicionInicial, TgcMesh mesh) : base (posicionInicial, mesh){
             

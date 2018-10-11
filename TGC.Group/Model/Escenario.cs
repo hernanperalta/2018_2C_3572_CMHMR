@@ -37,9 +37,11 @@ namespace TGC.Group.Model
 
         public abstract void CalcularColisionesConMeshes();
 
+        public abstract void CalcularColisionesEntreMeshes();
+
         protected bool ChocoConLimite(Personaje personaje, TgcMesh plano)
         {
-            return TgcCollisionUtils.testAABBAABB(plano.BoundingBox, personaje.BoundingBox);
+            return TgcCollisionUtils.testAABBAABB(plano.BoundingBox, personaje.BoundingBox());
         }
 
         protected void NoMoverHacia(Key key)

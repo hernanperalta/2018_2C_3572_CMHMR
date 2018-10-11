@@ -16,19 +16,19 @@ namespace TGC.Group.Model
             this.rayos = rayos;
         }
 
-        public void TesteoDeColision(Personaje personaje) {
-            if (HuboColision(personaje)) {
-                accionesAnteColision.ForEach((accion) => accion.Colisionar(meshTipoCaja, personaje));
+        public void TesteoDeColision(Colisionable colisionable) {
+            if (HuboColision(colisionable)) {
+                accionesAnteColision.ForEach((accion) => accion.Colisionar(meshTipoCaja, colisionable));
             }
         }
 
-        private bool HuboColision(Personaje personaje)
+        private bool HuboColision(Colisionable colisionable)
         {
             var puntoInterseccion = TGCVector3.Empty;
 
             foreach (Rayo rayo in rayos)
             {
-                rayo.Colisionar(personaje.Mesh);
+                rayo.Colisionar(colisionable.BoundingBox());
 
                 if (rayo.HuboColision())
                     return true;
