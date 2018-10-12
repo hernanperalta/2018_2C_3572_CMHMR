@@ -11,10 +11,10 @@ namespace TGC.Group.Model
     {
         private TgcScene escena;
         
-        private List<Caja> cajas;
         // Planos de limite
 
-        public EscenarioPlaya(GameModel contexto, Personaje personaje) : base (contexto, personaje){
+        public EscenarioPlaya(GameModel contexto, Personaje personaje) : base (contexto, personaje, 0, (335*(-1)))
+        {
             
         }
 
@@ -54,14 +54,12 @@ namespace TGC.Group.Model
         }
 
         private void GenerarCajas() {
-            cajas = new List<Caja>();
-
             var loader = new TgcSceneLoader();
             var mesh = loader.loadSceneFromFile(GameModel.Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
             var mesh2 = mesh.createMeshInstance("mesh2");
 
-            cajas.Add(new Caja(new TGCVector3(0,0,-100), mesh));
-            cajas.Add(new Caja(new TGCVector3(0, 0, -150), mesh2));
+            cajas.Add(new Caja(new TGCVector3(0,0,-100), mesh, contexto));
+            cajas.Add(new Caja(new TGCVector3(0, 0, -150), mesh2, contexto));
         }
 
         public override void Render() {
@@ -78,23 +76,23 @@ namespace TGC.Group.Model
             }
         }
 
-        public override void Update()
-        {
-            
-        }
+        //public override void Update()
+        //{
+        //   //cajas.ForEach((caja) => caja.Update());
+        //}
 
-        public override void Colisiones()
-        {
-            //movimiento = personaje.movimiento;
+        //public override void Colisiones()
+        //{
+        //    CalcularColisionesConPlanos();
 
-            CalcularColisionesConPlanos();
+        //    CalcularColisionesConMeshes();
 
-            CalcularColisionesConMeshes();
+        //    CalcularColisionesEntreMeshes();
 
-            CalcularColisionesEntreMeshes();
+        //    CalcularEfectoGravedadEnMeshes();
 
-            personaje.Movete(personaje.movimiento);
-        }
+        //    personaje.Movete(personaje.movimiento);
+        //}
 
         public override void CalcularColisionesConPlanos()
         {
@@ -129,27 +127,7 @@ namespace TGC.Group.Model
             }
         }
 
-        public override void CalcularColisionesConMeshes()
-        {
-            if (personaje.moving)
-            {
-                foreach (Caja caja in cajas)
-                {
-                    caja.TestearColisionContra(personaje);
-                }
-            }
-        }
-
-        public override void CalcularColisionesEntreMeshes()
-        {
-            foreach (Caja caja in cajas)
-            {
-                var cajasFiltradas = cajas.FindAll((caja2) => !caja2.Equals(caja));
-                foreach (Caja otraCaja in cajasFiltradas) {
-                    caja.TestearColisionContra(otraCaja);
-                }
-            }
-        }
+        
 
         public override void DisposeAll()
         {

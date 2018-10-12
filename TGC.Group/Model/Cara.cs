@@ -6,7 +6,7 @@ namespace TGC.Group.Model
 {
     public abstract class Cara
     {
-        protected List<Rayo> rayos;
+        public List<Rayo> rayos;
         protected List<IAnteColision> accionesAnteColision;
         protected MeshTipoCaja meshTipoCaja;
 

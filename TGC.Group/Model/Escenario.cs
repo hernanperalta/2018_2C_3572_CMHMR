@@ -1,5 +1,6 @@
 ﻿using Microsoft.DirectX.DirectInput;
 using System;
+using System.Collections.Generic;
 using TGC.Core.Collision;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
@@ -17,27 +18,100 @@ namespace TGC.Group.Model
         protected TGCVector3 movimiento;
         protected Personaje personaje;
         protected GameModel contexto;
-        
+        public List<Caja> cajas; // todos los escenarios deben tenerlas, porque las cajas pueden moverse por todo el nivel
+        public Escenario siguiente;
+        public Escenario anterior;
+        public int nearLimit;
+        public int farLimit;
 
-        protected Escenario(GameModel contexto, Personaje personaje) {
+        protected Escenario(GameModel contexto, Personaje personaje, int nearLimit, int farLimit) {
             this.contexto = contexto;
             this.personaje = personaje;
+            this.cajas = new List<Caja>();
             Init();
+        }
+
+        public void AgregarCaja(Caja nuevaCaja) {
+            if (!cajas.Contains(nuevaCaja)) {
+                this.cajas.Add(nuevaCaja);
+                CalcularEfectoGravedadEnMeshes();
+            }
+            
+        }
+
+        public void QuitarCaja(Caja caja) {
+            if (cajas.Contains(caja)) {
+                cajas.Remove(caja);
+            }
         }
 
         protected abstract void Init();
 
         public abstract void Render();
 
-        public abstract void Update();
+        public virtual void Update() {
+            cajas.ForEach((caja) => caja.Update());
+        }
 
-        public abstract void Colisiones();
+        public virtual void Colisiones() {
+            CalcularColisionesConPlanos();
+
+            CalcularColisionesConMeshes();
+
+            CalcularColisionesEntreMeshes();
+
+            CalcularEfectoGravedadEnMeshes();
+
+            VerificarSiAlgunMeshSalioDelEscenario();
+
+            personaje.Movete(personaje.movimiento);
+        }
+
+        public void VerificarSiAlgunMeshSalioDelEscenario() {
+            foreach (Caja caja in cajas)
+            {
+               if(siguiente != null)
+                    this.siguiente.AgregarCaja(caja); // esto no va, solo esta pa probar 
+
+                if (caja.Position.Z <= -100/*farLimit*/) {
+                    this.siguiente.AgregarCaja(caja);
+                    this.QuitarCaja(caja);
+                }
+            }
+        }
+
+        public virtual void CalcularColisionesConMeshes()
+        {
+            if (personaje.moving)
+            {
+                foreach (Caja caja in cajas)
+                {
+                    caja.TestearColisionContra(personaje);
+                }
+            }
+        }
+
+        public virtual void CalcularColisionesEntreMeshes()
+        {
+            foreach (Caja caja in cajas)
+            {
+                var cajasFiltradas = cajas.FindAll((caja2) => !caja2.Equals(caja));
+                foreach (Caja otraCaja in cajasFiltradas)
+                {
+                    caja.TestearColisionContra(otraCaja);
+                }
+            }
+        }
+
+        public virtual void CalcularEfectoGravedadEnMeshes()
+        {
+            foreach (Caja caja in cajas)
+            {
+               caja.colisionaEnY = !caja.EstaEnElPiso(planoPiso);
+            }
+        }
 
         public abstract void CalcularColisionesConPlanos();
-
-        public abstract void CalcularColisionesConMeshes();
-
-        public abstract void CalcularColisionesEntreMeshes();
 
         protected bool ChocoConLimite(Personaje personaje, TgcMesh plano)
         {

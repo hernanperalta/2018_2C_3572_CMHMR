@@ -16,13 +16,16 @@ namespace TGC.Group.Model
         public TgcMesh mesh;
 
         protected TGCVector3 posicionInicial;
+        public TGCVector3 Position {
+            get => this.mesh.Position;
+        }
         protected List<Cara> caras;
 
         public override TgcBoundingAxisAlignBox BoundingBox() {
             return this.mesh.BoundingBox;
         }
 
-        protected MeshTipoCaja(TGCVector3 posicionInicial, TgcMesh mesh)
+        protected MeshTipoCaja(TGCVector3 posicionInicial, TgcMesh mesh, GameModel Context) : base(Context)
         {
             this.mesh = mesh;
             this.caras = new List<Cara>();
@@ -57,8 +60,10 @@ namespace TGC.Group.Model
 
         public virtual void Update(TGCMatrix movimientoCaja) {
             this.movimiento = movimientoCaja.Origin;
+            
             ClearCaras();
             GenerarCaras();
+            base.Update();
         }
 
         public void TestearColisionContra(Colisionable colisionable) {

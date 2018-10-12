@@ -37,7 +37,7 @@ namespace TGC.Group.Model
         }
         public bool BoundingBox { get; set; }
         private const float VELOCIDAD_DESPLAZAMIENTO = 50f;
-        private Personaje personaje = new Personaje();
+        private Personaje personaje;
         private GameCamera camara;
         
         private Dictionary<string, Escenario> escenarios;
@@ -58,15 +58,26 @@ namespace TGC.Group.Model
             //Device de DirectX para crear primitivas.
             var d3dDevice = D3DDevice.Instance.Device;
 
-            personaje.Init(this);
+            personaje = new Personaje(this);
 
             escenarios = new Dictionary<string, Escenario>();
 
-            escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
+           
+            //escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
+            var escenarioPlataforma = new EscenarioPlataforma(this, personaje);
 
-            escenarios["playa"] = new EscenarioPlaya(this, personaje);
+            var escenarioPlaya = new EscenarioPlaya(this, personaje);
+            escenarioPlaya.siguiente = escenarioPlataforma;
+
+            //escenarios["playa"] = new EscenarioPlaya(this, personaje);
+
+            escenarios["playa"] = escenarioPlaya;
+            escenarios["plataforma"] = escenarioPlataforma;
 
             escenarioActual = escenarios["playa"];
+
+            //(escenarios["playa"]).siguiente = (Escenario)escenarios["plataforma"];
+            //(escenarios["plataforma"]).anterior = (Escenario)escenarios["playa"];
 
             BoundingBox = true;
 
@@ -102,20 +113,21 @@ namespace TGC.Group.Model
             }
 
             escenarioActual.Colisiones();
+            //escenarioActual.Update();
 
-            if (personaje.Mesh.Transform.Origin.Z < -335)
+            if (personaje.Mesh.Transform.Origin.Z < -335 /*escenarioActual.farLimit*/)
             { // HUBO CAMBIO DE ESCENARIO
               /* Aca deberiamos hacer algo como no testear mas contra las cosas del escenario anterior y testear
                 contra las del escenario actual. 
               */
 
                 //planoFront.BoundingBox.setRenderColor(Color.AliceBlue);
-                escenarioActual = escenarios["plataforma"];
+                escenarioActual = escenarios["plataforma"]; /*escenarioActual.siguiente*/
             }
             else
             {
                 //planoFront.BoundingBox.setRenderColor(Color.Yellow);
-                escenarioActual = escenarios["playa"];
+                escenarioActual = escenarios["playa"]; // nada
             }
 
             if (Input.keyPressed(Key.Q))

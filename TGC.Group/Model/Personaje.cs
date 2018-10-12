@@ -13,8 +13,7 @@ namespace TGC.Group.Model
     public class Personaje : Colisionable
     {
         public TgcSkeletalMesh Mesh { get; set; }
-        public bool moving;
-        public bool colisionaEnY;
+        
         private TGCMatrix ultimaPosicion;
         //public TGCVector3 movimiento;
         private const float VelocidadDesplazamiento = 50f;
@@ -25,13 +24,9 @@ namespace TGC.Group.Model
         
         public TGCMatrix TransformPlataforma;
 
-        private GameModel Context;
+        
         //
-        public float VelocidadY = 0f;
-        float VelocidadSalto = 90f;
-        float Gravedad = -60f;
-        float VelocidadTerminal = -50f;
-        float DesplazamientoMaximoY = 5f;
+  
         private bool PuedeSaltar;
         //
 
@@ -41,7 +36,7 @@ namespace TGC.Group.Model
         }
 
 
-        public void Init(GameModel context)
+        public Personaje(GameModel context) : base (context)
         {
             Context = context;
             string mediaDir = context.MediaDir;
@@ -69,7 +64,7 @@ namespace TGC.Group.Model
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
         }
 
-        public void Update()
+        public override void Update()
         {
             var elapsedTime = Context.ElapsedTime;
             var input = Context.Input;
@@ -112,13 +107,7 @@ namespace TGC.Group.Model
                 VelocidadY = VelocidadSalto;
             }
 
-            if (!colisionaEnY)
-            {
-                VelocidadY = FastMath.Clamp(VelocidadY + Gravedad * elapsedTime, VelocidadTerminal, -VelocidadTerminal);
-
-                movimiento += new TGCVector3(0, FastMath.Clamp(VelocidadY * elapsedTime, -DesplazamientoMaximoY, DesplazamientoMaximoY), 0);
-                moving = true;
-            }
+            base.Update();
         }
 
         public void Movete(TGCVector3 movimiento)

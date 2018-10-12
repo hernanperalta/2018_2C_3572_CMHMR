@@ -10,7 +10,7 @@ namespace TGC.Group.Model
 {
     public class Caja : MeshTipoCaja 
     {
-        public Caja(TGCVector3 posicionInicial, TgcMesh mesh) : base (posicionInicial, mesh){
+        public Caja(TGCVector3 posicionInicial, TgcMesh mesh, GameModel Context) : base (posicionInicial, mesh, Context){
             
         }
 
@@ -54,9 +54,10 @@ namespace TGC.Group.Model
 
         public override void Update(TGCMatrix movimientoCaja)
         {
-            mesh.Transform *= movimientoCaja;
-            mesh.BoundingBox.transform(mesh.Transform);
             base.Update(movimientoCaja);
+            mesh.Transform *= TGCMatrix.Translation(movimiento);
+            mesh.BoundingBox.transform(mesh.Transform);
+            
         }
 
         protected override int ModificacionEnY()
@@ -64,54 +65,9 @@ namespace TGC.Group.Model
             return 2;
         }
 
-        //public override void TestarColisionContra(Personaje personaje)
-        //{
-        //    if (ChocoConFrente(personaje))
-        //    {
-        //        //EmpujarSiSeEstaMoviendoEn("z");
-        //        var movimientoCaja = TGCMatrix.Translation(0, 0, personaje.movimiento.Z); // + distancia minima del rayo
-        //        personaje.movimiento.Z /= 3;
-        //        Update(movimientoCaja);
-        //        return;
-        //    }
-        //    else if (ChocoAtras(personaje))
-        //    {
-        //        //NoMoverHacia(Key.S);
-        //        //break;
-        //        var movimientoCaja = TGCMatrix.Translation(0, 0, personaje.movimiento.Z); // + distancia minima del rayo
-        //        personaje.movimiento.Z /= 3;
-        //        Update(movimientoCaja);
-        //        return;
-
-        //    }
-        //    else if (ChocoALaIzquierda(personaje))
-        //    {
-        //        //NoMoverHacia(Key.D);
-        //        //break;
-        //        var movimientoCaja = TGCMatrix.Translation(personaje.movimiento.X, 0, 0); // + distancia minima del rayo
-        //        personaje.movimiento.Z /= 3;
-        //        Update(movimientoCaja);
-        //        return;
-
-        //    }
-        //    else if (ChocoALaDerecha(personaje))
-        //    {
-        //        //NoMoverHacia(Key.A);
-        //        //break;
-        //        var movimientoCaja = TGCMatrix.Translation(personaje.movimiento.X, 0, 0); // + distancia minima del rayo
-        //        personaje.movimiento.Z /= 3;
-        //        Update(movimientoCaja);
-        //        return;
-        //    }
-        //    else if (ChocoArriba(personaje))
-        //    {
-        //        if (personaje.movimiento.Y < 0)
-        //        {
-        //            personaje.movimiento.Y = 0;
-        //            personaje.ColisionoEnY();
-        //        }
-        //        return;
-        //    }
-        //}
+        public bool EstaEnElPiso(TgcMesh planoPiso)
+        {
+            return this.caras.Any((cara) => cara.rayos.Any((rayo) => rayo.Colisionar(planoPiso.BoundingBox) && rayo.HuboColision()));
+        } // esto rompe todo el encapsulamiento, habria que hacer una clase Plano que extienda de TieneBoundingBox (y que Colisionable tambien extienda de eso), entonces el testeo de colision de los rayos se hace con algo de tipo "TieneBoundingBox"
     }
 }
