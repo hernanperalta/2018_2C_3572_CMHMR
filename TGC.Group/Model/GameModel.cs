@@ -7,6 +7,7 @@ using TGC.Core.Geometry;
 using TGC.Group.Camera;
 using System;
 using System.Collections.Generic;
+using TGC.Group.Model.Escenarios;
 
 namespace TGC.Group.Model
 {
@@ -38,7 +39,7 @@ namespace TGC.Group.Model
         public bool BoundingBox { get; set; }
         private const float VELOCIDAD_DESPLAZAMIENTO = 50f;
         private Personaje personaje = new Personaje();
-        private GameCamera camara;
+        public GameCamera camara;
         
         private Dictionary<string, Escenario> escenarios;
         private Escenario escenarioActual;
@@ -66,12 +67,11 @@ namespace TGC.Group.Model
 
             escenarios["playa"] = new EscenarioPlaya(this, personaje);
 
-            escenarioActual = escenarios["playa"];
+            escenarios["menu"] = new EscenarioMenu(this, personaje);
+
+            escenarioActual = escenarios["menu"];
 
             BoundingBox = true;
-
-            camara = new GameCamera(personaje.Position, 60, 200);
-            Camara = camara;
         }
 
         /// <summary>
@@ -112,18 +112,18 @@ namespace TGC.Group.Model
                 //planoFront.BoundingBox.setRenderColor(Color.AliceBlue);
                 escenarioActual = escenarios["plataforma"];
             }
-            else
+            /*else
             {
                 //planoFront.BoundingBox.setRenderColor(Color.Yellow);
                 escenarioActual = escenarios["playa"];
-            }
+            }*/
 
             if (Input.keyPressed(Key.Q))
             {
                 BoundingBox = !BoundingBox;
             }
 
-            camara.Target = personaje.Position;
+            //camara.Target = personaje.Position;
 
             PostUpdate();
         }
@@ -169,6 +169,17 @@ namespace TGC.Group.Model
             //foreach (TgcMesh mesh in meshesColisionables) {
             //    mesh.Dispose(); // mmm, no se que pasaria con las instancias...
             //} // recontra TODO
+        }
+
+        public void CambiarEscenario(string nombre)
+        {
+            escenarioActual = escenarios[nombre];
+        }
+
+        public void ActualizarCamara()
+        {
+            camara = new GameCamera(personaje.Position, 60, 200);
+            Camara = camara;
         }
     }
 }

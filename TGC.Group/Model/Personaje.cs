@@ -28,7 +28,7 @@ namespace TGC.Group.Model
         }
         public TGCMatrix TransformPlataforma;
 
-        private GameModel Context;
+        private GameModel contexto;
         //
         public float VelocidadY = 0f;
         float VelocidadSalto = 90f;
@@ -38,10 +38,10 @@ namespace TGC.Group.Model
         private bool PuedeSaltar;
         //
 
-        public void Init(GameModel context)
+        public void Init(GameModel contexto)
         {
-            Context = context;
-            string mediaDir = context.MediaDir;
+            this.contexto = contexto;
+            string mediaDir = contexto.MediaDir;
             PuedeSaltar = true;
 
             var skeletalLoader = new TgcSkeletalLoader();
@@ -68,8 +68,8 @@ namespace TGC.Group.Model
 
         public void Update()
         {
-            var elapsedTime = Context.ElapsedTime;
-            var input = Context.Input;
+            var elapsedTime = contexto.ElapsedTime;
+            var input = contexto.Input;
 
             var velocidadCaminar = VelocidadDesplazamiento * elapsedTime;
 
@@ -133,6 +133,8 @@ namespace TGC.Group.Model
             {
                 Mesh.playAnimation("Parado", true);
             }
+
+            contexto.camara.Target = Position;
         }
 
         public void Render()
@@ -145,9 +147,9 @@ namespace TGC.Group.Model
 
             Mesh.BoundingBox.transform(Mesh.Transform);
 
-            Mesh.animateAndRender(Context.ElapsedTime);
+            Mesh.animateAndRender(contexto.ElapsedTime);
 
-            if (Context.BoundingBox)
+            if (contexto.BoundingBox)
             {
                 Mesh.BoundingBox.Render();
             }
