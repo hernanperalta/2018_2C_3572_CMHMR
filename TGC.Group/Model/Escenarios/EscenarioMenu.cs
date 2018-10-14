@@ -20,6 +20,7 @@ namespace TGC.Group.Model.Escenarios
         private TGCQuad quad;
         private Accion accion;
         public TgcBoundingAxisAlignBox AABB;
+        private float sizeX = 20, sizeY = 4;
 
         public Boton(TGCVector3 centro, Accion accion)
         {
@@ -27,17 +28,19 @@ namespace TGC.Group.Model.Escenarios
             quad = new TGCQuad();
 
             quad.Center = centro;
-            quad.Size = new TGCVector2(50, 4);
-            quad.Normal = new TGCVector3(0, 1, 0);
+            quad.Size = new TGCVector2(sizeX, sizeY);
+            quad.Normal = new TGCVector3(0, 0, 1);
             quad.Color = Color.DarkCyan;
             quad.updateValues();
             var s = quad.Size * 0.5f;
-            AABB = new TgcBoundingAxisAlignBox(quad.Center - new TGCVector3(s.X, 0, s.Y), quad.Center + new TGCVector3(s.X, 0, s.Y), quad.Center, new TGCVector3(1, 1, 1));
+            AABB = new TgcBoundingAxisAlignBox(new TGCVector3(centro.X + sizeX/2, centro.Y - sizeY/2, centro.Z), new TGCVector3(centro.X - sizeX / 2, centro.Y + sizeY / 2, centro.Z));
+            //AABB = new TgcBoundingAxisAlignBox(quad.Center - new TGCVector3(s.X, 0, s.Y), quad.Center + new TGCVector3(s.X, 0, s.Y), quad.Center, new TGCVector3(1, 1, 1));
         }
 
         public void Render(GameModel contexto)
         {
             quad.Render();
+            AABB.Render();
         }
 
         public void Accion()
@@ -51,24 +54,25 @@ namespace TGC.Group.Model.Escenarios
         private List<Boton> botones = new List<Boton>();
         private TgcPickingRay pickingRay;
         protected TgcMp3Player cancionPpal = new TgcMp3Player();
+        public TGCVector3 lookAt;
 
         public EscenarioMenu(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
 
         protected override void Init()
         {
-            botones.Add(
-                new Boton(new TGCVector3(0, 0, 0), () => {
-                    contexto.CambiarEscenario("playa");
-                    contexto.ActualizarCamara();
-                })
-            );
-
             pickingRay = new TgcPickingRay(contexto.Input);
             cancionPpal.FileName = contexto.MediaDir + "\\musica\\crash.mp3";
 
             contexto.Camara = new Core.Camara.TgcCamera();
-            var pos = new TGCVector3(0, 100, 0);
-            contexto.Camara.SetCamera(pos, new TGCVector3(pos.X, 0, pos.Z - 1));
+            lookAt = new TGCVector3(0, 50, 400);
+            contexto.Camara.SetCamera(new TGCVector3(lookAt.X, lookAt.Y, lookAt.Z + 30), lookAt);
+
+            botones.Add(
+                new Boton(new TGCVector3(lookAt.X, lookAt.Y, lookAt.Z), () => {
+                    contexto.CambiarEscenario("playa");
+                    contexto.ActualizarCamara();
+                })
+            );
         }
 
         public override void Update()
