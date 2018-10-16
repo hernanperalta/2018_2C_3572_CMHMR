@@ -10,14 +10,14 @@ namespace TGC.Group.Model
         //Escenas
         private TgcScene scene;
 
-        public EscenarioCamino(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
+        public EscenarioCamino(GameModel contexto, Personaje personaje) : base(contexto, personaje, 0, 0) { }
 
         protected override void Init()
         {
             var loader = new TgcSceneLoader();
-            scene = loader.loadSceneFromFile(GameModel.Media + "\\primer-nivel\\pozo-plataformas\\tgc-scene\\caminos\\");
+            scene = loader.loadSceneFromFile(GameModel.Media + "\\escenarios\\caminos\\");
 
-            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoHorizontal-TgcScene.xml").Meshes[0];
+            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
 
             planoDer = planoIzq.createMeshInstance("planoDer");

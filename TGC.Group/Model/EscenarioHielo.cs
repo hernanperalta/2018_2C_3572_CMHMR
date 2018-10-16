@@ -10,7 +10,7 @@ namespace TGC.Group.Model
         //Escenas
         private TgcScene scene;
 
-        public EscenarioHielo(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
+        public EscenarioHielo(GameModel contexto, Personaje personaje) : base(contexto, personaje, 0 ,0) { }
 
         protected override void Init()
         {

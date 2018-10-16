@@ -32,10 +32,9 @@ namespace TGC.Group.Model
         }
 
 
-        public Personaje(GameModel context) : base (context)
+        public Personaje(GameModel contexto) : base (contexto)
         {
-            this.contexto = contexto;
-            string mediaDir = contexto.MediaDir;
+            string mediaDir = Context.MediaDir;
             PuedeSaltar = true;
 
             var skeletalLoader = new TgcSkeletalLoader();
@@ -62,8 +61,8 @@ namespace TGC.Group.Model
 
         public override void Update()
         {
-            var elapsedTime = contexto.ElapsedTime;
-            var input = contexto.Input;
+            var elapsedTime = Context.ElapsedTime;
+            var input = Context.Input;
 
             var velocidadCaminar = VelocidadDesplazamiento * elapsedTime;
 
@@ -122,7 +121,7 @@ namespace TGC.Group.Model
                 Mesh.playAnimation("Parado", true);
             }
 
-            contexto.camara.Target = Position;
+            Context.camara.Target = Position;
         }
 
         public void Render()
@@ -135,9 +134,9 @@ namespace TGC.Group.Model
 
             Mesh.BoundingBox.transform(Mesh.Transform);
 
-            Mesh.animateAndRender(contexto.ElapsedTime);
+            Mesh.animateAndRender(Context.ElapsedTime);
 
-            if (contexto.BoundingBox)
+            if (Context.BoundingBox)
             {
                 Mesh.BoundingBox.Render();
             }

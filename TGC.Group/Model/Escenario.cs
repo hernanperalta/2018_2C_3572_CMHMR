@@ -26,7 +26,7 @@ namespace TGC.Group.Model
         public int farLimit;
         protected List<TgcBoundingAxisAlignBox> colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
 
-        protected Escenario(GameModel contexto, Personaje personaje, int nearLimit, int farLimit) {
+        protected Escenario(GameModel contexto, Personaje personaje, int nearLimit = 0, int farLimit = 0) {
             this.contexto = contexto;
             this.personaje = personaje;
             this.cajas = new List<Caja>();

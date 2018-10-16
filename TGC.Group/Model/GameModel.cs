@@ -75,11 +75,11 @@ namespace TGC.Group.Model
 
             escenarios["playa"] = new EscenarioPlaya(this, personaje);
 
-            escenarios["playa"].siguiente = escenarioPlataforma;
-
             escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
 
-            //escenarios["camino"] = new EscenarioCamino(this, personaje);
+            escenarios["playa"].siguiente = escenarios["plataforma"];
+
+          //escenarios["camino"] = new EscenarioCamino(this, personaje);
 
             escenarios["pozo"] = new EscenarioPozo(this, personaje);
 
