@@ -33,8 +33,7 @@ namespace TGC.Group.Model.Escenarios
             quad.Color = Color.DarkCyan;
             quad.updateValues();
             var s = quad.Size * 0.5f;
-            AABB = new TgcBoundingAxisAlignBox(new TGCVector3(centro.X + sizeX/2, centro.Y - sizeY/2, centro.Z), new TGCVector3(centro.X - sizeX / 2, centro.Y + sizeY / 2, centro.Z));
-            //AABB = new TgcBoundingAxisAlignBox(quad.Center - new TGCVector3(s.X, 0, s.Y), quad.Center + new TGCVector3(s.X, 0, s.Y), quad.Center, new TGCVector3(1, 1, 1));
+            AABB = new TgcBoundingAxisAlignBox(new TGCVector3(centro.X - sizeX/2, centro.Y - sizeY/2, centro.Z), new TGCVector3(centro.X + sizeX / 2, centro.Y + sizeY / 2, centro.Z));
         }
 
         public void Render(GameModel contexto)
