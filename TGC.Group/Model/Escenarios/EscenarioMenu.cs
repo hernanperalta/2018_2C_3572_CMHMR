@@ -82,7 +82,7 @@ namespace TGC.Group.Model.Escenarios
             }
         }
 
-        public override void Render()
+        public override void Renderizar()
         {
             if (contexto.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
             {
