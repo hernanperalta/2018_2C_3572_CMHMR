@@ -47,7 +47,18 @@ namespace TGC.Group.Model
 
         protected abstract void Init();
 
-        public abstract void Render();
+        public virtual void Render() {
+            if (cajas.Count != 0) {
+                cajas.ForEach((caja) => caja.Render());
+            }
+
+            if(contexto.BoundingBox)
+                cajas.ForEach((caja) => { caja.RenderizaRayos(); });
+
+            Renderizar();
+        }
+
+        public abstract void Renderizar();
 
         public virtual void Update() {
             cajas.ForEach((caja) => caja.Update());
