@@ -2,9 +2,9 @@
 {
     internal class AplicarTransformacionDePlataformaAPersonaje : IAnteColision
     {
-        public void Colisionar(MeshTipoCaja meshTipoCaja, Personaje personaje)
+        public void Colisionar(MeshTipoCaja meshTipoCaja, Colisionable colisionable)
         {
-            personaje.Mesh.Transform = meshTipoCaja.mesh.Transform;
+            ((Personaje)colisionable).TransformPlataforma = meshTipoCaja.mesh.Transform; // FEO FEO FEO FEO FEO
         }
     }
 }

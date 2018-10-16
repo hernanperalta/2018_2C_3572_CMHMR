@@ -36,7 +36,7 @@ namespace TGC.Group.Model
         }
         public bool BoundingBox { get; set; }
         private const float VELOCIDAD_DESPLAZAMIENTO = 50f;
-        private Personaje personaje = new Personaje();
+        private Personaje personaje;
         public GameCamera camara;
         
         private Dictionary<string, Escenario> escenarios;
@@ -62,7 +62,7 @@ namespace TGC.Group.Model
             //Device de DirectX para crear primitivas.
             var d3dDevice = D3DDevice.Instance.Device;
 
-            personaje.Init(this);
+            personaje = new Personaje(this);
 
             cargarEscenarios();
 
@@ -74,6 +74,8 @@ namespace TGC.Group.Model
             escenarios = new Dictionary<string, Escenario>();
 
             escenarios["playa"] = new EscenarioPlaya(this, personaje);
+
+            escenarios["playa"].siguiente = escenarioPlataforma;
 
             escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
 
@@ -149,8 +151,6 @@ namespace TGC.Group.Model
             {
                 BoundingBox = !BoundingBox;
             }
-
-            //camara.Target = personaje.Position;
 
             PostUpdate();
         }

@@ -4,6 +4,6 @@ namespace TGC.Group.Model
 {
     public interface IAnteColision
     {
-        void Colisionar(MeshTipoCaja meshTipoCaja, Personaje personaje);
+        void Colisionar(MeshTipoCaja meshTipoCaja, Colisionable colisionable);
     }
 }

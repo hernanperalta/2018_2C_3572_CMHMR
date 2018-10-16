@@ -11,41 +11,42 @@ namespace TGC.Group.Model
     public class Plataforma : MeshTipoCaja
     {
 
-        public Plataforma(TGCVector3 posicionInicial, TgcMesh mesh) : base(posicionInicial, mesh)
-        {
+        public TGCMatrix transformacion;
 
+        public Plataforma(TGCVector3 posicionInicial, TgcMesh mesh, GameModel Context) : base(posicionInicial, mesh, Context)
+        {
+            this.transformacion = TGCMatrix.Zero;
         }
 
-        public override void Update(TGCMatrix movimiento)
+        public override void Movete()
         {
-            mesh.Transform = movimiento;
+            mesh.Transform = transformacion;
             mesh.BoundingBox.transform(mesh.Transform);
-            base.Update(movimiento);
         }
 
         protected override void GenerarCaras()
         {
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
-                                 .Accion(new ChoqueRigido())
+                                 .Accion(new ChoqueRigido(Eje.Z))
                                  .CaraZ(ModificacionEnY())
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
-                                 .Accion(new ChoqueRigido())
+                                 .Accion(new ChoqueRigido(Eje.MenosZ))
                                  .CaraMenosZ(ModificacionEnY())
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
-                                 .Accion(new ChoqueRigido())
+                                 .Accion(new ChoqueRigido(Eje.X))
                                  .CaraX(ModificacionEnY())
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
-                                 .Accion(new ChoqueRigido())
+                                 .Accion(new ChoqueRigido(Eje.MenosX))
                                  .CaraMenosX(ModificacionEnY())
                                  .Build());
 
@@ -58,7 +59,7 @@ namespace TGC.Group.Model
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
-                                 .Accion(new ChoqueRigido())
+                                 .Accion(new ChoqueRigido(Eje.MenosY))
                                  .CaraMenosY()
                                  .Build());
         }

@@ -10,35 +10,29 @@ using TGC.Core.BoundingVolumes;
 
 namespace TGC.Group.Model
 {
-    public class Personaje
+    public class Personaje : Colisionable
     {
         public TgcSkeletalMesh Mesh { get; set; }
-        public bool moving;
-        public bool colisionaEnY;
+        
         private TGCMatrix ultimaPosicion;
-        public TGCVector3 movimiento;
+        //public TGCVector3 movimiento;
         private const float VelocidadDesplazamiento = 50f;
         public TGCVector3 Position
         {
             get => Mesh.Transform.Origin;
         }
-        public TgcBoundingAxisAlignBox BoundingBox
-        {
-            get => Mesh.BoundingBox;
-        }
+        
         public TGCMatrix TransformPlataforma;
 
-        private GameModel contexto;
-        //
-        public float VelocidadY = 0f;
-        float VelocidadSalto = 90f;
-        float Gravedad = -60f;
-        float VelocidadTerminal = -50f;
-        float DesplazamientoMaximoY = 5f;
         private bool PuedeSaltar;
-        //
+        
+        public override TgcBoundingAxisAlignBox BoundingBox()
+        {
+            return this.Mesh.BoundingBox;
+        }
 
-        public void Init(GameModel contexto)
+
+        public Personaje(GameModel context) : base (context)
         {
             this.contexto = contexto;
             string mediaDir = contexto.MediaDir;
@@ -66,7 +60,7 @@ namespace TGC.Group.Model
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
         }
 
-        public void Update()
+        public override void Update()
         {
             var elapsedTime = contexto.ElapsedTime;
             var input = contexto.Input;
@@ -109,13 +103,7 @@ namespace TGC.Group.Model
                 VelocidadY = VelocidadSalto;
             }
 
-            if (!colisionaEnY)
-            {
-                VelocidadY = FastMath.Clamp(VelocidadY + Gravedad * elapsedTime, VelocidadTerminal, -VelocidadTerminal);
-
-                movimiento += new TGCVector3(0, FastMath.Clamp(VelocidadY * elapsedTime, -DesplazamientoMaximoY, DesplazamientoMaximoY), 0);
-                moving = true;
-            }
+            base.Update();
         }
 
         public void Movete(TGCVector3 movimiento)
@@ -160,11 +148,18 @@ namespace TGC.Group.Model
             Mesh.Dispose();
         }
 
-        internal void ColisionoEnY()
+        public override void ColisionoEnY()
         {
             this.colisionaEnY = true;
             if (movimiento.X == 0 && movimiento.Z == 0)
                 this.moving = false;
         }
+
+        public void Restaurar()
+        {
+            Movete(new TGCVector3(0,+30, 200));
+        }
+
+        
     }
 }

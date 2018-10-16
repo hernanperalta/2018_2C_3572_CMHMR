@@ -11,28 +11,38 @@ using TGC.Core.BoundingVolumes;
 
 namespace TGC.Group.Model
 {
-    public abstract class MeshTipoCaja
+    public abstract class MeshTipoCaja : Colisionable
     {
         public TgcMesh mesh;
-        public TgcBoundingAxisAlignBox BoundingBox {
-            get => this.mesh.BoundingBox;
-        }
-        
+
         protected TGCVector3 posicionInicial;
+        public TGCVector3 Position {
+            get => this.mesh.Position;
+        }
         protected List<Cara> caras;
 
-        protected MeshTipoCaja(TGCVector3 posicionInicial, TgcMesh mesh)
+        public override TgcBoundingAxisAlignBox BoundingBox() {
+            return this.mesh.BoundingBox;
+        }
+
+        protected MeshTipoCaja(TGCVector3 posicionInicial, TgcMesh mesh, GameModel Context) : base(Context)
         {
             this.mesh = mesh;
             this.caras = new List<Cara>();
           
             this.posicionInicial = posicionInicial;
+            this.movimiento = TGCVector3.Empty;
 
             mesh.AutoTransform = false;
             mesh.Transform = TGCMatrix.Translation(posicionInicial);
             mesh.BoundingBox.transform(mesh.Transform);
 
             GenerarCaras();
+        }
+
+        public TGCVector3 Movimiento()
+        {
+            return this.movimiento;
         }
 
         protected abstract void GenerarCaras();
@@ -48,15 +58,19 @@ namespace TGC.Group.Model
             mesh.Render();
         }
 
-        public virtual void Update(TGCMatrix movimientoCaja) {
+        public override void Update() {
+            this.movimiento = TGCVector3.Empty; 
+            base.Update();
             ClearCaras();
             GenerarCaras();
         }
 
-        public void TestearColisionContra(Personaje personaje) {
+        public abstract void Movete();
+
+        public void TestearColisionContra(Colisionable colisionable) {
             foreach (Cara cara in caras)
             {
-                cara.TesteoDeColision(personaje);
+                cara.TesteoDeColision(colisionable);
             }
         }
 

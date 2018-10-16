@@ -16,7 +16,8 @@ namespace TGC.Group.Model
 
         // Planos de limite
 
-        public EscenarioPlaya(GameModel contexto, Personaje personaje) : base (contexto, personaje){
+        public EscenarioPlaya(GameModel contexto, Personaje personaje) : base (contexto, personaje, 0, (335*(-1)))
+        {
             
         }
 
@@ -65,12 +66,11 @@ namespace TGC.Group.Model
         }
 
         private void GenerarCajas() {
-            cajas = new List<Caja>();
-
             var loader = new TgcSceneLoader();
             var mesh = loader.loadSceneFromFile(GameModel.Media + "objetos\\caja\\caja-TgcScene.xml").Meshes[0];
-
-            cajas.Add(new Caja(new TGCVector3(0,0,-100), mesh));
+            var mesh2 = mesh.createMeshInstance("mesh2");
+            cajas.Add(new Caja(new TGCVector3(0,0,-100), mesh, contexto));
+            cajas.Add(new Caja(new TGCVector3(0, 20, -150), mesh2, contexto));
         }
 
         public override void Render() {
@@ -88,21 +88,19 @@ namespace TGC.Group.Model
             }
         }
 
-        public override void Update()
-        {
-            
-        }
 
-        public override void Colisiones()
-        {
-            movimiento = personaje.movimiento;
+        //public override void Colisiones()
+        //{
+        //    CalcularColisionesConPlanos();
 
-            CalcularColisionesConPlanos();
+        //    CalcularColisionesConMeshes();
 
-            CalcularColisionesConMeshes();
+        //    CalcularColisionesEntreMeshes();
 
-            personaje.Movete(movimiento);
-        }
+        //    CalcularEfectoGravedadEnMeshes();
+
+        //    personaje.Movete(personaje.movimiento);
+        //}
 
         public override void CalcularColisionesConPlanos()
         {
@@ -128,25 +126,16 @@ namespace TGC.Group.Model
 
                 if (ChocoConLimite(personaje, planoPiso))
                 {
-                    if (movimiento.Y < 0)
+                    if (personaje.movimiento.Y < 0)
                     {
-                        movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
+                        personaje.movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
                         personaje.ColisionoEnY();
                     }
                 }
             }
         }
 
-        public override void CalcularColisionesConMeshes()
-        {
-            if (personaje.moving)
-            {
-                foreach (Caja caja in cajas)
-                {
-                    caja.TestearColisionContra(personaje);
-                }
-            }
-        }
+        
 
         public override List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
         {

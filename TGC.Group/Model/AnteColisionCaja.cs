@@ -14,7 +14,7 @@ namespace TGC.Group.Model
 
         }
 
-        public abstract void Colisionar(MeshTipoCaja meshTipoCaja, Personaje personaje);
+        public abstract void Colisionar(MeshTipoCaja meshTipoCaja, Colisionable colisionable);
 
     }
 }
