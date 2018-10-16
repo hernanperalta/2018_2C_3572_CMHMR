@@ -74,10 +74,10 @@ namespace TGC.Group.Model
                if(siguiente != null)
                     this.siguiente.AgregarCaja(caja); // esto no va, solo esta pa probar 
 
-                if (caja.Position.Z <= -100/*farLimit*/) {
-                    this.siguiente.AgregarCaja(caja);
-                    this.QuitarCaja(caja);
-                }
+                //if (caja.Position.Z <= -100/*farLimit*/) {
+                //    this.siguiente.AgregarCaja(caja);
+                //    this.QuitarCaja(caja);
+                //}
             }
         }
 
