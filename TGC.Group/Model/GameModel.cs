@@ -62,9 +62,6 @@ namespace TGC.Group.Model
             cargarEscenarios();
 
             BoundingBox = false;
-
-            camara = new GameCamera(personaje.Position, 60, 200);
-            Camara = camara;
         }
 
         public void cargarEscenarios()
@@ -102,6 +99,9 @@ namespace TGC.Group.Model
 
         public void actualizarEscenario()
         {
+            if (escenarioActual.GetType().Equals(typeof(EscenarioMenu)))
+                return;
+
             float posicionMeshEjeZ = personaje.Mesh.Transform.Origin.Z;
 
             if (between(posicionMeshEjeZ, -330f, 0f))
