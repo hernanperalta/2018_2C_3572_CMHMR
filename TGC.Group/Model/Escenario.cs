@@ -34,7 +34,7 @@ namespace TGC.Group.Model
         public void AgregarCaja(Caja nuevaCaja) {
             if (!cajas.Contains(nuevaCaja)) {
                 this.cajas.Add(nuevaCaja);
-                CalcularEfectoGravedadEnMeshes();
+                //CalcularEfectoGravedadEnMeshes();
             }
             
         }
@@ -64,6 +64,7 @@ namespace TGC.Group.Model
 
             VerificarSiAlgunMeshSalioDelEscenario();
 
+            cajas.ForEach((caja) => caja.Movete());
             personaje.Movete(personaje.movimiento);
         }
 
@@ -107,7 +108,8 @@ namespace TGC.Group.Model
         {
             foreach (Caja caja in cajas)
             {
-               caja.colisionaEnY = !caja.EstaEnElPiso(planoPiso);
+                if (caja.EstaEnElPiso(planoPiso))
+                    caja.movimiento.Y = 0;
             }
         }
 

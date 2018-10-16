@@ -59,7 +59,7 @@ namespace TGC.Group.Model
             var mesh2 = mesh.createMeshInstance("mesh2");
 
             cajas.Add(new Caja(new TGCVector3(0,0,-100), mesh, contexto));
-            cajas.Add(new Caja(new TGCVector3(0, 0, -150), mesh2, contexto));
+            cajas.Add(new Caja(new TGCVector3(0, 20, -150), mesh2, contexto));
         }
 
         public override void Render() {
@@ -76,10 +76,6 @@ namespace TGC.Group.Model
             }
         }
 
-        //public override void Update()
-        //{
-        //   //cajas.ForEach((caja) => caja.Update());
-        //}
 
         //public override void Colisiones()
         //{

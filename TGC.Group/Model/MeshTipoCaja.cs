@@ -58,13 +58,14 @@ namespace TGC.Group.Model
             mesh.Render();
         }
 
-        public virtual void Update(TGCMatrix movimientoCaja) {
-            this.movimiento = movimientoCaja.Origin;
-            
+        public override void Update() {
+            this.movimiento = TGCVector3.Empty; 
+            base.Update();
             ClearCaras();
             GenerarCaras();
-            base.Update();
         }
+
+        public abstract void Movete();
 
         public void TestearColisionContra(Colisionable colisionable) {
             foreach (Cara cara in caras)

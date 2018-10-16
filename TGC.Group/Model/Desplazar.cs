@@ -33,9 +33,10 @@ namespace TGC.Group.Model
         {
             if (SeEstaMoviendoHaciaMi(colisionable))
             {
-                var movimientoCaja = TGCMatrix.Translation(Desplazamiento(colisionable)); // + distancia minima del rayo
+                //var movimientoCaja = TGCMatrix.Translation(Desplazamiento(colisionable)); // + distancia minima del rayo
                 AgregarRozamiento(colisionable);
-                meshTipoCaja.Update(movimientoCaja);
+                //meshTipoCaja.Update(movimientoCaja);
+                meshTipoCaja.movimiento += Desplazamiento(colisionable);
             }
         }
 

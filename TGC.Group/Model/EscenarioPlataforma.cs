@@ -97,7 +97,9 @@ namespace TGC.Group.Model
             transformacionBox = Mover * Trasladar * Rot * Trasladar * RotInversa;
             //transformacionBox2 = Mover2 * Trasladar2 * RotInversa * Trasladar2 * Rot;
 
-            plataforma1.Update(transformacionBox);
+            plataforma1.Update();
+            plataforma1.transformacion = transformacionBox;
+            plataforma1.Movete();
             //plataforma2.Update(transformacionBox2);
             Console.WriteLine(String.Format("VOY A MOSTRAR LAS CAJAS:"));
 

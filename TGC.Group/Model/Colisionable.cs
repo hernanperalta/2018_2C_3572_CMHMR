@@ -33,14 +33,14 @@ namespace TGC.Group.Model
         }
 
         public virtual void Update() {
-            if (!colisionaEnY)
-            {
+            //if (!colisionaEnY)
+            //{
                 VelocidadY = FastMath.Clamp(VelocidadY + Gravedad * Context.ElapsedTime, VelocidadTerminal, -VelocidadTerminal);
 
                 movimiento += new TGCVector3(0, FastMath.Clamp(VelocidadY * Context.ElapsedTime, -DesplazamientoMaximoY, DesplazamientoMaximoY), 0);
                 moving = true;
-            }
-
+            //}
+            
             //this.colisionaEnY = false;
         }
 

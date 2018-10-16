@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
+using TGC.Core.Collision;
 
 namespace TGC.Group.Model
 {
@@ -52,12 +53,10 @@ namespace TGC.Group.Model
                                  .Build());
         }
 
-        public override void Update(TGCMatrix movimientoCaja)
+        public override void Movete()
         {
-            base.Update(movimientoCaja);
             mesh.Transform *= TGCMatrix.Translation(movimiento);
             mesh.BoundingBox.transform(mesh.Transform);
-            
         }
 
         protected override int ModificacionEnY()
@@ -67,7 +66,7 @@ namespace TGC.Group.Model
 
         public bool EstaEnElPiso(TgcMesh planoPiso)
         {
-            return this.caras.Any((cara) => cara.rayos.Any((rayo) => rayo.Colisionar(planoPiso.BoundingBox) && rayo.HuboColision()));
+            return TgcCollisionUtils.testAABBAABB(mesh.BoundingBox, planoPiso.BoundingBox);//this.caras.Any((cara) => cara.rayos.Any((rayo) => rayo.Colisionar(planoPiso.BoundingBox) && rayo.HuboColision()));
         } // esto rompe todo el encapsulamiento, habria que hacer una clase Plano que extienda de TieneBoundingBox (y que Colisionable tambien extienda de eso), entonces el testeo de colision de los rayos se hace con algo de tipo "TieneBoundingBox"
     }
 }

@@ -11,17 +11,17 @@ namespace TGC.Group.Model
     public class Plataforma : MeshTipoCaja
     {
 
+        public TGCMatrix transformacion;
+
         public Plataforma(TGCVector3 posicionInicial, TgcMesh mesh, GameModel Context) : base(posicionInicial, mesh, Context)
         {
-
+            this.transformacion = TGCMatrix.Zero;
         }
 
-        public override void Update(TGCMatrix movimiento)
+        public override void Movete()
         {
-            this.colisionaEnY = false;
-            mesh.Transform = movimiento;
+            mesh.Transform = transformacion;
             mesh.BoundingBox.transform(mesh.Transform);
-            base.Update(movimiento);
         }
 
         protected override void GenerarCaras()
