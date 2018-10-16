@@ -5,47 +5,19 @@ using TGC.Core.SceneLoader;
 
 namespace TGC.Group.Model
 {
-    public class EscenarioPlataforma : Escenario
+    public class EscenarioCamino : Escenario
     {
-
         //Escenas
         private TgcScene scene;
 
-        //Plataformas
-        private TgcMesh plataforma1Mesh;
-        //private TgcMesh plataforma2Mesh;
-        private Plataforma plataforma1;
-        //private MeshTipoCaja plataforma2;
-        //Transformaciones
-        private TGCMatrix transformacionBox;
-        //private TGCMatrix transformacionBox2;
-
-        //Constantes para velocidades de movimiento
-        private const float MOVEMENT_SPEED = 1f;
-        private float orbitaDeRotacion;
-
-        public EscenarioPlataforma(GameModel contexto, Personaje personaje) : base(contexto, personaje)
-        {
-
-        }
+        public EscenarioCamino(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
 
         protected override void Init()
         {
             var loader = new TgcSceneLoader();
-            scene = loader.loadSceneFromFile(GameModel.Media + "\\escenarios\\plataformas\\plataformas-TgcScene.xml");
+            scene = loader.loadSceneFromFile(GameModel.Media + "\\primer-nivel\\pozo-plataformas\\tgc-scene\\caminos\\");
 
-            var scene2 = loader.loadSceneFromFile(GameModel.Media + "\\objetos\\plataforma\\plataforma-TgcScene.xml");
-
-            plataforma1Mesh = scene2.Meshes[0];
-            //plataforma2Mesh = plataforma1Mesh.createMeshInstance(plataforma1Mesh.Name + "2");
-
-            plataforma1Mesh.AutoTransform = false;
-            //plataforma2Mesh.AutoTransform = false;
-
-            plataforma1 = new Plataforma(new TGCVector3(0,0,0), plataforma1Mesh);
-            //plataforma2 = new MeshTipoCaja(new TGCVector3(0, 0, 0), plataforma2Mesh);
-
-            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
+            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
 
             planoDer = planoIzq.createMeshInstance("planoDer");
@@ -59,7 +31,7 @@ namespace TGC.Group.Model
             //planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
             //planoFront.AutoTransform = false;
 
-            planoBack = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
+            planoBack = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
             planoBack.AutoTransform = false;
             planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
             planoBack.BoundingBox.transform(planoBack.Transform);
@@ -67,34 +39,13 @@ namespace TGC.Group.Model
             //planoFront.Transform = TGCMatrix.Translation(50, 0, -535);
             //planoFront.BoundingBox.transform(planoFront.Transform);
 
-            planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
+            planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
             planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, -20, -200));
 
         }
 
-        public override void Update()
-        {
-            //Muevo las plataformas
-            var Mover = TGCMatrix.Translation(0, 0, -10);
-            var Mover2 = TGCMatrix.Translation(0, 0, 65);
-
-            //Punto por donde va a rotar
-            var Trasladar = TGCMatrix.Translation(0, 0, 10);
-            var Trasladar2 = TGCMatrix.Translation(0, 0, -10);
-
-            //Aplico la rotacion
-            var Rot = TGCMatrix.RotationX(orbitaDeRotacion);
-
-            //Giro para que la caja quede derecha
-            var RotInversa = TGCMatrix.RotationX(-orbitaDeRotacion);
-
-            transformacionBox = Mover * Trasladar * Rot * Trasladar * RotInversa;
-            //transformacionBox2 = Mover2 * Trasladar2 * RotInversa * Trasladar2 * Rot;
-
-            plataforma1.Update(transformacionBox);
-            //plataforma2.Update(transformacionBox2);
-        }
+        public override void Update() { }
 
         public override void Colisiones()
         {
@@ -107,21 +58,7 @@ namespace TGC.Group.Model
             personaje.Movete(movimiento);
         }
 
-        public override void CalcularColisionesConMeshes()
-        {
-            plataforma1.TestearColisionContra(personaje);
-
-            // NO BORRAR TODAVIA
-            //if (plataforma1.TestearColisionContra(personaje))
-            //{
-            //    if (movimiento.Y < 0)
-            //    {
-            //        movimiento.Y = 0;
-            //        personaje.ColisionoEnY();
-            //    }
-            //    personaje.TransformPlataforma = transformacionBox;
-            //}
-        }
+        public override void CalcularColisionesConMeshes() { }
 
         public override void CalcularColisionesConPlanos()
         {
@@ -173,18 +110,6 @@ namespace TGC.Group.Model
             //Dibujamos la escena
             scene.RenderAll();
 
-            //Dibujar la primera plataforma en pantalla
-            plataforma1Mesh.Transform = transformacionBox;
-            plataforma1Mesh.Render();
-            plataforma1Mesh.BoundingBox.transform(plataforma1Mesh.Transform);
-            plataforma1Mesh.BoundingBox.Render();
-
-            //Dibujar la segunda plataforma en pantalla
-            //plataforma2Mesh.Transform = transformacionBox2;
-            //plataforma2Mesh.Render();
-            //plataforma2Mesh.BoundingBox.transform(plataforma2Mesh.Transform);
-            //plataforma2Mesh.BoundingBox.Render();
-
             if (contexto.BoundingBox)
             {
                 planoBack.BoundingBox.Render();
@@ -192,18 +117,14 @@ namespace TGC.Group.Model
                 planoIzq.BoundingBox.Render();
                 planoDer.BoundingBox.Render();
                 planoPiso.BoundingBox.Render();
-                plataforma1.RenderizaRayos();
+                //plataforma1.RenderizaRayos();
                 //plataforma2.RenderizaRayos();
             }
-
-            //Recalculamos la orbita de rotacion
-            orbitaDeRotacion += MOVEMENT_SPEED * contexto.ElapsedTime;
         }
 
         public override void DisposeAll()
         {
             scene.DisposeAll();
-            plataforma1Mesh.Dispose();
         }
     }
 }

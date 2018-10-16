@@ -46,12 +46,12 @@ namespace TGC.Group.Model
 
             var skeletalLoader = new TgcSkeletalLoader();
             Mesh = skeletalLoader.loadMeshAndAnimationsFromFile(
-                mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Robot-TgcSkeletalMesh.xml",
-                mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\",
+                mediaDir + "objetos\\robot\\Robot-TgcSkeletalMesh.xml",
+                mediaDir + "objetos\\robot\\",
                 new[]
                 {
-                    mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Caminando-TgcSkeletalAnim.xml",
-                    mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Parado-TgcSkeletalAnim.xml"
+                    mediaDir + "objetos\\robot\\Caminando-TgcSkeletalAnim.xml",
+                    mediaDir + "objetos\\robot\\Parado-TgcSkeletalAnim.xml"
                 });
 
 
