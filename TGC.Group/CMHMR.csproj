@@ -91,6 +91,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
+    <Compile Include="Model\AnteColision.cs" />
+    <Compile Include="Model\AnteColisionCaja.cs" />
+    <Compile Include="Model\AplicarTransformacionDePlataformaAPersonaje.cs" />
+    <Compile Include="Model\Caja.cs" />
+    <Compile Include="Model\CambiarPisoAlPersonaje.cs" />
+    <Compile Include="Model\Cara.cs" />
+    <Compile Include="Model\CaraBuilder.cs" />
+    <Compile Include="Model\CaraX.cs" />
+    <Compile Include="Model\CaraY.cs" />
+    <Compile Include="Model\CaraZ.cs" />
+    <Compile Include="Model\Desplazar.cs" />
     <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\EscenarioCamino.cs" />
     <Compile Include="Model\EscenarioHielo.cs" />
@@ -98,9 +109,12 @@
     <Compile Include="Model\EscenarioPozo.cs" />
     <Compile Include="Model\EscenarioPlataforma.cs" />
     <Compile Include="Model\EscenarioPlaya.cs" />
+    <Compile Include="Model\Escenarios\EscenarioMenu.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\MeshTipoCaja.cs" />
+    <Compile Include="Model\ChoqueRigido.cs" />
     <Compile Include="Model\Personaje.cs" />
+    <Compile Include="Model\Plataforma.cs" />
     <Compile Include="Model\Rayo.cs" />
     <Compile Include="Model\RayoX.cs" />
     <Compile Include="Model\RayoY.cs" />

@@ -14,7 +14,7 @@ namespace TGC.Group.Model
         //Plataformas
         private TgcMesh plataforma1Mesh;
         //private TgcMesh plataforma2Mesh;
-        private MeshTipoCaja plataforma1;
+        private Plataforma plataforma1;
         //private MeshTipoCaja plataforma2;
         //Transformaciones
         private TGCMatrix transformacionBox;
@@ -42,7 +42,7 @@ namespace TGC.Group.Model
             plataforma1Mesh.AutoTransform = false;
             //plataforma2Mesh.AutoTransform = false;
 
-            plataforma1 = new MeshTipoCaja(new TGCVector3(0,0,0), plataforma1Mesh, false);
+            plataforma1 = new Plataforma(new TGCVector3(0,0,0), plataforma1Mesh);
             //plataforma2 = new MeshTipoCaja(new TGCVector3(0, 0, 0), plataforma2Mesh);
 
             planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
@@ -109,15 +109,18 @@ namespace TGC.Group.Model
 
         public override void CalcularColisionesConMeshes()
         {
-            if (plataforma1.ChocoArriba(personaje))
-            {
-                if (movimiento.Y < 0)
-                {
-                    movimiento.Y = 0;
-                    personaje.ColisionoEnY();
-                }
-                personaje.TransformPlataforma = transformacionBox;
-            }
+            plataforma1.TestearColisionContra(personaje);
+
+            // NO BORRAR TODAVIA
+            //if (plataforma1.TestearColisionContra(personaje))
+            //{
+            //    if (movimiento.Y < 0)
+            //    {
+            //        movimiento.Y = 0;
+            //        personaje.ColisionoEnY();
+            //    }
+            //    personaje.TransformPlataforma = transformacionBox;
+            //}
         }
 
         public override void CalcularColisionesConPlanos()

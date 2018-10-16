@@ -11,7 +11,7 @@ namespace TGC.Group.Model
     {
         private TgcScene escena;
         
-        private List<MeshTipoCaja> cajas;
+        private List<Caja> cajas;
         // Planos de limite
 
         public EscenarioPlaya(GameModel contexto, Personaje personaje) : base (contexto, personaje){
@@ -54,12 +54,12 @@ namespace TGC.Group.Model
         }
 
         private void GenerarCajas() {
-            cajas = new List<MeshTipoCaja>();
+            cajas = new List<Caja>();
 
             var loader = new TgcSceneLoader();
             var mesh = loader.loadSceneFromFile(GameModel.Media + "objetos\\caja\\caja-TgcScene.xml").Meshes[0];
 
-            cajas.Add(new MeshTipoCaja(new TGCVector3(0,0,-100), mesh, true));
+            cajas.Add(new Caja(new TGCVector3(0,0,-100), mesh));
         }
 
         public override void Render() {
@@ -129,39 +129,9 @@ namespace TGC.Group.Model
         {
             if (personaje.moving)
             {
-                foreach (MeshTipoCaja caja in cajas)
+                foreach (Caja caja in cajas)
                 {
-                    if (caja.ChocoConFrente(personaje))
-                    {
-                        var movimientoCaja = TGCMatrix.Translation(0, 0, movimiento.Z); // + distancia minima del rayo
-                        movimiento.Z /= 3;
-                        caja.Update(movimientoCaja);
-                        break;
-                    }
-                    else if (caja.ChocoAtras(personaje))
-                    {
-                        NoMoverHacia(Key.S);
-                        break;
-                    }
-                    else if (caja.ChocoALaIzquierda(personaje))
-                    {
-                        NoMoverHacia(Key.D);
-                        break;
-                    }
-                    else if (caja.ChocoALaDerecha(personaje))
-                    {
-                        NoMoverHacia(Key.A);
-                        break;
-                    }
-                    else if (caja.ChocoArriba(personaje))
-                    {
-                        if (movimiento.Y < 0)
-                        {
-                            movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
-                            personaje.ColisionoEnY();
-                        }
-                        break;
-                    }
+                    caja.TestearColisionContra(personaje);
                 }
             }
         }
