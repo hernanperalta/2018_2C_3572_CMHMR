@@ -12,7 +12,6 @@ namespace TGC.Group.Model
     {
         private TgcScene escena;
         public TgcMesh planoArbol;
-        private List<Caja> cajas;
 
         // Planos de limite
 

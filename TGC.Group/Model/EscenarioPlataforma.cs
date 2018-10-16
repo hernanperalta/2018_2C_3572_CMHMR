@@ -101,14 +101,14 @@ namespace TGC.Group.Model
             plataforma1.transformacion = transformacionBox;
             plataforma1.Movete();
             //plataforma2.Update(transformacionBox2);
-            Console.WriteLine(String.Format("VOY A MOSTRAR LAS CAJAS:"));
+            //Console.WriteLine(String.Format("VOY A MOSTRAR LAS CAJAS:"));
 
             base.Update();
-            foreach (Caja caja in cajas)
-            {
+            //foreach (Caja caja in cajas)
+            //{
 
-                Console.WriteLine(String.Format("CAJAS : ", caja.ToString()));
-            }
+            //    Console.WriteLine(String.Format("CAJAS : ", caja.ToString()));
+            //}
 
         }
 
