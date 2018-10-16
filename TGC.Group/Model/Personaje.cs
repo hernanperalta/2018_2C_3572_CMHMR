@@ -24,12 +24,8 @@ namespace TGC.Group.Model
         
         public TGCMatrix TransformPlataforma;
 
-        
-        //
-  
         private bool PuedeSaltar;
-        //
-
+        
         public override TgcBoundingAxisAlignBox BoundingBox()
         {
             return this.Mesh.BoundingBox;
@@ -38,18 +34,18 @@ namespace TGC.Group.Model
 
         public Personaje(GameModel context) : base (context)
         {
-            Context = context;
-            string mediaDir = context.MediaDir;
+            this.contexto = contexto;
+            string mediaDir = contexto.MediaDir;
             PuedeSaltar = true;
 
             var skeletalLoader = new TgcSkeletalLoader();
             Mesh = skeletalLoader.loadMeshAndAnimationsFromFile(
-                mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Robot-TgcSkeletalMesh.xml",
-                mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\",
+                mediaDir + "objetos\\robot\\Robot-TgcSkeletalMesh.xml",
+                mediaDir + "objetos\\robot\\",
                 new[]
                 {
-                    mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Caminando-TgcSkeletalAnim.xml",
-                    mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Parado-TgcSkeletalAnim.xml"
+                    mediaDir + "objetos\\robot\\Caminando-TgcSkeletalAnim.xml",
+                    mediaDir + "objetos\\robot\\Parado-TgcSkeletalAnim.xml"
                 });
 
 
@@ -60,14 +56,14 @@ namespace TGC.Group.Model
             Mesh.playAnimation("Parado", true);
             //Escalarlo porque es muy grande
             Mesh.Position = new TGCVector3(0, 0, 50);
-            Mesh.Scale = new TGCVector3(0.15f, 0.15f, 0.15f);
+            Mesh.Scale = new TGCVector3(0.1f, 0.1f, 0.1f);
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
         }
 
         public override void Update()
         {
-            var elapsedTime = Context.ElapsedTime;
-            var input = Context.Input;
+            var elapsedTime = contexto.ElapsedTime;
+            var input = contexto.Input;
 
             var velocidadCaminar = VelocidadDesplazamiento * elapsedTime;
 
@@ -125,6 +121,8 @@ namespace TGC.Group.Model
             {
                 Mesh.playAnimation("Parado", true);
             }
+
+            contexto.camara.Target = Position;
         }
 
         public void Render()
@@ -137,9 +135,9 @@ namespace TGC.Group.Model
 
             Mesh.BoundingBox.transform(Mesh.Transform);
 
-            Mesh.animateAndRender(Context.ElapsedTime);
+            Mesh.animateAndRender(contexto.ElapsedTime);
 
-            if (Context.BoundingBox)
+            if (contexto.BoundingBox)
             {
                 Mesh.BoundingBox.Render();
             }

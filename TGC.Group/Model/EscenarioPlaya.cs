@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using TGC.Core.BoundingVolumes;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
 
@@ -10,7 +11,9 @@ namespace TGC.Group.Model
     public class EscenarioPlaya : Escenario
     {
         private TgcScene escena;
-        
+        public TgcMesh planoArbol;
+        private List<Caja> cajas;
+
         // Planos de limite
 
         public EscenarioPlaya(GameModel contexto, Personaje personaje) : base (contexto, personaje, 0, (335*(-1)))
@@ -22,9 +25,9 @@ namespace TGC.Group.Model
         {
             var MediaDir = contexto.MediaDir;
             var loader = new TgcSceneLoader();
-            this.escena = loader.loadSceneFromFile(MediaDir + "primer-nivel\\Playa final\\Playa-TgcScene.xml");
+            this.escena = loader.loadSceneFromFile(MediaDir + "escenarios\\playa\\playa-TgcScene.xml");
 
-            planoIzq = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoHorizontal-TgcScene.xml").Meshes[0];
+            planoIzq = loader.loadSceneFromFile(MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
 
             planoDer = planoIzq.createMeshInstance("planoDer");
@@ -38,7 +41,7 @@ namespace TGC.Group.Model
             //planoFront = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
             //planoFront.AutoTransform = false;
 
-            planoBack = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
+            planoBack = loader.loadSceneFromFile(MediaDir + "planos\\planoVertical-TgcScene.xml").Meshes[0];
             planoBack.AutoTransform = false;
             planoBack.Transform = TGCMatrix.Translation(50, 0, 70);
             planoBack.BoundingBox.transform(planoBack.Transform);
@@ -46,18 +49,26 @@ namespace TGC.Group.Model
             //planoFront.Transform = TGCMatrix.Translation(50, 0, -330);
             //planoFront.BoundingBox.transform(planoFront.Transform);
 
-            planoPiso = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
+            planoPiso = loader.loadSceneFromFile(MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
             planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2.9f) * TGCMatrix.Translation(-25, 0, 250));
+
+
+            // para probar colision con camara
+            colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
+            planoArbol = loader.loadSceneFromFile(MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
+            planoArbol.AutoTransform = false;
+            planoArbol.BoundingBox.transform(TGCMatrix.Scaling(1.5f, 1, 0.5f) * TGCMatrix.Translation(-40, 30, 0));
+            colisionablesConCamara.Add(planoArbol.BoundingBox);
+            //
 
             GenerarCajas();
         }
 
         private void GenerarCajas() {
             var loader = new TgcSceneLoader();
-            var mesh = loader.loadSceneFromFile(GameModel.Media + "primer-nivel\\Playa final\\caja-TgcScene.xml").Meshes[0];
+            var mesh = loader.loadSceneFromFile(GameModel.Media + "objetos\\caja\\caja-TgcScene.xml").Meshes[0];
             var mesh2 = mesh.createMeshInstance("mesh2");
-
             cajas.Add(new Caja(new TGCVector3(0,0,-100), mesh, contexto));
             cajas.Add(new Caja(new TGCVector3(0, 20, -150), mesh2, contexto));
         }
@@ -73,6 +84,7 @@ namespace TGC.Group.Model
                 planoIzq.BoundingBox.Render();
                 planoDer.BoundingBox.Render();
                 planoPiso.BoundingBox.Render();
+                planoArbol.BoundingBox.Render();
             }
         }
 
@@ -124,6 +136,11 @@ namespace TGC.Group.Model
         }
 
         
+
+        public override List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
+        {
+            return colisionablesConCamara;
+        }
 
         public override void DisposeAll()
         {

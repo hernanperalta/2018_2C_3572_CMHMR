@@ -1,6 +1,7 @@
 ﻿using Microsoft.DirectX.DirectInput;
 using System;
 using System.Collections.Generic;
+using TGC.Core.BoundingVolumes;
 using TGC.Core.Collision;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
@@ -23,6 +24,7 @@ namespace TGC.Group.Model
         public Escenario anterior;
         public int nearLimit;
         public int farLimit;
+        protected List<TgcBoundingAxisAlignBox> colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
 
         protected Escenario(GameModel contexto, Personaje personaje, int nearLimit, int farLimit) {
             this.contexto = contexto;
@@ -154,5 +156,9 @@ namespace TGC.Group.Model
             }
         }
         public abstract void DisposeAll();
+
+        public virtual List<TgcBoundingAxisAlignBox> ColisionablesConCamara() {
+            return colisionablesConCamara;
+        }
     }
 }
