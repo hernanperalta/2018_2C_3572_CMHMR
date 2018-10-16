@@ -105,8 +105,13 @@
     <Compile Include="Model\Eje.cs" />
     <Compile Include="Model\Desplazar.cs" />
     <Compile Include="Model\Escenario.cs" />
+    <Compile Include="Model\EscenarioCamino.cs" />
+    <Compile Include="Model\EscenarioHielo.cs" />
+    <Compile Include="Model\EscenarioPiramide.cs" />
+    <Compile Include="Model\EscenarioPozo.cs" />
     <Compile Include="Model\EscenarioPlataforma.cs" />
     <Compile Include="Model\EscenarioPlaya.cs" />
+    <Compile Include="Model\Escenarios\EscenarioMenu.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\MeshTipoCaja.cs" />
     <Compile Include="Model\ChoqueRigido.cs" />

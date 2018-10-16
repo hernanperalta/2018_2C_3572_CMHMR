@@ -1,18 +1,17 @@
 using Microsoft.DirectX.DirectInput;
 using TGC.Core.Direct3D;
 using TGC.Core.Example;
-using TGC.Core.Mathematica;
-using TGC.Core.SceneLoader;
-using TGC.Core.Geometry;
 using TGC.Group.Camera;
 using System;
 using System.Collections.Generic;
+using TGC.Core.BoundingVolumes;
+using TGC.Group.Model.Escenarios;
 
 namespace TGC.Group.Model
 {
     /// <summary>
     ///     Ejemplo para implementar el TP.
-    ///     Inicialmente puede ser renombrado o copiado para hacer m·s ejemplos chicos, en el caso de copiar para que se
+    ///     Inicialmente puede ser renombrado o copiado para hacer m√°s ejemplos chicos, en el caso de copiar para que se
     ///     ejecute el nuevo ejemplo deben cambiar el modelo que instancia GameForm <see cref="Form.GameForm.InitGraphics()" />
     ///     line 97.
     /// </summary>
@@ -38,7 +37,7 @@ namespace TGC.Group.Model
         public bool BoundingBox { get; set; }
         private const float VELOCIDAD_DESPLAZAMIENTO = 50f;
         private Personaje personaje;
-        private GameCamera camara;
+        public GameCamera camara;
         
         private Dictionary<string, Escenario> escenarios;
         private Escenario escenarioActual;
@@ -47,9 +46,14 @@ namespace TGC.Group.Model
         //Constantes para velocidades de movimiento de plataforma
         private const float MOVEMENT_SPEED = 1f;
 
+        public List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
+        {
+            return escenarioActual.ColisionablesConCamara();
+        }
+
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
-        ///     Escribir aquÌ todo el cÛdigo de inicializaciÛn: cargar modelos, texturas, estructuras de optimizaciÛn, todo
+        ///     Escribir aqu√≠ todo el c√≥digo de inicializaci√≥n: cargar modelos, texturas, estructuras de optimizaci√≥n, todo
         ///     procesamiento que podemos pre calcular para nuestro juego.
         ///     Borrar el codigo ejemplo no utilizado.
         /// </summary>
@@ -60,36 +64,63 @@ namespace TGC.Group.Model
 
             personaje = new Personaje(this);
 
+            cargarEscenarios();
+
+            BoundingBox = false;
+        }
+
+        public void cargarEscenarios()
+        {
             escenarios = new Dictionary<string, Escenario>();
 
-           
-            //escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
-            var escenarioPlataforma = new EscenarioPlataforma(this, personaje);
+            escenarios["playa"] = new EscenarioPlaya(this, personaje);
 
-            var escenarioPlaya = new EscenarioPlaya(this, personaje);
-            escenarioPlaya.siguiente = escenarioPlataforma;
+            escenarios["playa"].siguiente = escenarioPlataforma;
 
-            //escenarios["playa"] = new EscenarioPlaya(this, personaje);
+            escenarios["plataforma"] = new EscenarioPlataforma(this, personaje);
 
-            escenarios["playa"] = escenarioPlaya;
-            escenarios["plataforma"] = escenarioPlataforma;
+            //escenarios["camino"] = new EscenarioCamino(this, personaje);
 
-            escenarioActual = escenarios["playa"];
+            escenarios["pozo"] = new EscenarioPozo(this, personaje);
 
-            //(escenarios["playa"]).siguiente = (Escenario)escenarios["plataforma"];
-            //(escenarios["plataforma"]).anterior = (Escenario)escenarios["playa"];
+            escenarios["piramide"] = new EscenarioPiramide(this, personaje);
 
-            BoundingBox = true;
+            escenarios["hielo"] = new EscenarioHielo(this, personaje);
 
-            camara = new GameCamera(personaje.Position, 60, 200);
-            Camara = camara;
+            escenarios["menu"] = new EscenarioMenu(this, personaje);
+            
+            escenarioActual = escenarios["menu"];
         }
 
         /// <summary>
         ///     Se llama en cada frame.
-        ///     Se debe escribir toda la lÛgica de computo del modelo, asÌ como tambiÈn verificar entradas del usuario y reacciones
+        ///     Se debe escribir toda la l√≥gica de computo del modelo, as√≠ como tambi√©n verificar entradas del usuario y reacciones
         ///     ante ellas.
         /// </summary>
+        /// 
+
+        public bool between(float num, float lower, float upper)
+        {
+            return (lower <= num && num < upper);
+        }
+
+        public void actualizarEscenario()
+        {
+            if (escenarioActual is EscenarioMenu)
+                return;
+
+            float posicionMeshEjeZ = personaje.Mesh.Transform.Origin.Z;
+
+            if (between(posicionMeshEjeZ, -330f, 0f))
+                escenarioActual = escenarios["playa"];
+
+            if (between(posicionMeshEjeZ, -465f, -330f))
+                escenarioActual = escenarios["plataforma"];
+
+            //if (between(posicionMeshEjeZ, ???f, -465f))
+            //    escenarioActual = escenarios["plataforma"];
+        }
+
         public override void Update()
         {
             PreUpdate();
@@ -112,42 +143,26 @@ namespace TGC.Group.Model
                 escenario.Update();
             }
 
+            actualizarEscenario();
+
             escenarioActual.Colisiones();
-            //escenarioActual.Update();
-
-            if (personaje.Mesh.Transform.Origin.Z < -335 /*escenarioActual.farLimit*/)
-            { // HUBO CAMBIO DE ESCENARIO
-              /* Aca deberiamos hacer algo como no testear mas contra las cosas del escenario anterior y testear
-                contra las del escenario actual. 
-              */
-
-                //planoFront.BoundingBox.setRenderColor(Color.AliceBlue);
-                escenarioActual = escenarios["plataforma"]; /*escenarioActual.siguiente*/
-            }
-            else
-            {
-                //planoFront.BoundingBox.setRenderColor(Color.Yellow);
-                escenarioActual = escenarios["playa"]; // nada
-            }
 
             if (Input.keyPressed(Key.Q))
             {
                 BoundingBox = !BoundingBox;
             }
 
-            camara.Target = personaje.Position;
-
             PostUpdate();
         }
 
         /// <summary>
         ///     Se llama cada vez que hay que refrescar la pantalla.
-        ///     Escribir aquÌ todo el cÛdigo referido al renderizado.
+        ///     Escribir aqu√≠ todo el c√≥digo referido al renderizado.
         ///     Borrar todo lo que no haga falta.
         /// </summary>
         public override void Render()
         {
-            //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones seg˙n nuestra conveniencia.
+            //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones seg√∫n nuestra conveniencia.
             PreRender();
 
             personaje.Render();
@@ -165,9 +180,9 @@ namespace TGC.Group.Model
 
 
         /// <summary>
-        ///     Se llama cuando termina la ejecuciÛn del ejemplo.
+        ///     Se llama cuando termina la ejecuci√≥n del ejemplo.
         ///     Hacer Dispose() de todos los objetos creados.
-        ///     Es muy importante liberar los recursos, sobretodo los gr·ficos ya que quedan bloqueados en el device de video.
+        ///     Es muy importante liberar los recursos, sobretodo los gr√°ficos ya que quedan bloqueados en el device de video.
         /// </summary>
         public override void Dispose()
         {
@@ -181,6 +196,17 @@ namespace TGC.Group.Model
             //foreach (TgcMesh mesh in meshesColisionables) {
             //    mesh.Dispose(); // mmm, no se que pasaria con las instancias...
             //} // recontra TODO
+        }
+
+        public void CambiarEscenario(string nombre)
+        {
+            escenarioActual = escenarios[nombre];
+        }
+
+        public void ActualizarCamara()
+        {
+            camara = new GameCamera(personaje.Position, 60, 200, this);
+            Camara = camara;
         }
     }
 }
