@@ -1,5 +1,9 @@
-﻿using Microsoft.DirectX.DirectInput;
+using Microsoft.DirectX.DirectInput;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TGC.Core.BoundingVolumes;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
 
@@ -198,6 +202,11 @@ namespace TGC.Group.Model
 
             //Recalculamos la orbita de rotacion
             orbitaDeRotacion += MOVEMENT_SPEED * contexto.ElapsedTime;
+        }
+
+        public override List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
+        {
+            return new List<TgcBoundingAxisAlignBox>();
         }
 
         public override void DisposeAll()
