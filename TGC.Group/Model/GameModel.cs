@@ -1,7 +1,6 @@
 using Microsoft.DirectX.DirectInput;
 using TGC.Core.Direct3D;
 using TGC.Core.Example;
-using TGC.Core.Mathematica;
 using TGC.Group.Camera;
 using System;
 using System.Collections.Generic;
@@ -105,7 +104,7 @@ namespace TGC.Group.Model
 
         public void actualizarEscenario()
         {
-            if (escenarioActual.GetType().Equals(typeof(EscenarioMenu)))
+            if (escenarioActual is EscenarioMenu)
                 return;
 
             float posicionMeshEjeZ = personaje.Mesh.Transform.Origin.Z;
@@ -206,7 +205,7 @@ namespace TGC.Group.Model
 
         public void ActualizarCamara()
         {
-            camara = new GameCamera(personaje.Position, 60, 200);
+            camara = new GameCamera(personaje.Position, 60, 200, this);
             Camara = camara;
         }
     }

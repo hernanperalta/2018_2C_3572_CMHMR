@@ -19,7 +19,7 @@ namespace TGC.Group.Model
         protected TGCVector3 movimiento;
         protected Personaje personaje;
         protected GameModel contexto;
-        
+        protected List<TgcBoundingAxisAlignBox> colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
 
         protected Escenario(GameModel contexto, Personaje personaje) {
             this.contexto = contexto;
@@ -67,6 +67,9 @@ namespace TGC.Group.Model
             }
         }
         public abstract void DisposeAll();
-        public abstract List<TgcBoundingAxisAlignBox> ColisionablesConCamara();
+
+        public virtual List<TgcBoundingAxisAlignBox> ColisionablesConCamara() {
+            return colisionablesConCamara;
+        }
     }
 }

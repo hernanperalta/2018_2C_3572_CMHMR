@@ -12,7 +12,6 @@ namespace TGC.Group.Model
     {
         private TgcScene escena;
         public TgcMesh planoArbol;
-        private List<TgcBoundingAxisAlignBox> colisionablesConCamara;
         private List<Caja> cajas;
 
         // Planos de limite
@@ -56,7 +55,7 @@ namespace TGC.Group.Model
 
             // para probar colision con camara
             colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
-            planoArbol = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
+            planoArbol = loader.loadSceneFromFile(MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
             planoArbol.AutoTransform = false;
             planoArbol.BoundingBox.transform(TGCMatrix.Scaling(1.5f, 1, 0.5f) * TGCMatrix.Translation(-40, 30, 0));
             colisionablesConCamara.Add(planoArbol.BoundingBox);

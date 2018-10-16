@@ -1,4 +1,5 @@
 using Microsoft.DirectX.DirectInput;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
