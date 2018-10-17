@@ -10,10 +10,10 @@ namespace TGC.Group.Model
     public class Desplazar : AnteColisionCaja
     {
         private delegate float getCoordenadaDeMovimiento(Colisionable colisionable);
-        private getCoordenadaDeMovimiento getCoordenadaMovimientoPersonaje;
+        private getCoordenadaDeMovimiento getCoordenadaMovimientoColisionable;
 
         private delegate float setCoordenadaDeMovimiento(Colisionable colisionable, float valor);
-        private setCoordenadaDeMovimiento setCoordenadaMovimientoPersonaje;
+        private setCoordenadaDeMovimiento setCoordenadaMovimientoColisionable;
 
         private delegate TGCVector3 vectorMovimiento(Colisionable colisionable);
         private vectorMovimiento getVectorMovimiento;
@@ -21,10 +21,10 @@ namespace TGC.Group.Model
         private delegate bool condicion(Colisionable colisionable);
         private condicion evaluarCondicionMovimiento;
 
-        private Desplazar(getCoordenadaDeMovimiento getCoordenadaMovimientoPersonaje, setCoordenadaDeMovimiento setCoordenadaMovimientoPersonaje, vectorMovimiento getVectorMovimiento, condicion evaluarCondicionMovimiento) : base()
+        private Desplazar(getCoordenadaDeMovimiento getCoordenadaMovimientoColisionable, setCoordenadaDeMovimiento setCoordenadaMovimientoColisionable, vectorMovimiento getVectorMovimiento, condicion evaluarCondicionMovimiento) : base()
         {
-            this.getCoordenadaMovimientoPersonaje = getCoordenadaMovimientoPersonaje;
-            this.setCoordenadaMovimientoPersonaje = setCoordenadaMovimientoPersonaje;
+            this.getCoordenadaMovimientoColisionable = getCoordenadaMovimientoColisionable;
+            this.setCoordenadaMovimientoColisionable = setCoordenadaMovimientoColisionable;
             this.getVectorMovimiento = getVectorMovimiento;
             this.evaluarCondicionMovimiento = evaluarCondicionMovimiento;
         }
@@ -33,16 +33,20 @@ namespace TGC.Group.Model
         {
             if (SeEstaMoviendoHaciaMi(colisionable))
             {
-                //var movimientoCaja = TGCMatrix.Translation(Desplazamiento(colisionable)); // + distancia minima del rayo
-                AgregarRozamiento(colisionable);
-                //meshTipoCaja.Update(movimientoCaja);
+                if(colisionable is Personaje) {
+                    AgregarRozamiento(colisionable);
+                }
+                // Es feo, pero es la unica que se me ocurre, porque solo tenes que aplicarle rozamiento al personaje, 
+                // si empuja las dos cajas y aplicas rozamiento a la segunda caja, el efecto es que se termina atrasando la segunda 
+                // por el rozamiento y se mete adentro de la que esta mas cerca del personaje, o eso me entendi...
+
                 meshTipoCaja.movimiento += Desplazamiento(colisionable);
             }
         }
 
         protected void AgregarRozamiento(Colisionable colisionable)
         {
-            setCoordenadaMovimientoPersonaje(colisionable, getCoordenadaMovimientoPersonaje(colisionable) / 3);
+            setCoordenadaMovimientoColisionable(colisionable, getCoordenadaMovimientoColisionable(colisionable) / 3);
         }
 
         protected TGCVector3 Desplazamiento(Colisionable colisionable)
