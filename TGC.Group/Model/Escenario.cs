@@ -22,6 +22,7 @@ namespace TGC.Group.Model
         public List<Caja> cajas; // todos los escenarios deben tenerlas, porque las cajas pueden moverse por todo el nivel
         public Escenario siguiente;
         public Escenario anterior;
+        public bool aplicarGravedad;
         public int nearLimit;
         public int farLimit;
         protected List<TgcBoundingAxisAlignBox> colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
@@ -30,6 +31,7 @@ namespace TGC.Group.Model
             this.contexto = contexto;
             this.personaje = personaje;
             this.cajas = new List<Caja>();
+            this.aplicarGravedad = false;
             Init();
         }
 
@@ -51,6 +53,7 @@ namespace TGC.Group.Model
 
         public virtual void Render() {
             if (cajas.Count != 0) {
+                ///Console.WriteLine(String.Format("CANTIDAD DE CAJAS : {0}", cajas.Count));
                 cajas.ForEach((caja) => caja.Render());
             }
 
@@ -63,6 +66,10 @@ namespace TGC.Group.Model
         public abstract void Renderizar();
 
         public virtual void Update() {
+                
+        }
+
+        public void AplicarGravedad() {
             cajas.ForEach((caja) => caja.Update());
         }
 
@@ -75,7 +82,7 @@ namespace TGC.Group.Model
 
             CalcularEfectoGravedadEnMeshes();
 
-            VerificarSiAlgunMeshSalioDelEscenario();
+            //VerificarSiAlgunMeshSalioDelEscenario();
 
             cajas.ForEach((caja) => caja.Movete());
             personaje.Movete(personaje.movimiento);
