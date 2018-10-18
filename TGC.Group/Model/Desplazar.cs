@@ -33,9 +33,9 @@ namespace TGC.Group.Model
         {
             if (SeEstaMoviendoHaciaMi(colisionable))
             {
-                if(colisionable is Personaje) {
-                    AgregarRozamiento(colisionable);
-                }
+                //if(colisionable is Personaje) {
+                //    AgregarRozamiento(colisionable);
+                //}
                 // Es feo, pero es la unica que se me ocurre, porque solo tenes que aplicarle rozamiento al personaje, 
                 // si empuja las dos cajas y aplicas rozamiento a la segunda caja, el efecto es que se termina atrasando la segunda 
                 // por el rozamiento y se mete adentro de la que esta mas cerca del personaje, o eso me entendi...

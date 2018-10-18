@@ -117,9 +117,14 @@ namespace TGC.Group.Model
             foreach (Caja caja in cajas)
             {
                 var cajasFiltradas = cajas.FindAll((caja2) => !caja2.Equals(caja));
+
                 foreach (Caja otraCaja in cajasFiltradas)
                 {
-                    caja.TestearColisionContra(otraCaja);
+                    if (caja.Movimiento().X != 0 || caja.Movimiento().Y != 0 || caja.Movimiento().Z != 0){
+                        caja.TestearColisionContra(otraCaja);
+                        otraCaja.movimiento += caja.movimiento;
+                    }
+                    
                 }
             }
         }
