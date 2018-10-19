@@ -29,25 +29,25 @@ namespace TGC.Group.Model
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(new ChoqueRigido(Eje.Z))
-                                 .CaraZ()
+                                 .CaraZ(ModificacionEnY())
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(new ChoqueRigido(Eje.MenosZ))
-                                 .CaraMenosZ()
+                                 .CaraMenosZ(ModificacionEnY())
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(new ChoqueRigido(Eje.X))
-                                 .CaraX()
+                                 .CaraX(ModificacionEnY())
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(new ChoqueRigido(Eje.MenosX))
-                                 .CaraMenosX()
+                                 .CaraMenosX(ModificacionEnY())
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
