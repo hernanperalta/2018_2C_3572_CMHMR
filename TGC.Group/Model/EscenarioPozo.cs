@@ -7,9 +7,6 @@ namespace TGC.Group.Model
 {
     public class EscenarioPozo : Escenario
     {
-//Escenas
-        private TgcScene scene;
-
         public EscenarioPozo(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
     
         protected override void Init()

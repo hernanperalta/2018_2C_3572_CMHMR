@@ -5,13 +5,11 @@ using System.Drawing;
 using TGC.Core.BoundingVolumes;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
-using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
     public class EscenarioPlaya : Escenario
     {
-        private TgcScene escena;
         public TgcMesh planoArbol;
 
         // Planos de limite
@@ -25,7 +23,7 @@ namespace TGC.Group.Model
         {
             var MediaDir = contexto.MediaDir;
             var loader = new TgcSceneLoader();
-            this.escena = loader.loadSceneFromFile(MediaDir + "escenarios\\playa\\playa-TgcScene.xml");
+            scene = loader.loadSceneFromFile(MediaDir + "escenarios\\playa\\playa-TgcScene.xml");
 
             planoIzq = loader.loadSceneFromFile(MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
@@ -62,19 +60,7 @@ namespace TGC.Group.Model
             colisionablesConCamara.Add(planoArbol.BoundingBox);
             //
 
-            CargarDuraznos();
-
             GenerarCajas();
-        }
-
-        private void CargarDuraznos()
-        {
-            escena.Meshes
-                .FindAll(mesh => mesh.Name == "durazno")
-                .ForEach(mesh => {
-                    escena.Meshes.Remove(mesh);
-                    coleccionables.Add(new Durazno(contexto, mesh));
-                });
         }
 
         private void GenerarCajas() {
@@ -86,7 +72,7 @@ namespace TGC.Group.Model
         }
 
         public override void Render() {
-            escena.RenderAll();
+            scene.RenderAll();
             cajas.ForEach((caja) => { caja.Render(); });
             coleccionables.ForEach(coleccionable => coleccionable.Render());
 
@@ -160,7 +146,7 @@ namespace TGC.Group.Model
             planoIzq.Dispose();
             //planoFront.Dispose();
             planoPiso.Dispose();
-            escena.DisposeAll();
+            scene.DisposeAll();
         }
     }
 }

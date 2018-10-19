@@ -14,6 +14,8 @@ namespace TGC.Group.Model
 {
     public abstract class Escenario
     {
+        //Escenas
+        protected TgcScene scene;
 
         public TgcMesh planoPiso;
         public TgcMesh planoIzq;
@@ -38,6 +40,17 @@ namespace TGC.Group.Model
             this.cajas = new List<Caja>();
             coleccionables = new List<Coleccionable>();
             Init();
+            CargarDuraznos();
+        }
+
+        protected virtual void CargarDuraznos()
+        {
+            scene.Meshes
+                .FindAll(mesh => mesh.Name == "durazno")
+                .ForEach(mesh => {
+                    scene.Meshes.Remove(mesh);
+                    coleccionables.Add(new Durazno(contexto, mesh));
+                });
         }
 
         public void AgregarCaja(Caja nuevaCaja) {

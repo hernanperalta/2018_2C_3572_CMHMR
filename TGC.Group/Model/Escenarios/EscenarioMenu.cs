@@ -142,5 +142,7 @@ namespace TGC.Group.Model.Escenarios
         public override void CalcularColisionesConPlanos() { }
 
         public override void Colisiones() { }
+
+        protected override void CargarDuraznos() { }
     }
 }
