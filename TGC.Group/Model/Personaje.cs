@@ -159,7 +159,7 @@ namespace TGC.Group.Model
         {
             Movete(new TGCVector3(0,+30, 200));
             if (Vidas == 1)
-                Context.CambiarEscenario("menu");
+                Context.VolverAMenu();
             else
                 PerderVida();
            

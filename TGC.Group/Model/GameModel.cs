@@ -10,6 +10,7 @@ using Microsoft.DirectX.Direct3D;
 using TGC.Core.Text;
 using System.Drawing;
 using TGC.Core.Sound;
+using TGC.Core.Mathematica;
 
 namespace TGC.Group.Model
 {
@@ -280,6 +281,14 @@ namespace TGC.Group.Model
             woah.closeFile();
             woah.play(false);
             cancionPpal.resume();
+        }
+
+        public void VolverAMenu()
+        {
+            CambiarEscenario("menu");
+            Camara = new Core.Camara.TgcCamera();
+            var lookAt = new TGCVector3(0, 50, 400);
+            Camara.SetCamera(new TGCVector3(lookAt.X, lookAt.Y, lookAt.Z + 30), lookAt);
         }
     }
 }
