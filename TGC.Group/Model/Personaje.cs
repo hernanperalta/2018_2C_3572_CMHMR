@@ -7,13 +7,13 @@ using TGC.Core.SkeletalAnimation;
 using TGC.Core.Mathematica;
 using Microsoft.DirectX.DirectInput;
 using TGC.Core.BoundingVolumes;
+using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
     public class Personaje : Colisionable
     {
         public TgcSkeletalMesh Mesh { get; set; }
-        
         private TGCMatrix ultimaPosicion;
         //public TGCVector3 movimiento;
         private const float VelocidadDesplazamiento = 50f;
@@ -22,15 +22,13 @@ namespace TGC.Group.Model
             get => Mesh.Transform.Origin;
         }
         public int Vidas, Duraznos;
-        
         public TGCMatrix TransformPlataforma;
-
         private bool PuedeSaltar;
-        
         public override TgcBoundingAxisAlignBox BoundingBox()
         {
             return this.Mesh.BoundingBox;
         }
+        private List<Durazno> duraznosJuntados = new List<Durazno>();
 
 
         public Personaje(GameModel contexto) : base (contexto)
@@ -177,6 +175,12 @@ namespace TGC.Group.Model
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
             Vidas = 3;
             Duraznos = 0;
+        }
+
+        public void JuntarDurazno(Durazno durazno)
+        {
+            duraznosJuntados.Add(durazno);
+            Context.textoDuraznos.Text = duraznosJuntados.Count.ToString();
         }
     }
 }

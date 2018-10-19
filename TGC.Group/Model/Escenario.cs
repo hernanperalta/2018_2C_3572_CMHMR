@@ -8,6 +8,7 @@ using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
 using Microsoft.DirectX.Direct3D;
 using System.Drawing;
+using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
@@ -23,6 +24,8 @@ namespace TGC.Group.Model
         protected Personaje personaje;
         protected GameModel contexto;
         public List<Caja> cajas; // todos los escenarios deben tenerlas, porque las cajas pueden moverse por todo el nivel
+        public List<Coleccionable> coleccionables;
+
         public Escenario siguiente;
         public Escenario anterior;
         public int nearLimit;
@@ -33,6 +36,7 @@ namespace TGC.Group.Model
             this.contexto = contexto;
             this.personaje = personaje;
             this.cajas = new List<Caja>();
+            coleccionables = new List<Coleccionable>();
             Init();
         }
 
@@ -167,6 +171,12 @@ namespace TGC.Group.Model
 
             contexto.textoVidas.render();
             contexto.textoDuraznos.render();
+        }
+
+        public void JuntarDurazno(Durazno durazno)
+        {
+            coleccionables.Remove(durazno);
+            personaje.JuntarDurazno(durazno);
         }
     }
 }

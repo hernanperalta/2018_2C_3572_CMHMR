@@ -105,7 +105,9 @@
     <Compile Include="Model\CaraX.cs" />
     <Compile Include="Model\CaraY.cs" />
     <Compile Include="Model\CaraZ.cs" />
+    <Compile Include="Model\Coleccionables\Coleccionable.cs" />
     <Compile Include="Model\Colisionable.cs" />
+    <Compile Include="Model\Coleccionables\Durazno.cs" />
     <Compile Include="Model\Eje.cs" />
     <Compile Include="Model\Desplazar.cs" />
     <Compile Include="Model\Escenario.cs" />
