@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using TGC.Core.BoundingVolumes;
 using TGC.Group.Model.Escenarios;
+using Microsoft.DirectX.Direct3D;
+using TGC.Core.Text;
+using System.Drawing;
 
 namespace TGC.Group.Model
 {
@@ -40,11 +43,15 @@ namespace TGC.Group.Model
         public GameCamera camara;
         
         private Dictionary<string, Escenario> escenarios;
-        private Escenario escenarioActual;
+        public Escenario escenarioActual;
 
 
         //Constantes para velocidades de movimiento de plataforma
         private const float MOVEMENT_SPEED = 1f;
+        public Texture TexturaVidas;
+        public Texture TexturaDuraznos;
+        public TgcText2D textoVidas;
+        public TgcText2D textoDuraznos;
 
         public List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
         {
@@ -58,15 +65,40 @@ namespace TGC.Group.Model
         ///     Borrar el codigo ejemplo no utilizado.
         /// </summary>
         public override void Init()
-        {
-            //Device de DirectX para crear primitivas.
-            var d3dDevice = D3DDevice.Instance.Device;
-
-            personaje = new Personaje(this);
+        {personaje = new Personaje(this);
 
             cargarEscenarios();
 
+            CargarHud();
+
             BoundingBox = false;
+        }
+
+        public void CargarHud()
+        {
+            //Device de DirectX para crear primitivas.
+            var d3dDevice = D3DDevice.Instance.Device;
+            var viewport = D3DDevice.Instance.Device.Viewport;
+
+            TexturaVidas = TextureLoader.FromFile(d3dDevice, MediaDir + "\\sprites\\vida.png");
+
+            TexturaDuraznos = TextureLoader.FromFile(d3dDevice, MediaDir + "\\sprites\\durazno.png");
+            
+            textoVidas = new TgcText2D();
+            textoVidas.Position = new Point(viewport.Width - 64, 0);
+            textoVidas.Size = new Size(32, 32);
+            textoVidas.changeFont(new System.Drawing.Font("TimesNewRoman", 23, FontStyle.Bold));
+            textoVidas.Color = Color.Yellow;
+            textoVidas.Align = TgcText2D.TextAlign.CENTER;
+            textoVidas.Text = personaje.Vidas.ToString();
+            
+            textoDuraznos = new TgcText2D();
+            textoDuraznos.Position = new Point(viewport.Width - 64, 64);
+            textoDuraznos.Size = new Size(32, 32);
+            textoDuraznos.changeFont(new System.Drawing.Font("TimesNewRoman", 23, FontStyle.Bold));
+            textoDuraznos.Color = Color.Yellow;
+            textoDuraznos.Align = TgcText2D.TextAlign.CENTER;
+            textoDuraznos.Text = personaje.Duraznos.ToString();
         }
 
         public void cargarEscenarios()
@@ -172,7 +204,7 @@ namespace TGC.Group.Model
                 escenario.Render();
             }
 
-            //escenarioActual.Render();
+            escenarioActual.RenderHud();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();

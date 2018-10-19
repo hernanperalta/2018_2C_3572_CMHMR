@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using TGC.Core.BoundingVolumes;
 using TGC.Core.Collision;
+using TGC.Core.Direct3D;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
+using Microsoft.DirectX.Direct3D;
+using System.Drawing;
 
 namespace TGC.Group.Model
 {
@@ -148,6 +151,22 @@ namespace TGC.Group.Model
 
         public virtual List<TgcBoundingAxisAlignBox> ColisionablesConCamara() {
             return colisionablesConCamara;
+        }
+
+        public virtual void RenderHud()
+        {
+            var d3dDevice = D3DDevice.Instance.Device;
+            var viewport = D3DDevice.Instance.Device.Viewport;
+
+            //TgcTexture textura;
+            var sprite = new Sprite(d3dDevice);
+            sprite.Begin(SpriteFlags.AlphaBlend);
+            sprite.Draw2D(contexto.TexturaVidas, Rectangle.Empty, new SizeF(32, 32), new PointF(viewport.Width - 32, 0), Color.White);
+            sprite.Draw2D(contexto.TexturaDuraznos, Rectangle.Empty, new SizeF(32, 32), new PointF(viewport.Width - 32, 64), Color.White);
+            sprite.End();
+
+            contexto.textoVidas.render();
+            contexto.textoDuraznos.render();
         }
     }
 }

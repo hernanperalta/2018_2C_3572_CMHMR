@@ -21,6 +21,7 @@ namespace TGC.Group.Model
         {
             get => Mesh.Transform.Origin;
         }
+        public int Vidas = 3, Duraznos = 0;
         
         public TGCMatrix TransformPlataforma;
 
