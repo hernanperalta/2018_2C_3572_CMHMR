@@ -11,6 +11,7 @@ using TGC.Core.Text;
 using System.Drawing;
 using TGC.Core.Sound;
 using TGC.Core.Mathematica;
+using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
@@ -94,19 +95,19 @@ namespace TGC.Group.Model
             TexturaDuraznos = TextureLoader.FromFile(d3dDevice, MediaDir + "\\sprites\\durazno.png");
             
             textoVidas = new TgcText2D();
-            textoVidas.Position = new Point(viewport.Width - 64, 0);
-            textoVidas.Size = new Size(32, 32);
+            textoVidas.Position = new Point(viewport.Width - 96, 0);
+            textoVidas.Size = new Size(64, 32);
             textoVidas.changeFont(new System.Drawing.Font("TimesNewRoman", 23, FontStyle.Bold));
             textoVidas.Color = Color.Yellow;
-            textoVidas.Align = TgcText2D.TextAlign.CENTER;
+            textoVidas.Align = TgcText2D.TextAlign.RIGHT;
             textoVidas.Text = personaje.Vidas.ToString();
             
             textoDuraznos = new TgcText2D();
-            textoDuraznos.Position = new Point(viewport.Width - 64, 64);
-            textoDuraznos.Size = new Size(32, 32);
+            textoDuraznos.Position = new Point(viewport.Width - 96, 64);
+            textoDuraznos.Size = new Size(64, 32);
             textoDuraznos.changeFont(new System.Drawing.Font("TimesNewRoman", 23, FontStyle.Bold));
             textoDuraznos.Color = Color.Yellow;
-            textoDuraznos.Align = TgcText2D.TextAlign.CENTER;
+            textoDuraznos.Align = TgcText2D.TextAlign.RIGHT;
             textoDuraznos.Text = personaje.Duraznos.ToString();
         }
 
@@ -289,6 +290,12 @@ namespace TGC.Group.Model
             Camara = new Core.Camara.TgcCamera();
             var lookAt = new TGCVector3(0, 50, 400);
             Camara.SetCamera(new TGCVector3(lookAt.X, lookAt.Y, lookAt.Z + 30), lookAt);
+        }
+
+        public void ResetearColisionables()
+        {
+            foreach (Escenario escenario in escenarios.Values)
+                escenario.ResetearColisionables();
         }
     }
 }

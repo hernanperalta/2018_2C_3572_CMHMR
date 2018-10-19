@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TGC.Core.BoundingVolumes;
-using TGC.Core.Collision;
-using TGC.Core.SceneLoader;
+﻿using TGC.Core.SceneLoader;
 
 namespace TGC.Group.Model.Coleccionables
 {
@@ -15,7 +8,8 @@ namespace TGC.Group.Model.Coleccionables
 
         public override void Juntarme()
         {
-            contexto.escenarioActual.JuntarDurazno(this);
+            contexto.escenarioActual.JuntarDurazno();
+            Visible = false;
         }
     }
 }

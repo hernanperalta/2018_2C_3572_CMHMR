@@ -28,7 +28,7 @@ namespace TGC.Group.Model
         {
             return this.Mesh.BoundingBox;
         }
-        private List<Durazno> duraznosJuntados = new List<Durazno>();
+        //private List<Durazno> duraznosJuntados = new List<Durazno>();
 
 
         public Personaje(GameModel contexto) : base (contexto)
@@ -175,12 +175,13 @@ namespace TGC.Group.Model
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
             Vidas = 3;
             Duraznos = 0;
+            Context.ResetearColisionables();
         }
 
-        public void JuntarDurazno(Durazno durazno)
+        public void JuntarDurazno()
         {
-            duraznosJuntados.Add(durazno);
-            Context.textoDuraznos.Text = duraznosJuntados.Count.ToString();
+            Duraznos++;
+            Context.textoDuraznos.Text = Duraznos.ToString();
         }
     }
 }

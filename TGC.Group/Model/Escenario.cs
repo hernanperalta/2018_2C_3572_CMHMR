@@ -180,10 +180,14 @@ namespace TGC.Group.Model
             contexto.textoDuraznos.render();
         }
 
-        public void JuntarDurazno(Durazno durazno)
+        public void JuntarDurazno()
         {
-            coleccionables.Remove(durazno);
-            personaje.JuntarDurazno(durazno);
+            personaje.JuntarDurazno();
+        }
+
+        internal void ResetearColisionables()
+        {
+            coleccionables.ForEach(coleccionable => coleccionable.Visible = true);
         }
     }
 }

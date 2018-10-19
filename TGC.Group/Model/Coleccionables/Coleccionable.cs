@@ -12,23 +12,26 @@ namespace TGC.Group.Model.Coleccionables
     {
         protected TgcMesh mesh;
         protected GameModel contexto;
+        public bool Visible;
 
         public Coleccionable(GameModel contexto, TgcMesh mesh)
         {
             this.mesh = mesh;
             this.contexto = contexto;
+            Visible = true;
         }
 
         public bool ColisionoContra(Colisionable colisionable)
         {
-            return TgcCollisionUtils.testAABBAABB(mesh.BoundingBox, colisionable.BoundingBox());
+            return TgcCollisionUtils.testAABBAABB(mesh.BoundingBox, colisionable.BoundingBox()) && Visible;
         }
 
         public abstract void Juntarme();
 
         public void Render()
         {
-            mesh.Render();
+            if(Visible)
+                mesh.Render();
         }
     }
 }
