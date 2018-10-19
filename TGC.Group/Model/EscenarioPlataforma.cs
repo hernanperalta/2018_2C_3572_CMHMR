@@ -55,7 +55,7 @@ namespace TGC.Group.Model
 
             planoDer = planoIzq.createMeshInstance("planoDer");
             planoDer.AutoTransform = false;
-            planoDer.Transform = TGCMatrix.Translation(-35, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
+            planoDer.Transform = TGCMatrix.Translation(-38, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
             planoDer.BoundingBox.transform(planoDer.Transform);
 
             planoIzq.Transform = TGCMatrix.Translation(0, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
@@ -81,7 +81,7 @@ namespace TGC.Group.Model
         public override void Update()
         {
             //Muevo las plataformas
-            var Mover = TGCMatrix.Translation(0, 0, -10);
+            var Mover = TGCMatrix.Translation(0, 0, 30);
             var Mover2 = TGCMatrix.Translation(0, 0, 65);
 
             //Punto por donde va a rotar

@@ -54,7 +54,7 @@ namespace TGC.Group.Model
             //Configurar animacion inicial
             Mesh.playAnimation("Parado", true);
             //Escalarlo porque es muy grande
-            Mesh.Position = new TGCVector3(0, 0, 50);
+            Mesh.Position = new TGCVector3(0, 0, -350); // 0,0,50
             Mesh.Scale = new TGCVector3(0.1f, 0.1f, 0.1f);
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
         }
@@ -140,6 +140,11 @@ namespace TGC.Group.Model
             {
                 Mesh.BoundingBox.Render();
             }
+        }
+
+        public void DesplazarConInercia()
+        {
+            this.movimiento = new TGCVector3(0,0, -VelocidadDesplazamiento * Context.ElapsedTime);
         }
 
         public void Dispose()

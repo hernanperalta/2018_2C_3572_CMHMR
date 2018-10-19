@@ -22,43 +22,31 @@ namespace TGC.Group.Model
 
             planoDer = planoIzq.createMeshInstance("planoDer");
             planoDer.AutoTransform = false;
-            planoDer.Transform = TGCMatrix.Translation(-35, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
+            planoDer.Transform = TGCMatrix.Translation(-38, -15, -450) * TGCMatrix.Scaling(1, 2f, 1.1f);
             planoDer.BoundingBox.transform(planoDer.Transform);
 
-            planoIzq.Transform = TGCMatrix.Translation(0, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
+            planoIzq.Transform = TGCMatrix.Translation(0, -15, -450) * TGCMatrix.Scaling(1, 2f, 1.1f);
             planoIzq.BoundingBox.transform(planoIzq.Transform);
 
             //planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
             //planoFront.AutoTransform = false;
 
-            planoBack = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
-            planoBack.AutoTransform = false;
-            planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
-            planoBack.BoundingBox.transform(planoBack.Transform);
+            //planoBack = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
+            //planoBack.AutoTransform = false;
+            //planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
+            //planoBack.BoundingBox.transform(planoBack.Transform);
 
             //planoFront.Transform = TGCMatrix.Translation(50, 0, -535);
             //planoFront.BoundingBox.transform(planoFront.Transform);
 
             planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
-            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, -20, -200));
+            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 1) * TGCMatrix.Translation(-25, 2, -400));
 
         }
 
-        public override void Update() { }
 
-        public override void Colisiones()
-        {
-            movimiento = personaje.movimiento;
-
-            CalcularColisionesConPlanos();
-
-            CalcularColisionesConMeshes();
-
-            personaje.Movete(movimiento);
-        }
-
-        public override void CalcularColisionesConMeshes() { }
+        //public override void CalcularColisionesConMeshes() { }
 
         public override void CalcularColisionesConPlanos()
         {
@@ -69,14 +57,14 @@ namespace TGC.Group.Model
                 if (ChocoConLimite(personaje, planoIzq))
                     NoMoverHacia(Key.A);
 
-                if (ChocoConLimite(personaje, planoBack))
-                {
-                    planoBack.BoundingBox.setRenderColor(Color.AliceBlue);
-                }
-                else
-                { // esto no hace falta despues
-                    planoBack.BoundingBox.setRenderColor(Color.Yellow);
-                }
+                //if (ChocoConLimite(personaje, planoBack))
+                //{
+                //    planoBack.BoundingBox.setRenderColor(Color.AliceBlue);
+                //}
+                //else
+                //{ // esto no hace falta despues
+                //    planoBack.BoundingBox.setRenderColor(Color.Yellow);
+                //}
 
                 if (ChocoConLimite(personaje, planoDer))
                     NoMoverHacia(Key.D);
@@ -96,9 +84,11 @@ namespace TGC.Group.Model
 
                 if (ChocoConLimite(personaje, planoPiso))
                 {
-                    if (movimiento.Y < 0)
+                    
+                    personaje.DesplazarConInercia();
+                    if (personaje.movimiento.Y < 0)
                     {
-                        movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
+                        personaje.movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
                         personaje.ColisionoEnY();
                     }
                 }
@@ -112,7 +102,7 @@ namespace TGC.Group.Model
 
             if (contexto.BoundingBox)
             {
-                planoBack.BoundingBox.Render();
+                //planoBack.BoundingBox.Render();
                 //planoFront.BoundingBox.Render();
                 planoIzq.BoundingBox.Render();
                 planoDer.BoundingBox.Render();
