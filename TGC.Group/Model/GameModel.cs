@@ -9,6 +9,7 @@ using TGC.Group.Model.Escenarios;
 using Microsoft.DirectX.Direct3D;
 using TGC.Core.Text;
 using System.Drawing;
+using TGC.Core.Sound;
 
 namespace TGC.Group.Model
 {
@@ -38,6 +39,7 @@ namespace TGC.Group.Model
             get => "../../Media/";
         }
         public bool BoundingBox { get; set; }
+        private bool muteado = true;
         private const float VELOCIDAD_DESPLAZAMIENTO = 50f;
         private Personaje personaje;
         public GameCamera camara;
@@ -52,6 +54,8 @@ namespace TGC.Group.Model
         public Texture TexturaDuraznos;
         public TgcText2D textoVidas;
         public TgcText2D textoDuraznos;
+        public TgcMp3Player cancionPpal = new TgcMp3Player();
+        public TgcMp3Player woah = new TgcMp3Player();
 
         public List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
         {
@@ -65,7 +69,11 @@ namespace TGC.Group.Model
         ///     Borrar el codigo ejemplo no utilizado.
         /// </summary>
         public override void Init()
-        {personaje = new Personaje(this);
+        {
+            personaje = new Personaje(this);
+
+            woah.FileName = MediaDir + "musica\\woah.mp3";
+            cancionPpal.FileName = MediaDir + "musica\\crash.mp3";
 
             cargarEscenarios();
 
@@ -184,6 +192,24 @@ namespace TGC.Group.Model
                 BoundingBox = !BoundingBox;
             }
 
+            if (Input.keyPressed(Key.M))
+                muteado = !muteado;
+
+            if (muteado)
+            {
+                cancionPpal.pause();
+            }
+            else
+            {
+                cancionPpal.resume();
+            }
+
+            if (cancionPpal.getStatus() != TgcMp3Player.States.Playing && !muteado)
+            {
+                cancionPpal.closeFile();
+                cancionPpal.play(true);
+            }
+
             PostUpdate();
         }
 
@@ -235,10 +261,25 @@ namespace TGC.Group.Model
             escenarioActual = escenarios[nombre];
         }
 
-        public void ActualizarCamara()
+        public void Empezar()
         {
+            CambiarEscenario("playa");
+
             camara = new GameCamera(personaje.Position, 60, 200, this);
             Camara = camara;
+
+            personaje.SetUp();
+
+            textoVidas.Text = personaje.Vidas.ToString();
+            textoDuraznos.Text = personaje.Duraznos.ToString();
+        }
+
+        public void ReproducirWoah()
+        {
+            cancionPpal.pause();
+            woah.closeFile();
+            woah.play(false);
+            cancionPpal.resume();
         }
     }
 }

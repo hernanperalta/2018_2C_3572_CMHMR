@@ -21,7 +21,7 @@ namespace TGC.Group.Model
         {
             get => Mesh.Transform.Origin;
         }
-        public int Vidas = 3, Duraznos = 0;
+        public int Vidas, Duraznos;
         
         public TGCMatrix TransformPlataforma;
 
@@ -158,8 +158,25 @@ namespace TGC.Group.Model
         public void Restaurar()
         {
             Movete(new TGCVector3(0,+30, 200));
+            if (Vidas == 1)
+                Context.CambiarEscenario("menu");
+            else
+                PerderVida();
+           
         }
 
-        
+        private void PerderVida()
+        {
+            Vidas--;
+            Context.textoVidas.Text = Vidas.ToString();
+            Context.ReproducirWoah();
+        }
+
+        public void SetUp()
+        {
+            ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
+            Vidas = 3;
+            Duraznos = 0;
+        }
     }
 }

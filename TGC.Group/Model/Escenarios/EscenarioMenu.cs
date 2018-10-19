@@ -48,7 +48,7 @@ namespace TGC.Group.Model.Escenarios
             var viewport = D3DDevice.Instance.Device.Viewport;
 
             texto = new TgcText2D();
-            texto.Position = new Point(viewport.Width/2, viewport.Height/2 - offsetTexto);
+            texto.Position = new Point(viewport.Width/2 - 100, viewport.Height/2 - offsetTexto);
             texto.Size = new Size(200, 50);
             texto.changeFont(new Font("TimesNewRoman", 50, FontStyle.Regular));
             texto.Color = Color.Yellow;
@@ -74,7 +74,6 @@ namespace TGC.Group.Model.Escenarios
     {
         private List<Boton> botones = new List<Boton>();
         private TgcPickingRay pickingRay;
-        protected TgcMp3Player cancionPpal = new TgcMp3Player();
         public TGCVector3 lookAt;
 
         public EscenarioMenu(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
@@ -82,7 +81,6 @@ namespace TGC.Group.Model.Escenarios
         protected override void Init()
         {
             pickingRay = new TgcPickingRay(contexto.Input);
-            cancionPpal.FileName = contexto.MediaDir + "\\musica\\crash.mp3";
 
             contexto.Camara = new Core.Camara.TgcCamera();
             lookAt = new TGCVector3(0, 50, 400);
@@ -91,8 +89,7 @@ namespace TGC.Group.Model.Escenarios
             botones.Add(
                 new Boton(new TGCVector3(lookAt.X, lookAt.Y + 6, lookAt.Z), "Jugar", Color.Green, 300, () =>
                 {
-                    contexto.CambiarEscenario("playa");
-                    contexto.ActualizarCamara();
+                    contexto.Empezar();
                 })
             );
 
@@ -102,18 +99,14 @@ namespace TGC.Group.Model.Escenarios
                     Environment.Exit(0);
                 })
             );
+
+            contexto.cancionPpal.play(true);
         }
 
         public override void Update()
         {
             if (contexto.ElapsedTime > 10000)
                 return;
-
-            if (cancionPpal.getStatus() != TgcMp3Player.States.Playing)
-            {
-                cancionPpal.closeFile();
-                cancionPpal.play(true);
-            }
         }
 
         public override void Render()
