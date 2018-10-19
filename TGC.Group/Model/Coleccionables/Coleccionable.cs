@@ -15,19 +15,20 @@ namespace TGC.Group.Model.Coleccionables
 
         public Coleccionable(GameModel contexto, TgcMesh mesh)
         {
-            this.mesh = mesh.createMeshInstance("durazno");
+            this.mesh = mesh;
             this.contexto = contexto;
         }
 
-        public void TestearColisionContra(Colisionable colisionable)
+        public bool ColisionoContra(Colisionable colisionable)
         {
-            bool colisiono = TgcCollisionUtils.testAABBAABB(mesh.BoundingBox, colisionable.BoundingBox());
-            if (colisiono)
-            {
-                Juntarme();
-            }
+            return TgcCollisionUtils.testAABBAABB(mesh.BoundingBox, colisionable.BoundingBox());
         }
 
-        protected abstract void Juntarme();
+        public abstract void Juntarme();
+
+        public void Render()
+        {
+            mesh.Render();
+        }
     }
 }

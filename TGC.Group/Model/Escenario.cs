@@ -94,6 +94,13 @@ namespace TGC.Group.Model
         {
             if (personaje.moving)
             {
+                foreach (Coleccionable coleccionable in coleccionables)
+                    if (coleccionable.ColisionoContra(personaje))
+                    {
+                        coleccionable.Juntarme();
+                        break;
+                    }
+
                 foreach (Caja caja in cajas)
                 {
                     caja.TestearColisionContra(personaje);

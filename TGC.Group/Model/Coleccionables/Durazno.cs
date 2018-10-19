@@ -13,7 +13,7 @@ namespace TGC.Group.Model.Coleccionables
     {
         public Durazno(GameModel contexto, TgcMesh mesh) : base(contexto, mesh) { }
 
-        protected override void Juntarme()
+        public override void Juntarme()
         {
             contexto.escenarioActual.JuntarDurazno(this);
         }

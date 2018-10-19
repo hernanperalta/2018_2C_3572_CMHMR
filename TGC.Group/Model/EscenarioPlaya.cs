@@ -5,6 +5,7 @@ using System.Drawing;
 using TGC.Core.BoundingVolumes;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
+using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
@@ -61,7 +62,19 @@ namespace TGC.Group.Model
             colisionablesConCamara.Add(planoArbol.BoundingBox);
             //
 
+            CargarDuraznos();
+
             GenerarCajas();
+        }
+
+        private void CargarDuraznos()
+        {
+            escena.Meshes
+                .FindAll(mesh => mesh.Name == "durazno")
+                .ForEach(mesh => {
+                    escena.Meshes.Remove(mesh);
+                    coleccionables.Add(new Durazno(contexto, mesh));
+                });
         }
 
         private void GenerarCajas() {
@@ -75,6 +88,7 @@ namespace TGC.Group.Model
         public override void Render() {
             escena.RenderAll();
             cajas.ForEach((caja) => { caja.Render(); });
+            coleccionables.ForEach(coleccionable => coleccionable.Render());
 
             if (contexto.BoundingBox) {
                 cajas.ForEach((caja) => {caja.RenderizaRayos(); }) ;
