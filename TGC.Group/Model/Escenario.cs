@@ -120,10 +120,10 @@ namespace TGC.Group.Model
 
                 foreach (Caja otraCaja in cajasFiltradas)
                 {
-                    if (caja.Movimiento().X != 0 || caja.Movimiento().Y != 0 || caja.Movimiento().Z != 0){
+                    //if (caja.Movimiento().X != 0 || caja.Movimiento().Y != 0 || caja.Movimiento().Z != 0){
                         caja.TestearColisionContra(otraCaja);
-                        otraCaja.movimiento += caja.movimiento;
-                    }
+                        //otraCaja.movimiento += caja.movimiento;
+                    //}
                     
                 }
             }
