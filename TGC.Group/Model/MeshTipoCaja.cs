@@ -46,9 +46,7 @@ namespace TGC.Group.Model
             this.caras = new List<Cara>();
         }
 
-        protected abstract int ModificacionEnY();
-
-        internal void Render()
+        public void Render()
         {
             mesh.Render();
         }

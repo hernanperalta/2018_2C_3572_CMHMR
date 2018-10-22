@@ -59,11 +59,6 @@ namespace TGC.Group.Model
             mesh.BoundingBox.transform(mesh.Transform);
         }
 
-        protected override int ModificacionEnY()
-        {
-            return 2;
-        }
-
         public bool EstaEnElPiso(TgcMesh planoPiso)
         {
             return TgcCollisionUtils.testAABBAABB(mesh.BoundingBox, planoPiso.BoundingBox);//this.caras.Any((cara) => cara.rayos.Any((rayo) => rayo.Colisionar(planoPiso.BoundingBox) && rayo.HuboColision()));

@@ -64,10 +64,5 @@ namespace TGC.Group.Model
                                  .Build());
         }
 
-        protected override int ModificacionEnY()
-        {
-            return 1;
-        }
-
     }
 }
