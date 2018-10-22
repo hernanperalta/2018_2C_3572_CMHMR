@@ -30,6 +30,7 @@ namespace TGC.Group.Model
 
         public Escenario siguiente;
         public Escenario anterior;
+        //public bool aplicarGravedad;
         public int nearLimit;
         public int farLimit;
         protected List<TgcBoundingAxisAlignBox> colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
@@ -39,6 +40,7 @@ namespace TGC.Group.Model
             this.personaje = personaje;
             this.cajas = new List<Caja>();
             coleccionables = new List<Coleccionable>();
+          
             Init();
             CargarDuraznos();
         }
@@ -69,9 +71,25 @@ namespace TGC.Group.Model
 
         protected abstract void Init();
 
-        public abstract void Render();
+        public virtual void Render() {
+            if (cajas.Count != 0) {
+                ///Console.WriteLine(String.Format("CANTIDAD DE CAJAS : {0}", cajas.Count));
+                cajas.ForEach((caja) => caja.Render());
+            }
+
+            if(contexto.BoundingBox)
+                cajas.ForEach((caja) => { caja.RenderizaRayos(); });
+
+            Renderizar();
+        }
+
+        public abstract void Renderizar();
 
         public virtual void Update() {
+                
+        }
+
+        public void AplicarGravedad() {
             cajas.ForEach((caja) => caja.Update());
         }
 
@@ -84,7 +102,7 @@ namespace TGC.Group.Model
 
             CalcularEfectoGravedadEnMeshes();
 
-            VerificarSiAlgunMeshSalioDelEscenario();
+            //VerificarSiAlgunMeshSalioDelEscenario();
 
             cajas.ForEach((caja) => caja.Movete());
             personaje.Movete(personaje.movimiento);
@@ -126,9 +144,14 @@ namespace TGC.Group.Model
             foreach (Caja caja in cajas)
             {
                 var cajasFiltradas = cajas.FindAll((caja2) => !caja2.Equals(caja));
+
                 foreach (Caja otraCaja in cajasFiltradas)
                 {
-                    caja.TestearColisionContra(otraCaja);
+                    //if (caja.Movimiento().X != 0 || caja.Movimiento().Y != 0 || caja.Movimiento().Z != 0){
+                        caja.TestearColisionContra(otraCaja);
+                        //otraCaja.movimiento += caja.movimiento;
+                    //}
+                    
                 }
             }
         }

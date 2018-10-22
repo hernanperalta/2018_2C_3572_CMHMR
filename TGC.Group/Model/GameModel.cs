@@ -180,13 +180,16 @@ namespace TGC.Group.Model
             personaje.Update();
 
             //escenarioActual.Update();
-            foreach(Escenario escenario in escenarios.Values)
+            actualizarEscenario();
+
+            escenarioActual.AplicarGravedad();
+
+            foreach (Escenario escenario in escenarios.Values)
             {
                 escenario.Update();
             }
 
-            actualizarEscenario();
-
+            
             escenarioActual.Colisiones();
 
             if (Input.keyPressed(Key.Q))

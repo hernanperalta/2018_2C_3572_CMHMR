@@ -148,7 +148,7 @@ namespace TGC.Group.Model
 
         public override void ColisionoEnY()
         {
-            this.colisionaEnY = true;
+            base.ColisionoEnY();
             if (movimiento.X == 0 && movimiento.Z == 0)
                 this.moving = false;
         }

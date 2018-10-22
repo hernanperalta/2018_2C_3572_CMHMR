@@ -71,13 +71,13 @@ namespace TGC.Group.Model
             cajas.Add(new Caja(new TGCVector3(0, 20, -150), mesh2, contexto));
         }
 
-        public override void Render() {
+
+        public override void Renderizar() {
             scene.RenderAll();
-            cajas.ForEach((caja) => { caja.Render(); });
             coleccionables.ForEach(coleccionable => coleccionable.Render());
 
             if (contexto.BoundingBox) {
-                cajas.ForEach((caja) => {caja.RenderizaRayos(); }) ;
+                //cajas.ForEach((caja) => {caja.RenderizaRayos(); }) ;
                 planoBack.BoundingBox.Render();
                 //planoFront.BoundingBox.Render();
                 planoIzq.BoundingBox.Render();

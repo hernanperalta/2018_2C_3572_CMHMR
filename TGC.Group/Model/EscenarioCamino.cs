@@ -102,7 +102,7 @@ namespace TGC.Group.Model
             }
         }
 
-        public override void Render()
+        public override void Renderizar()
         {
             //Dibujamos la escena
             scene.RenderAll();
