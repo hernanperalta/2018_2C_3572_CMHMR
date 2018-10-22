@@ -10,7 +10,6 @@ namespace TGC.Group.Model
 {
     public class EscenarioPlaya : Escenario
     {
-        private TgcScene escena;
         public TgcMesh planoArbol;
 
         // Planos de limite
@@ -24,7 +23,7 @@ namespace TGC.Group.Model
         {
             var MediaDir = contexto.MediaDir;
             var loader = new TgcSceneLoader();
-            this.escena = loader.loadSceneFromFile(MediaDir + "escenarios\\playa\\playa-TgcScene.xml");
+            scene = loader.loadSceneFromFile(MediaDir + "escenarios\\playa\\playa-TgcScene.xml");
 
             planoIzq = loader.loadSceneFromFile(MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
@@ -73,8 +72,9 @@ namespace TGC.Group.Model
         }
 
         public override void Render() {
-            escena.RenderAll();
+            scene.RenderAll();
             cajas.ForEach((caja) => { caja.Render(); });
+            coleccionables.ForEach(coleccionable => coleccionable.Render());
 
             if (contexto.BoundingBox) {
                 cajas.ForEach((caja) => {caja.RenderizaRayos(); }) ;
@@ -146,7 +146,7 @@ namespace TGC.Group.Model
             planoIzq.Dispose();
             //planoFront.Dispose();
             planoPiso.Dispose();
-            escena.DisposeAll();
+            scene.DisposeAll();
         }
     }
 }
