@@ -8,6 +8,7 @@ using TGC.Core.Mathematica;
 using Microsoft.DirectX.DirectInput;
 using TGC.Core.BoundingVolumes;
 using TGC.Group.Model.Coleccionables;
+using TGC.Core.Input;
 
 namespace TGC.Group.Model
 {
@@ -17,13 +18,14 @@ namespace TGC.Group.Model
         private TGCMatrix ultimaPosicion;
         //public TGCVector3 movimiento;
         private const float VelocidadDesplazamiento = 50f;
+        private float MultiplicadorVelocidad = 5;
         public TGCVector3 Position
         {
             get => Mesh.Transform.Origin;
         }
         public int Vidas, Duraznos;
         public TGCMatrix TransformPlataforma;
-        private bool PuedeSaltar;
+        private bool PuedeSaltar, GodModeOn;
         public override TgcBoundingAxisAlignBox BoundingBox()
         {
             return this.Mesh.BoundingBox;
@@ -35,6 +37,7 @@ namespace TGC.Group.Model
         {
             string mediaDir = Context.MediaDir;
             PuedeSaltar = true;
+            GodModeOn = false;
 
             var skeletalLoader = new TgcSkeletalLoader();
             Mesh = skeletalLoader.loadMeshAndAnimationsFromFile(
@@ -72,6 +75,15 @@ namespace TGC.Group.Model
             TransformPlataforma = TGCMatrix.Identity;
             //transformacionPersonaje = TGCMatrix.Identity;
 
+            if (input.keyPressed(Key.G))
+                GodModeOn = !GodModeOn;
+
+            if (GodModeOn)
+            {
+                GodMode(input);
+                return;
+            }
+
             if (input.keyDown(Key.W))
             {
                 movimiento += new TGCVector3(0, 0, -velocidadCaminar);
@@ -102,6 +114,47 @@ namespace TGC.Group.Model
             }
 
             base.Update();
+        }
+
+        private void GodMode(TgcD3dInput input)
+        {
+            var velocidadCaminar = VelocidadDesplazamiento * Context.ElapsedTime * MultiplicadorVelocidad;
+
+            if (input.keyDown(Key.W))
+            {
+                movimiento += new TGCVector3(0, 0, -velocidadCaminar);
+                moving = true;
+            }
+
+            if (input.keyDown(Key.S))
+            {
+                movimiento += new TGCVector3(0, 0, velocidadCaminar);
+                moving = true;
+            }
+
+            if (input.keyDown(Key.D))
+            {
+                movimiento += new TGCVector3(-velocidadCaminar, 0, 0);
+                moving = true;
+            }
+
+            if (input.keyDown(Key.A))
+            {
+                movimiento += new TGCVector3(velocidadCaminar, 0, 0);
+                moving = true;
+            }
+            //
+            if (input.keyDown(Key.Space))
+            {
+                movimiento += new TGCVector3(0, velocidadCaminar, 0);
+                moving = true;
+            }
+
+            if (input.keyDown(Key.LeftControl))
+            {
+                movimiento += new TGCVector3(0, -velocidadCaminar, 0);
+                moving = true;
+            }
         }
 
         public void Movete(TGCVector3 movimiento)
