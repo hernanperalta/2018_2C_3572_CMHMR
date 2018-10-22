@@ -79,7 +79,7 @@ namespace TGC.Group.Model
 
             escenarios["playa"].siguiente = escenarios["plataforma"];
 
-          //escenarios["camino"] = new EscenarioCamino(this, personaje);
+            //escenarios["camino"] = new EscenarioCamino(this, personaje);
 
             escenarios["pozo"] = new EscenarioPozo(this, personaje);
 
@@ -119,6 +119,12 @@ namespace TGC.Group.Model
 
             if (between(posicionMeshEjeZ, -600 , -465f))
                 escenarioActual = escenarios["hielo"];
+
+            //if (between(posicionMeshEjeZ, -745f, -600f))
+            //    escenarioActual = escenarios["camino"];
+
+            if (between(posicionMeshEjeZ, -850f, -750f))
+                escenarioActual = escenarios["piramide"];
 
             //if (between(posicionMeshEjeZ, ???f, -465f))
             //    escenarioActual = escenarios["plataforma"];

@@ -15,9 +15,11 @@ namespace TGC.Group.Model
         protected override void Init()
         {
             var loader = new TgcSceneLoader();
-            scene = loader.loadSceneFromFile(GameModel.Media + "\\escenarios\\piramide\\piramide-TgcScene.xml");
-                
-            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
+            scene = loader.loadSceneFromFile(GameModel.Media + "\\escenarios\\piramide\\piramide2-TgcScene.xml");
+
+            //planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
+            planoIzq = (TgcMesh) scene.Meshes.Find((m) => m.Name.Contains("Izq"));
+            //scene.Meshes.Remove((m) => m.Name.Contains("Izq"));
             planoIzq.AutoTransform = false;
 
             planoDer = planoIzq.createMeshInstance("planoDer");
@@ -25,8 +27,8 @@ namespace TGC.Group.Model
             planoDer.Transform = TGCMatrix.Translation(-38, -15, -600) * TGCMatrix.Scaling(1, 2f, 1.1f);
             planoDer.BoundingBox.transform(planoDer.Transform);
 
-            planoIzq.Transform = TGCMatrix.Translation(0, -15, -600) * TGCMatrix.Scaling(1, 2f, 1.1f);
-            planoIzq.BoundingBox.transform(planoIzq.Transform);
+            //planoIzq.Transform = TGCMatrix.Translation(0, -15, -600) * TGCMatrix.Scaling(1, 2f, 1.1f);
+            //planoIzq.BoundingBox.transform(planoIzq.Transform);
 
             //planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
             //planoFront.AutoTransform = false;
@@ -41,7 +43,7 @@ namespace TGC.Group.Model
 
             planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
-            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, -20, -200));
+            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-25, 0, -600));
 
         }
 
