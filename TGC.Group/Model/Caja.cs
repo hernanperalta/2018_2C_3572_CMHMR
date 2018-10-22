@@ -19,25 +19,25 @@ namespace TGC.Group.Model
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(Desplazar.HaciaAdelante())
-                                 .CaraZ(ModificacionEnY())
+                                 .CaraZ()
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(Desplazar.HaciaAtras())
-                                 .CaraMenosZ(ModificacionEnY())
+                                 .CaraMenosZ()
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(Desplazar.HaciaDerecha())
-                                 .CaraX(ModificacionEnY())
+                                 .CaraX()
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(Desplazar.HaciaIzquierda())
-                                 .CaraMenosX(ModificacionEnY())
+                                 .CaraMenosX()
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.DirectX.DirectInput;
+using System.Collections.Generic;
 using System.Drawing;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
@@ -9,6 +10,7 @@ namespace TGC.Group.Model
     {
         //Escenas
         private TgcScene scene;
+        private List<Escalon> escalones;
 
         public EscenarioPiramide(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
 
@@ -17,9 +19,7 @@ namespace TGC.Group.Model
             var loader = new TgcSceneLoader();
             scene = loader.loadSceneFromFile(GameModel.Media + "\\escenarios\\piramide\\piramide2-TgcScene.xml");
 
-            //planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
-            planoIzq = (TgcMesh) scene.Meshes.Find((m) => m.Name.Contains("Izq"));
-            //scene.Meshes.Remove((m) => m.Name.Contains("Izq"));
+            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
             planoIzq.AutoTransform = false;
 
             planoDer = planoIzq.createMeshInstance("planoDer");
@@ -45,9 +45,33 @@ namespace TGC.Group.Model
             planoPiso.AutoTransform = false;
             planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-25, 0, -600));
 
+            ArmarEscalones();
         }
 
         public override void Update() { }
+
+        private void ArmarEscalones() {
+            escalones = new List<Escalon>();
+
+            var frente = scene.Meshes.Find((m) => m.Name.Contains("frente"));
+            frente.AutoTransform = false;
+            var arriba = scene.Meshes.Find((m) => m.Name.Contains("arriba"));
+            arriba.AutoTransform = false;
+
+            escalones.Add(new Escalon(frente, arriba));
+
+            var frente2 = frente.createMeshInstance("frente2");
+            frente2.AutoTransform = false;
+            var arriba2 = arriba.createMeshInstance("arriba2");
+            arriba2.AutoTransform = false;
+
+            frente2.Transform = TGCMatrix.Translation(new TGCVector3(0, 2 * frente.BoundingBox.calculateBoxRadius(), -2 * arriba.BoundingBox.calculateBoxRadius()));
+            frente2.BoundingBox.transform(frente2.Transform);
+            arriba2.Transform = TGCMatrix.Translation(new TGCVector3(0, 2 * frente.BoundingBox.calculateBoxRadius(), -2 * arriba.BoundingBox.calculateBoxRadius()));
+            arriba2.BoundingBox.transform(arriba2.Transform);
+
+            escalones.Add(new Escalon(frente2, arriba2));
+        }
 
         public override void Colisiones()
         {
@@ -55,9 +79,15 @@ namespace TGC.Group.Model
 
             CalcularColisionesConPlanos();
 
+            CalcularColisionesConEscalones();
+
             CalcularColisionesConMeshes();
 
             personaje.Movete(movimiento);
+        }
+
+        public void CalcularColisionesConEscalones() {
+            escalones.ForEach((escalon) => escalon.ColisionarContra(personaje));
         }
 
         public override void CalcularColisionesConMeshes() { }
@@ -116,6 +146,7 @@ namespace TGC.Group.Model
             {
                 //planoBack.BoundingBox.Render();
                 //planoFront.BoundingBox.Render();
+                //escalones.ForEach((e) => e.);
                 planoIzq.BoundingBox.Render();
                 planoDer.BoundingBox.Render();
                 planoPiso.BoundingBox.Render();
