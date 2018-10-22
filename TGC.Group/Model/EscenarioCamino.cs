@@ -7,9 +7,6 @@ namespace TGC.Group.Model
 {
     public class EscenarioCamino : Escenario
     {
-        //Escenas
-        private TgcScene scene;
-
         public EscenarioCamino(GameModel contexto, Personaje personaje) : base(contexto, personaje, 0, 0) { }
 
         protected override void Init()
