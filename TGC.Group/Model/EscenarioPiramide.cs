@@ -9,7 +9,6 @@ namespace TGC.Group.Model
     public class EscenarioPiramide : Escenario
     {
         //Escenas
-        private TgcScene scene;
         private List<Escalon> escalones;
         
         public EscenarioPiramide(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
@@ -172,8 +171,8 @@ namespace TGC.Group.Model
         public override void Renderizar()
         {
             //Dibujamos la escena
-            //scene.Meshes.FindAll(unMesh => !unMesh.Name.Contains("Escalon"))
-            //            .ForEach(unMesh => unMesh.Render());
+            scene.Meshes.FindAll(unMesh => !unMesh.Name.Contains("Escalon"))
+                        .ForEach(unMesh => unMesh.Render());
 
             if (contexto.BoundingBox)
             {
