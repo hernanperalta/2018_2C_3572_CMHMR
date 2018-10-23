@@ -110,6 +110,7 @@
     <Compile Include="Model\Coleccionables\Durazno.cs" />
     <Compile Include="Model\Eje.cs" />
     <Compile Include="Model\Desplazar.cs" />
+    <Compile Include="Model\Escalon.cs" />
     <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\EscenarioCamino.cs" />
     <Compile Include="Model\EscenarioHielo.cs" />

@@ -53,7 +53,9 @@ namespace TGC.Group.Model
             //Configurar animacion inicial
             Mesh.playAnimation("Parado", true);
             //Escalarlo porque es muy grande
+
             Mesh.Position = new TGCVector3(0, 0, 50); // 0,0,50
+
             Mesh.Scale = new TGCVector3(0.1f, 0.1f, 0.1f);
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
         }
@@ -96,7 +98,7 @@ namespace TGC.Group.Model
                 moving = true;
             }
             //
-            if (input.keyPressed(Key.Space) && PuedeSaltar)
+            if (input.keyPressed(Key.Space))
             {
                 VelocidadY = VelocidadSalto;
             }

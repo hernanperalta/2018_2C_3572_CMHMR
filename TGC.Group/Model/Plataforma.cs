@@ -29,25 +29,25 @@ namespace TGC.Group.Model
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(new ChoqueRigido(Eje.Z))
-                                 .CaraZ(ModificacionEnY())
+                                 .CaraZ()
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(new ChoqueRigido(Eje.MenosZ))
-                                 .CaraMenosZ(ModificacionEnY())
+                                 .CaraMenosZ()
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(new ChoqueRigido(Eje.X))
-                                 .CaraX(ModificacionEnY())
+                                 .CaraX()
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
                                  .Mesh(this)
                                  .Accion(new ChoqueRigido(Eje.MenosX))
-                                 .CaraMenosX(ModificacionEnY())
+                                 .CaraMenosX()
                                  .Build());
 
             caras.Add(CaraBuilder.Instance()
@@ -62,11 +62,6 @@ namespace TGC.Group.Model
                                  .Accion(new ChoqueRigido(Eje.MenosY))
                                  .CaraMenosY()
                                  .Build());
-        }
-
-        protected override int ModificacionEnY()
-        {
-            return 1;
         }
 
     }

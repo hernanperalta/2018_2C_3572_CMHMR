@@ -16,9 +16,9 @@ namespace TGC.Group.Model
         public bool colisionaEnY = true;
         public float VelocidadY = 0f;
         public float VelocidadSalto = 90f;
-        public float Gravedad = -60f;
+        public float Gravedad = -50f;
         public float VelocidadTerminal = -50f;
-        public float DesplazamientoMaximoY = 5f;
+        public float DesplazamientoMaximoY = 6f;
         protected GameModel Context;
         public bool moving;
 

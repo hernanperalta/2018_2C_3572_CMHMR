@@ -10,7 +10,7 @@ namespace TGC.Group.Model
                 //var centroCaraY = CaraBuilder.Instance().Mesh(mesh).HallarCentroDeCara("y");
                 //personaje.Mesh.Transform *= TGCMatrix.Translation(personaje.Position.X, centroCaraY.Y, personaje.Position.Z); ;
                 colisionable.movimiento.Y = 0;
-                //colisionable.ColisionoEnY(); // FEO FEO FEO FEO FEO FEO FEO FEO
+                colisionable.ColisionoEnY(); 
             }
         }
         
