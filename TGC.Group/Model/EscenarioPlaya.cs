@@ -1,5 +1,4 @@
 ﻿using Microsoft.DirectX.DirectInput;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using TGC.Core.BoundingVolumes;
@@ -10,6 +9,8 @@ namespace TGC.Group.Model
 {
     public class EscenarioPlaya : Escenario
     {
+        private TgcScene escena;
+        private TgcScene planos;
         public TgcMesh planoArbol;
 
         // Planos de limite
@@ -23,34 +24,23 @@ namespace TGC.Group.Model
         {
             var MediaDir = contexto.MediaDir;
             var loader = new TgcSceneLoader();
-            scene = loader.loadSceneFromFile(MediaDir + "escenarios\\playa\\playa-TgcScene.xml");
+            this.escena = loader.loadSceneFromFile(GameModel.Media + "escenarios\\playa\\playa-TgcScene.xml");
+            this.planos = loader.loadSceneFromFile(GameModel.Media + "planos\\playa-TgcScene.xml");
 
-            planoIzq = loader.loadSceneFromFile(MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
+            planoIzq = this.planos.getMeshByName("planoIzq");
             planoIzq.AutoTransform = false;
 
-            planoDer = planoIzq.createMeshInstance("planoDer");
+            planoDer = this.planos.getMeshByName("planoDer");
             planoDer.AutoTransform = false;
-            planoDer.Transform = TGCMatrix.Translation(-38, 0, -43) * TGCMatrix.Scaling(1, 1, 3f);
-            planoDer.BoundingBox.transform(planoDer.Transform);
 
-            planoIzq.Transform = TGCMatrix.Translation(0, 0, -43) * TGCMatrix.Scaling(1, 1, 3f);
-            planoIzq.BoundingBox.transform(planoIzq.Transform);
-
-            //planoFront = loader.loadSceneFromFile(MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
-            //planoFront.AutoTransform = false;
-
-            planoBack = loader.loadSceneFromFile(MediaDir + "planos\\planoVertical-TgcScene.xml").Meshes[0];
+            planoBack = this.planos.getMeshByName("planoInicio");
             planoBack.AutoTransform = false;
-            planoBack.Transform = TGCMatrix.Translation(50, 0, 70);
-            planoBack.BoundingBox.transform(planoBack.Transform);
 
-            //planoFront.Transform = TGCMatrix.Translation(50, 0, -330);
-            //planoFront.BoundingBox.transform(planoFront.Transform);
-
-            planoPiso = loader.loadSceneFromFile(MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
+            planoPiso = this.planos.getMeshByName("planoPiso");
             planoPiso.AutoTransform = false;
-            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2.9f) * TGCMatrix.Translation(-25, 0, 250));
 
+            planoFront = this.planos.getMeshByName("planoFin");
+            planoFront.AutoTransform = false;
 
             // para probar colision con camara
             colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
