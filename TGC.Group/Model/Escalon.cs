@@ -1,4 +1,5 @@
-﻿using TGC.Core.Collision;
+﻿using System;
+using TGC.Core.Collision;
 using TGC.Core.SceneLoader;
 
 namespace TGC.Group.Model
@@ -16,6 +17,12 @@ namespace TGC.Group.Model
             this.arriba = arriba;
             //this.accionFrente = new ChoqueRigido(Eje.Z);
             //this.accionArriba = new CambiarPisoAlPersonaje();
+        }
+
+        public void Render()
+        {
+            frente.BoundingBox.Render();
+            arriba.BoundingBox.Render();
         }
 
         public void ColisionarContra(Personaje personaje) {
