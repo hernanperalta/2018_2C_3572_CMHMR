@@ -6,6 +6,12 @@ using System;
 using System.Collections.Generic;
 using TGC.Core.BoundingVolumes;
 using TGC.Group.Model.Escenarios;
+using Microsoft.DirectX.Direct3D;
+using TGC.Core.Text;
+using System.Drawing;
+using TGC.Core.Sound;
+using TGC.Core.Mathematica;
+using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
@@ -35,16 +41,23 @@ namespace TGC.Group.Model
             get => "../../Media/";
         }
         public bool BoundingBox { get; set; }
+        private bool muteado = true;
         private const float VELOCIDAD_DESPLAZAMIENTO = 50f;
         private Personaje personaje;
         public GameCamera camara;
         
         private Dictionary<string, Escenario> escenarios;
-        private Escenario escenarioActual;
+        public Escenario escenarioActual;
 
 
         //Constantes para velocidades de movimiento de plataforma
         private const float MOVEMENT_SPEED = 1f;
+        public Texture TexturaVidas;
+        public Texture TexturaDuraznos;
+        public TgcText2D textoVidas;
+        public TgcText2D textoDuraznos;
+        public TgcMp3Player cancionPpal = new TgcMp3Player();
+        public TgcMp3Player woah = new TgcMp3Player();
 
         public List<TgcBoundingAxisAlignBox> ColisionablesConCamara()
         {
@@ -59,14 +72,43 @@ namespace TGC.Group.Model
         /// </summary>
         public override void Init()
         {
-            //Device de DirectX para crear primitivas.
-            var d3dDevice = D3DDevice.Instance.Device;
-
             personaje = new Personaje(this);
+
+            woah.FileName = MediaDir + "musica\\woah.mp3";
+            cancionPpal.FileName = MediaDir + "musica\\crash.mp3";
 
             cargarEscenarios();
 
+            CargarHud();
+
             BoundingBox = false;
+        }
+
+        public void CargarHud()
+        {
+            //Device de DirectX para crear primitivas.
+            var d3dDevice = D3DDevice.Instance.Device;
+            var viewport = D3DDevice.Instance.Device.Viewport;
+
+            TexturaVidas = TextureLoader.FromFile(d3dDevice, MediaDir + "\\sprites\\vida.png");
+
+            TexturaDuraznos = TextureLoader.FromFile(d3dDevice, MediaDir + "\\sprites\\durazno.png");
+            
+            textoVidas = new TgcText2D();
+            textoVidas.Position = new Point(viewport.Width - 96, 0);
+            textoVidas.Size = new Size(64, 32);
+            textoVidas.changeFont(new System.Drawing.Font("TimesNewRoman", 23, FontStyle.Bold));
+            textoVidas.Color = Color.Yellow;
+            textoVidas.Align = TgcText2D.TextAlign.RIGHT;
+            textoVidas.Text = personaje.Vidas.ToString();
+            
+            textoDuraznos = new TgcText2D();
+            textoDuraznos.Position = new Point(viewport.Width - 96, 64);
+            textoDuraznos.Size = new Size(64, 32);
+            textoDuraznos.changeFont(new System.Drawing.Font("TimesNewRoman", 23, FontStyle.Bold));
+            textoDuraznos.Color = Color.Yellow;
+            textoDuraznos.Align = TgcText2D.TextAlign.RIGHT;
+            textoDuraznos.Text = personaje.Duraznos.ToString();
         }
 
         public void cargarEscenarios()
@@ -164,6 +206,24 @@ namespace TGC.Group.Model
                 BoundingBox = !BoundingBox;
             }
 
+            if (Input.keyPressed(Key.M))
+                muteado = !muteado;
+
+            if (muteado)
+            {
+                cancionPpal.pause();
+            }
+            else
+            {
+                cancionPpal.resume();
+            }
+
+            if (cancionPpal.getStatus() != TgcMp3Player.States.Playing && !muteado)
+            {
+                cancionPpal.closeFile();
+                cancionPpal.play(true);
+            }
+
             PostUpdate();
         }
 
@@ -184,7 +244,7 @@ namespace TGC.Group.Model
                 escenario.Render();
             }
 
-            //escenarioActual.Render();
+            escenarioActual.RenderHud();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
@@ -215,10 +275,39 @@ namespace TGC.Group.Model
             escenarioActual = escenarios[nombre];
         }
 
-        public void ActualizarCamara()
+        public void Empezar()
         {
+            CambiarEscenario("playa");
+
             camara = new GameCamera(personaje.Position, 60, 200, this);
             Camara = camara;
+
+            personaje.SetUp();
+
+            textoVidas.Text = personaje.Vidas.ToString();
+            textoDuraznos.Text = personaje.Duraznos.ToString();
+        }
+
+        public void ReproducirWoah()
+        {
+            cancionPpal.pause();
+            woah.closeFile();
+            woah.play(false);
+            cancionPpal.resume();
+        }
+
+        public void VolverAMenu()
+        {
+            CambiarEscenario("menu");
+            Camara = new Core.Camara.TgcCamera();
+            var lookAt = new TGCVector3(0, 50, 400);
+            Camara.SetCamera(new TGCVector3(lookAt.X, lookAt.Y, lookAt.Z + 30), lookAt);
+        }
+
+        public void ResetearColisionables()
+        {
+            foreach (Escenario escenario in escenarios.Values)
+                escenario.ResetearColisionables();
         }
     }
 }

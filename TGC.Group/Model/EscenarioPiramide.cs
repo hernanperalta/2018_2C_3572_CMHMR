@@ -11,7 +11,7 @@ namespace TGC.Group.Model
         //Escenas
         private TgcScene scene;
         private List<Escalon> escalones;
-
+        
         public EscenarioPiramide(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
 
         protected override void Init()
