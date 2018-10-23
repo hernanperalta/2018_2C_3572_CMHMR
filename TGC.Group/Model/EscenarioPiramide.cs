@@ -65,9 +65,9 @@ namespace TGC.Group.Model
             var arriba2 = arriba.createMeshInstance("arriba2");
             arriba2.AutoTransform = false;
 
-            frente2.Transform = TGCMatrix.Translation(new TGCVector3(0, 2 * frente.BoundingBox.calculateBoxRadius(), -2 * arriba.BoundingBox.calculateBoxRadius()));
+            frente2.Transform = TGCMatrix.Translation(new TGCVector3(0, frente.BoundingBox.calculateBoxRadius(), -arriba.BoundingBox.PMin.Z));
             frente2.BoundingBox.transform(frente2.Transform);
-            arriba2.Transform = TGCMatrix.Translation(new TGCVector3(0, 2 * frente.BoundingBox.calculateBoxRadius(), -2 * arriba.BoundingBox.calculateBoxRadius()));
+            arriba2.Transform = TGCMatrix.Translation(new TGCVector3(0, frente.BoundingBox.calculateBoxRadius(), -arriba.BoundingBox.calculateBoxRadius()));
             arriba2.BoundingBox.transform(arriba2.Transform);
 
             escalones.Add(new Escalon(frente2, arriba2));
@@ -138,12 +138,12 @@ namespace TGC.Group.Model
         public override void Renderizar()
         {
             //Dibujamos la escena
-            escalones.ForEach(unEscalon => unEscalon.Render());
-            scene.Meshes.FindAll(unMesh =>!unMesh.Name.Contains("Escalon"))
-                        .ForEach(unMesh => unMesh.Render());
+            //scene.Meshes.FindAll(unMesh => !unMesh.Name.Contains("Escalon"))
+            //            .ForEach(unMesh => unMesh.Render());
 
             if (contexto.BoundingBox)
             {
+                escalones.ForEach(unEscalon => unEscalon.Render());
                 //planoBack.BoundingBox.Render();
                 //planoFront.BoundingBox.Render();
                 //escalones.ForEach((e) => e.);

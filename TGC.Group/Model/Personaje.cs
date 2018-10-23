@@ -97,7 +97,7 @@ namespace TGC.Group.Model
                 moving = true;
             }
             //
-            if (input.keyPressed(Key.Space) && PuedeSaltar)
+            if (input.keyPressed(Key.Space))
             {
                 VelocidadY = VelocidadSalto;
             }
