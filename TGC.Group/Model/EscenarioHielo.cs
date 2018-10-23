@@ -73,13 +73,14 @@ namespace TGC.Group.Model
 
                 if (ChocoConLimite(personaje, planoPiso))
                 {
-                    
                     personaje.DesplazarConInercia();
                     if (personaje.movimiento.Y < 0)
                     {
                         personaje.movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
                         personaje.ColisionoEnY();
                     }
+                   
+                   
                 }
             }
         }

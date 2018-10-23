@@ -98,7 +98,7 @@ namespace TGC.Group.Model
                 moving = true;
             }
             //
-            if (input.keyPressed(Key.Space))
+            if (input.keyPressed(Key.Space) && PuedeSaltar)
             {
                 VelocidadY = VelocidadSalto;
             }
@@ -143,9 +143,14 @@ namespace TGC.Group.Model
             }
         }
 
+        internal void NoPuedeSaltar()
+        {
+            PuedeSaltar = false;
+        }
+
         public void DesplazarConInercia()
         {
-            this.movimiento = new TGCVector3(0,0, -VelocidadDesplazamiento * Context.ElapsedTime);
+            this.movimiento = new TGCVector3(0, movimiento.Y, -VelocidadDesplazamiento * Context.ElapsedTime);
         }
 
         public void Dispose()
