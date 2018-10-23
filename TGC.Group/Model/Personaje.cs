@@ -7,51 +7,43 @@ using TGC.Core.SkeletalAnimation;
 using TGC.Core.Mathematica;
 using Microsoft.DirectX.DirectInput;
 using TGC.Core.BoundingVolumes;
+using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
-    public class Personaje
+    public class Personaje : Colisionable
     {
         public TgcSkeletalMesh Mesh { get; set; }
-        public bool moving;
-        public bool colisionaEnY;
         private TGCMatrix ultimaPosicion;
-        public TGCVector3 movimiento;
+        //public TGCVector3 movimiento;
         private const float VelocidadDesplazamiento = 50f;
         public TGCVector3 Position
         {
             get => Mesh.Transform.Origin;
         }
-        public TgcBoundingAxisAlignBox BoundingBox
-        {
-            get => Mesh.BoundingBox;
-        }
+        public int Vidas, Duraznos;
         public TGCMatrix TransformPlataforma;
-
-        private GameModel Context;
-        //
-        public float VelocidadY = 0f;
-        float VelocidadSalto = 90f;
-        float Gravedad = -60f;
-        float VelocidadTerminal = -50f;
-        float DesplazamientoMaximoY = 5f;
         private bool PuedeSaltar;
-        //
-
-        public void Init(GameModel context)
+        public override TgcBoundingAxisAlignBox BoundingBox()
         {
-            Context = context;
-            string mediaDir = context.MediaDir;
+            return this.Mesh.BoundingBox;
+        }
+        //private List<Durazno> duraznosJuntados = new List<Durazno>();
+
+
+        public Personaje(GameModel contexto) : base (contexto)
+        {
+            string mediaDir = Context.MediaDir;
             PuedeSaltar = true;
 
             var skeletalLoader = new TgcSkeletalLoader();
             Mesh = skeletalLoader.loadMeshAndAnimationsFromFile(
-                mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Robot-TgcSkeletalMesh.xml",
-                mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\",
+                mediaDir + "objetos\\robot\\Robot-TgcSkeletalMesh.xml",
+                mediaDir + "objetos\\robot\\",
                 new[]
                 {
-                    mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Caminando-TgcSkeletalAnim.xml",
-                    mediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\Robot\\Parado-TgcSkeletalAnim.xml"
+                    mediaDir + "objetos\\robot\\Caminando-TgcSkeletalAnim.xml",
+                    mediaDir + "objetos\\robot\\Parado-TgcSkeletalAnim.xml"
                 });
 
 
@@ -61,12 +53,14 @@ namespace TGC.Group.Model
             //Configurar animacion inicial
             Mesh.playAnimation("Parado", true);
             //Escalarlo porque es muy grande
-            Mesh.Position = new TGCVector3(0, 0, 50);
-            Mesh.Scale = new TGCVector3(0.15f, 0.15f, 0.15f);
+
+            Mesh.Position = new TGCVector3(0, 0, 50); // 0,0,50
+
+            Mesh.Scale = new TGCVector3(0.1f, 0.1f, 0.1f);
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
         }
 
-        public void Update()
+        public override void Update()
         {
             var elapsedTime = Context.ElapsedTime;
             var input = Context.Input;
@@ -104,18 +98,12 @@ namespace TGC.Group.Model
                 moving = true;
             }
             //
-            if (input.keyPressed(Key.Space) && PuedeSaltar)
+            if (input.keyPressed(Key.Space))
             {
                 VelocidadY = VelocidadSalto;
             }
 
-            if (!colisionaEnY)
-            {
-                VelocidadY = FastMath.Clamp(VelocidadY + Gravedad * elapsedTime, VelocidadTerminal, -VelocidadTerminal);
-
-                movimiento += new TGCVector3(0, FastMath.Clamp(VelocidadY * elapsedTime, -DesplazamientoMaximoY, DesplazamientoMaximoY), 0);
-                moving = true;
-            }
+            base.Update();
         }
 
         public void Movete(TGCVector3 movimiento)
@@ -133,6 +121,8 @@ namespace TGC.Group.Model
             {
                 Mesh.playAnimation("Parado", true);
             }
+
+            Context.camara.Target = Position;
         }
 
         public void Render()
@@ -153,16 +143,52 @@ namespace TGC.Group.Model
             }
         }
 
+        public void DesplazarConInercia()
+        {
+            this.movimiento = new TGCVector3(0,0, -VelocidadDesplazamiento * Context.ElapsedTime);
+        }
+
         public void Dispose()
         {
             Mesh.Dispose();
         }
 
-        internal void ColisionoEnY()
+        public override void ColisionoEnY()
         {
-            this.colisionaEnY = true;
+            base.ColisionoEnY();
             if (movimiento.X == 0 && movimiento.Z == 0)
                 this.moving = false;
+        }
+
+        public void Restaurar()
+        {
+            Movete(new TGCVector3(0,+30, 200));
+            if (Vidas == 1)
+                Context.VolverAMenu();
+            else
+                PerderVida();
+           
+        }
+
+        private void PerderVida()
+        {
+            Vidas--;
+            Context.textoVidas.Text = Vidas.ToString();
+            Context.ReproducirWoah();
+        }
+
+        public void SetUp()
+        {
+            ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
+            Vidas = 3;
+            Duraznos = 0;
+            Context.ResetearColisionables();
+        }
+
+        public void JuntarDurazno()
+        {
+            Duraznos++;
+            Context.textoDuraznos.Text = Duraznos.ToString();
         }
     }
 }

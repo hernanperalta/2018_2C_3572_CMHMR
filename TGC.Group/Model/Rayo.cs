@@ -4,6 +4,7 @@ using TGC.Core.Mathematica;
 using TGC.Core.SkeletalAnimation;
 using System;
 using TGC.Core.Geometry;
+using TGC.Core.BoundingVolumes;
 
 namespace TGC.Group.Model
 {
@@ -22,8 +23,8 @@ namespace TGC.Group.Model
             this.puntoInterseccion = TGCVector3.Empty;
         }
 
-        public bool Colisionar(TgcSkeletalMesh personaje) {
-            return TgcCollisionUtils.intersectRayAABB(this.ray, personaje.BoundingBox, out this.puntoInterseccion) ;
+        public bool Colisionar(TgcBoundingAxisAlignBox bb) {
+            return TgcCollisionUtils.intersectRayAABB(this.ray, bb, out this.puntoInterseccion) ;
         }
 
         public abstract int DistanciaMinima();

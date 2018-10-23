@@ -1,13 +1,21 @@
 ﻿using Microsoft.DirectX.DirectInput;
 using System;
+using System.Collections.Generic;
+using TGC.Core.BoundingVolumes;
 using TGC.Core.Collision;
+using TGC.Core.Direct3D;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
+using Microsoft.DirectX.Direct3D;
+using System.Drawing;
+using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
     public abstract class Escenario
     {
+        //Escenas
+        protected TgcScene scene;
 
         public TgcMesh planoPiso;
         public TgcMesh planoIzq;
@@ -17,29 +25,151 @@ namespace TGC.Group.Model
         protected TGCVector3 movimiento;
         protected Personaje personaje;
         protected GameModel contexto;
-        
+        public List<Caja> cajas; // todos los escenarios deben tenerlas, porque las cajas pueden moverse por todo el nivel
+        public List<Coleccionable> coleccionables;
 
-        protected Escenario(GameModel contexto, Personaje personaje) {
+        public Escenario siguiente;
+        public Escenario anterior;
+        //public bool aplicarGravedad;
+        public int nearLimit;
+        public int farLimit;
+        protected List<TgcBoundingAxisAlignBox> colisionablesConCamara = new List<TgcBoundingAxisAlignBox>();
+
+        protected Escenario(GameModel contexto, Personaje personaje, int nearLimit = 0, int farLimit = 0) {
             this.contexto = contexto;
             this.personaje = personaje;
+            this.cajas = new List<Caja>();
+            coleccionables = new List<Coleccionable>();
+          
             Init();
+            CargarDuraznos();
+        }
+
+        protected virtual void CargarDuraznos()
+        {
+            scene.Meshes
+                .FindAll(mesh => mesh.Name == "durazno")
+                .ForEach(mesh => {
+                    scene.Meshes.Remove(mesh);
+                    coleccionables.Add(new Durazno(contexto, mesh));
+                });
+        }
+
+        public void AgregarCaja(Caja nuevaCaja) {
+            if (!cajas.Contains(nuevaCaja)) {
+                this.cajas.Add(nuevaCaja);
+                //CalcularEfectoGravedadEnMeshes();
+            }
+            
+        }
+
+        public void QuitarCaja(Caja caja) {
+            if (cajas.Contains(caja)) {
+                cajas.Remove(caja);
+            }
         }
 
         protected abstract void Init();
 
-        public abstract void Render();
+        public virtual void Render() {
+            if (cajas.Count != 0) {
+                ///Console.WriteLine(String.Format("CANTIDAD DE CAJAS : {0}", cajas.Count));
+                cajas.ForEach((caja) => caja.Render());
+            }
 
-        public abstract void Update();
+            if(contexto.BoundingBox)
+                cajas.ForEach((caja) => { caja.RenderizaRayos(); });
 
-        public abstract void Colisiones();
+            Renderizar();
+        }
+
+        public abstract void Renderizar();
+
+        public virtual void Update() {
+                
+        }
+
+        public void AplicarGravedad() {
+            cajas.ForEach((caja) => caja.Update());
+        }
+
+        public virtual void Colisiones() {
+            CalcularColisionesConPlanos();
+
+            CalcularColisionesConMeshes();
+
+            CalcularColisionesEntreMeshes();
+
+            CalcularEfectoGravedadEnMeshes();
+
+            //VerificarSiAlgunMeshSalioDelEscenario();
+
+            cajas.ForEach((caja) => caja.Movete());
+            personaje.Movete(personaje.movimiento);
+        }
+
+        public void VerificarSiAlgunMeshSalioDelEscenario() {
+            foreach (Caja caja in cajas)
+            {
+               if(siguiente != null)
+                    this.siguiente.AgregarCaja(caja); // esto no va, solo esta pa probar 
+
+                //if (caja.Position.Z <= -100/*farLimit*/) {
+                //    this.siguiente.AgregarCaja(caja);
+                //    this.QuitarCaja(caja);
+                //}
+            }
+        }
+
+        public virtual void CalcularColisionesConMeshes()
+        {
+            if (personaje.moving)
+            {
+                foreach (Coleccionable coleccionable in coleccionables)
+                    if (coleccionable.ColisionoContra(personaje))
+                    {
+                        coleccionable.Juntarme();
+                        break;
+                    }
+
+                foreach (Caja caja in cajas)
+                {
+                    caja.TestearColisionContra(personaje);
+                }
+            }
+        }
+
+        public virtual void CalcularColisionesEntreMeshes()
+        {
+            foreach (Caja caja in cajas)
+            {
+                var cajasFiltradas = cajas.FindAll((caja2) => !caja2.Equals(caja));
+
+                foreach (Caja otraCaja in cajasFiltradas)
+                {
+                    //if (caja.Movimiento().X != 0 || caja.Movimiento().Y != 0 || caja.Movimiento().Z != 0){
+                        caja.TestearColisionContra(otraCaja);
+                        //otraCaja.movimiento += caja.movimiento;
+                    //}
+                    
+                }
+            }
+        }
+
+        public virtual void CalcularEfectoGravedadEnMeshes()
+        {
+            foreach (Caja caja in cajas)
+            {
+                if (caja.EstaEnElPiso(planoPiso))
+                    caja.movimiento.Y = 0;
+            }
+        }
 
         public abstract void CalcularColisionesConPlanos();
 
-        public abstract void CalcularColisionesConMeshes();
-
         protected bool ChocoConLimite(Personaje personaje, TgcMesh plano)
         {
-            return TgcCollisionUtils.testAABBAABB(plano.BoundingBox, personaje.BoundingBox);
+            return TgcCollisionUtils.testAABBAABB(plano.BoundingBox, personaje.BoundingBox());
         }
 
         protected void NoMoverHacia(Key key)
@@ -47,23 +177,53 @@ namespace TGC.Group.Model
             switch (key)
             {
                 case Key.A:
-                    if (movimiento.X > 0) // los ejes estan al reves de como pensaba, o lo entendi mal.
-                        movimiento.X = 0;
+                    if (personaje.movimiento.X > 0) // los ejes estan al reves de como pensaba, o lo entendi mal.
+                        personaje.movimiento.X = 0;
                     break;
                 case Key.D:
-                    if (movimiento.X < 0)
-                        movimiento.X = 0;
+                    if (personaje.movimiento.X < 0)
+                        personaje.movimiento.X = 0;
                     break;
                 case Key.S:
-                    if (movimiento.Z > 0)
-                        movimiento.Z = 0;
+                    if (personaje.movimiento.Z > 0)
+                        personaje.movimiento.Z = 0;
                     break;
                 case Key.W:
-                    if (movimiento.Z < 0)
-                        movimiento.Z = 0;
+                    if (personaje.movimiento.Z < 0)
+                        personaje.movimiento.Z = 0;
                     break;
             }
         }
         public abstract void DisposeAll();
+
+        public virtual List<TgcBoundingAxisAlignBox> ColisionablesConCamara() {
+            return colisionablesConCamara;
+        }
+
+        public virtual void RenderHud()
+        {
+            var d3dDevice = D3DDevice.Instance.Device;
+            var viewport = D3DDevice.Instance.Device.Viewport;
+
+            //TgcTexture textura;
+            var sprite = new Sprite(d3dDevice);
+            sprite.Begin(SpriteFlags.AlphaBlend);
+            sprite.Draw2D(contexto.TexturaVidas, Rectangle.Empty, new SizeF(32, 32), new PointF(viewport.Width - 32, 0), Color.White);
+            sprite.Draw2D(contexto.TexturaDuraznos, Rectangle.Empty, new SizeF(32, 32), new PointF(viewport.Width - 32, 64), Color.White);
+            sprite.End();
+
+            contexto.textoVidas.render();
+            contexto.textoDuraznos.render();
+        }
+
+        public void JuntarDurazno()
+        {
+            personaje.JuntarDurazno();
+        }
+
+        internal void ResetearColisionables()
+        {
+            coleccionables.ForEach(coleccionable => coleccionable.Visible = true);
+        }
     }
 }
