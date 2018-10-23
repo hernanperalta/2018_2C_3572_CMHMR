@@ -14,7 +14,7 @@ namespace TGC.Group.Model
         public TgcMesh planoPiso;
         public TgcMesh planoIzq;
         public TgcMesh planoDer;
-        //public TgcMesh planoFront;
+        public TgcMesh planoFront;
         public TgcMesh planoBack;
         protected TGCVector3 movimiento;
         protected Personaje personaje;

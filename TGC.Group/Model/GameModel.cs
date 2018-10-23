@@ -114,11 +114,11 @@ namespace TGC.Group.Model
             if (between(posicionMeshEjeZ, -330f, 0f))
                 escenarioActual = escenarios["playa"];
 
-            if (between(posicionMeshEjeZ, -465f, -330f))
+            if (between(posicionMeshEjeZ, -464f, -330f))
                 escenarioActual = escenarios["plataforma"];
 
-            //if (between(posicionMeshEjeZ, ???f, -465f))
-            //    escenarioActual = escenarios["plataforma"];
+            if (between(posicionMeshEjeZ, -598f, -464f))
+                escenarioActual = escenarios["hielo"];
         }
 
         public override void Update()

@@ -15,6 +15,7 @@ namespace TGC.Group.Model
 
         //Escenas
         private TgcScene scene;
+        private TgcScene planos;
 
         //Plataformas
         private TgcMesh plataforma1Mesh;
@@ -50,32 +51,22 @@ namespace TGC.Group.Model
             plataforma1 = new Plataforma(new TGCVector3(0,0,0), plataforma1Mesh, contexto);
             //plataforma2 = new MeshTipoCaja(new TGCVector3(0, 0, 0), plataforma2Mesh);
 
-            planoIzq = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoHorizontal-TgcScene.xml").Meshes[0];
+            this.planos = loader.loadSceneFromFile(GameModel.Media + "planos\\plataforma-TgcScene.xml");
+
+            planoIzq = this.planos.getMeshByName("planoIzq");
             planoIzq.AutoTransform = false;
 
-            planoDer = planoIzq.createMeshInstance("planoDer");
+            planoDer = this.planos.getMeshByName("planoDer");
             planoDer.AutoTransform = false;
-            planoDer.Transform = TGCMatrix.Translation(-35, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
-            planoDer.BoundingBox.transform(planoDer.Transform);
 
-            planoIzq.Transform = TGCMatrix.Translation(0, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
-            planoIzq.BoundingBox.transform(planoIzq.Transform);
-
-            //planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
-            //planoFront.AutoTransform = false;
-
-            planoBack = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
-            planoBack.AutoTransform = false;
-            planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
-            planoBack.BoundingBox.transform(planoBack.Transform);
-
-            //planoFront.Transform = TGCMatrix.Translation(50, 0, -535);
-            //planoFront.BoundingBox.transform(planoFront.Transform);
-
-            planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "planos\\planoPiso-TgcScene.xml").Meshes[0];
+            planoPiso = this.planos.getMeshByName("planoPiso");
             planoPiso.AutoTransform = false;
-            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, -20, -200));
 
+            planoFront = this.planos.getMeshByName("planoFin");
+            planoFront.AutoTransform = false;
+
+            planoBack = this.planos.getMeshByName("planoInicio");
+            planoBack.AutoTransform = false;
         }
 
         public override void Update()
