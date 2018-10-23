@@ -13,7 +13,6 @@ namespace TGC.Group.Model
     public class EscenarioPlataforma : Escenario
     {
         //Escenas
-        private TgcScene scene;
         private TgcScene planos;
         //Plataformas
         private TgcMesh plataforma1Mesh;

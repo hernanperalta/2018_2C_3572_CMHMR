@@ -9,7 +9,6 @@ namespace TGC.Group.Model
 {
     public class EscenarioPlaya : Escenario
     {
-        private TgcScene escena;
         private TgcScene planos;
         public TgcMesh planoArbol;
 
@@ -24,7 +23,7 @@ namespace TGC.Group.Model
         {
             var MediaDir = contexto.MediaDir;
             var loader = new TgcSceneLoader();
-            this.escena = loader.loadSceneFromFile(GameModel.Media + "escenarios\\playa\\playa-TgcScene.xml");
+            scene = loader.loadSceneFromFile(GameModel.Media + "escenarios\\playa\\playa-TgcScene.xml");
             this.planos = loader.loadSceneFromFile(GameModel.Media + "planos\\playa-TgcScene.xml");
 
             planoIzq = this.planos.getMeshByName("planoIzq");
