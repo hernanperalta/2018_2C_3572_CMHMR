@@ -7,13 +7,13 @@ using TGC.Core.SkeletalAnimation;
 using TGC.Core.Mathematica;
 using Microsoft.DirectX.DirectInput;
 using TGC.Core.BoundingVolumes;
+using TGC.Group.Model.Coleccionables;
 
 namespace TGC.Group.Model
 {
     public class Personaje : Colisionable
     {
         public TgcSkeletalMesh Mesh { get; set; }
-        
         private TGCMatrix ultimaPosicion;
         //public TGCVector3 movimiento;
         private const float VelocidadDesplazamiento = 50f;
@@ -21,15 +21,14 @@ namespace TGC.Group.Model
         {
             get => Mesh.Transform.Origin;
         }
-        
+        public int Vidas, Duraznos;
         public TGCMatrix TransformPlataforma;
-
         private bool PuedeSaltar;
-        
         public override TgcBoundingAxisAlignBox BoundingBox()
         {
             return this.Mesh.BoundingBox;
         }
+        //private List<Durazno> duraznosJuntados = new List<Durazno>();
 
 
         public Personaje(GameModel contexto) : base (contexto)
@@ -54,7 +53,9 @@ namespace TGC.Group.Model
             //Configurar animacion inicial
             Mesh.playAnimation("Parado", true);
             //Escalarlo porque es muy grande
-            Mesh.Position = new TGCVector3(0, 0, 50);
+
+            Mesh.Position = new TGCVector3(0, 0, 50); // 0,0,50
+
             Mesh.Scale = new TGCVector3(0.1f, 0.1f, 0.1f);
             ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
         }
@@ -97,7 +98,7 @@ namespace TGC.Group.Model
                 moving = true;
             }
             //
-            if (input.keyPressed(Key.Space) && PuedeSaltar)
+            if (input.keyPressed(Key.Space))
             {
                 VelocidadY = VelocidadSalto;
             }
@@ -142,6 +143,11 @@ namespace TGC.Group.Model
             }
         }
 
+        public void DesplazarConInercia()
+        {
+            this.movimiento = new TGCVector3(0,0, -VelocidadDesplazamiento * Context.ElapsedTime);
+        }
+
         public void Dispose()
         {
             Mesh.Dispose();
@@ -149,7 +155,7 @@ namespace TGC.Group.Model
 
         public override void ColisionoEnY()
         {
-            this.colisionaEnY = true;
+            base.ColisionoEnY();
             if (movimiento.X == 0 && movimiento.Z == 0)
                 this.moving = false;
         }
@@ -157,8 +163,32 @@ namespace TGC.Group.Model
         public void Restaurar()
         {
             Movete(new TGCVector3(0,+30, 200));
+            if (Vidas == 1)
+                Context.VolverAMenu();
+            else
+                PerderVida();
+           
         }
 
-        
+        private void PerderVida()
+        {
+            Vidas--;
+            Context.textoVidas.Text = Vidas.ToString();
+            Context.ReproducirWoah();
+        }
+
+        public void SetUp()
+        {
+            ultimaPosicion = TGCMatrix.Translation(Mesh.Position);
+            Vidas = 3;
+            Duraznos = 0;
+            Context.ResetearColisionables();
+        }
+
+        public void JuntarDurazno()
+        {
+            Duraznos++;
+            Context.textoDuraznos.Text = Duraznos.ToString();
+        }
     }
 }

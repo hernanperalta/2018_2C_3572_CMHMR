@@ -12,11 +12,9 @@ namespace TGC.Group.Model
 {
     public class EscenarioPlataforma : Escenario
     {
-
         //Escenas
         private TgcScene scene;
         private TgcScene planos;
-
         //Plataformas
         private TgcMesh plataforma1Mesh;
         //private TgcMesh plataforma2Mesh;
@@ -72,7 +70,7 @@ namespace TGC.Group.Model
         public override void Update()
         {
             //Muevo las plataformas
-            var Mover = TGCMatrix.Translation(0, 0, -10);
+            var Mover = TGCMatrix.Translation(0, 0, 30);
             var Mover2 = TGCMatrix.Translation(0, 0, 65);
 
             //Punto por donde va a rotar
@@ -179,7 +177,7 @@ namespace TGC.Group.Model
             }
         }
 
-        public override void Render()
+        public override void Renderizar()
         {
             //Dibujamos la escena
             scene.RenderAll();

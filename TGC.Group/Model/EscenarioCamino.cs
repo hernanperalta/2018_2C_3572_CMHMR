@@ -7,9 +7,6 @@ namespace TGC.Group.Model
 {
     public class EscenarioCamino : Escenario
     {
-        //Escenas
-        private TgcScene scene;
-
         public EscenarioCamino(GameModel contexto, Personaje personaje) : base(contexto, personaje, 0, 0) { }
 
         protected override void Init()
@@ -22,7 +19,7 @@ namespace TGC.Group.Model
 
             planoDer = planoIzq.createMeshInstance("planoDer");
             planoDer.AutoTransform = false;
-            planoDer.Transform = TGCMatrix.Translation(-35, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
+            planoDer.Transform = TGCMatrix.Translation(-38, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
             planoDer.BoundingBox.transform(planoDer.Transform);
 
             planoIzq.Transform = TGCMatrix.Translation(0, -15, -357) * TGCMatrix.Scaling(1, 2f, 1.1f);
@@ -31,17 +28,17 @@ namespace TGC.Group.Model
             //planoFront = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0];
             //planoFront.AutoTransform = false;
 
-            planoBack = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
-            planoBack.AutoTransform = false;
-            planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
-            planoBack.BoundingBox.transform(planoBack.Transform);
+            //planoBack = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoVertical-TgcScene.xml").Meshes[0]; //planoFront.createMeshInstance("planoBack");
+            //planoBack.AutoTransform = false;
+            //planoBack.Transform = TGCMatrix.Translation(50, 0, -350);
+            //planoBack.BoundingBox.transform(planoBack.Transform);
 
             //planoFront.Transform = TGCMatrix.Translation(50, 0, -535);
             //planoFront.BoundingBox.transform(planoFront.Transform);
 
             planoPiso = loader.loadSceneFromFile(contexto.MediaDir + "primer-nivel\\pozo-plataformas\\tgc-scene\\plataformas\\planoPiso-TgcScene.xml").Meshes[0];
             planoPiso.AutoTransform = false;
-            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, -20, -200));
+            planoPiso.BoundingBox.transform(TGCMatrix.Scaling(1, 1, 2) * TGCMatrix.Translation(-22, 20, -10));
 
         }
 
@@ -69,14 +66,14 @@ namespace TGC.Group.Model
                 if (ChocoConLimite(personaje, planoIzq))
                     NoMoverHacia(Key.A);
 
-                if (ChocoConLimite(personaje, planoBack))
-                {
-                    planoBack.BoundingBox.setRenderColor(Color.AliceBlue);
-                }
-                else
-                { // esto no hace falta despues
-                    planoBack.BoundingBox.setRenderColor(Color.Yellow);
-                }
+                //if (ChocoConLimite(personaje, planoBack))
+                //{
+                //    planoBack.BoundingBox.setRenderColor(Color.AliceBlue);
+                //}
+                //else
+                //{ // esto no hace falta despues
+                //    planoBack.BoundingBox.setRenderColor(Color.Yellow);
+                //}
 
                 if (ChocoConLimite(personaje, planoDer))
                     NoMoverHacia(Key.D);
@@ -105,14 +102,14 @@ namespace TGC.Group.Model
             }
         }
 
-        public override void Render()
+        public override void Renderizar()
         {
             //Dibujamos la escena
             scene.RenderAll();
 
             if (contexto.BoundingBox)
             {
-                planoBack.BoundingBox.Render();
+                //planoBack.BoundingBox.Render();
                 //planoFront.BoundingBox.Render();
                 planoIzq.BoundingBox.Render();
                 planoDer.BoundingBox.Render();

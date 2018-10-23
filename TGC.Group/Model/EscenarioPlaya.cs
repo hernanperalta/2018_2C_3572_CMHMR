@@ -61,12 +61,13 @@ namespace TGC.Group.Model
             cajas.Add(new Caja(new TGCVector3(0, 20, -150), mesh2, contexto));
         }
 
-        public override void Render() {
-            escena.RenderAll();
-            cajas.ForEach((caja) => { caja.Render(); });
+
+        public override void Renderizar() {
+            scene.RenderAll();
+            coleccionables.ForEach(coleccionable => coleccionable.Render());
 
             if (contexto.BoundingBox) {
-                cajas.ForEach((caja) => {caja.RenderizaRayos(); }) ;
+                //cajas.ForEach((caja) => {caja.RenderizaRayos(); }) ;
                 planoBack.BoundingBox.Render();
                 //planoFront.BoundingBox.Render();
                 planoIzq.BoundingBox.Render();
@@ -135,7 +136,7 @@ namespace TGC.Group.Model
             planoIzq.Dispose();
             //planoFront.Dispose();
             planoPiso.Dispose();
-            escena.DisposeAll();
+            scene.DisposeAll();
         }
     }
 }

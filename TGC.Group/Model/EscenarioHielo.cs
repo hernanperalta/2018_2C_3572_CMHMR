@@ -10,7 +10,6 @@ namespace TGC.Group.Model
         //Escenas
         private TgcScene scene;
         private TgcScene planos;
-
         public EscenarioHielo(GameModel contexto, Personaje personaje) : base(contexto, personaje, 0 ,0) { }
 
         protected override void Init()
@@ -36,20 +35,8 @@ namespace TGC.Group.Model
 
         }
 
-        public override void Update() { }
 
-        public override void Colisiones()
-        {
-            movimiento = personaje.movimiento;
-
-            CalcularColisionesConPlanos();
-
-            CalcularColisionesConMeshes();
-
-            personaje.Movete(movimiento);
-        }
-
-        public override void CalcularColisionesConMeshes() { }
+        //public override void CalcularColisionesConMeshes() { }
 
         public override void CalcularColisionesConPlanos()
         {
@@ -60,14 +47,14 @@ namespace TGC.Group.Model
                 if (ChocoConLimite(personaje, planoIzq))
                     NoMoverHacia(Key.A);
 
-                if (ChocoConLimite(personaje, planoBack))
-                {
-                    planoBack.BoundingBox.setRenderColor(Color.AliceBlue);
-                }
-                else
-                { // esto no hace falta despues
-                    planoBack.BoundingBox.setRenderColor(Color.Yellow);
-                }
+                //if (ChocoConLimite(personaje, planoBack))
+                //{
+                //    planoBack.BoundingBox.setRenderColor(Color.AliceBlue);
+                //}
+                //else
+                //{ // esto no hace falta despues
+                //    planoBack.BoundingBox.setRenderColor(Color.Yellow);
+                //}
 
                 if (ChocoConLimite(personaje, planoDer))
                     NoMoverHacia(Key.D);
@@ -87,23 +74,25 @@ namespace TGC.Group.Model
 
                 if (ChocoConLimite(personaje, planoPiso))
                 {
-                    if (movimiento.Y < 0)
+                    
+                    personaje.DesplazarConInercia();
+                    if (personaje.movimiento.Y < 0)
                     {
-                        movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
+                        personaje.movimiento.Y = 0; // Ojo, que pasa si quiero saltar desde arriba de la plataforma?
                         personaje.ColisionoEnY();
                     }
                 }
             }
         }
 
-        public override void Render()
+        public override void Renderizar()
         {
             //Dibujamos la escena
             scene.RenderAll();
 
             if (contexto.BoundingBox)
             {
-                planoBack.BoundingBox.Render();
+                //planoBack.BoundingBox.Render();
                 //planoFront.BoundingBox.Render();
                 planoIzq.BoundingBox.Render();
                 planoDer.BoundingBox.Render();

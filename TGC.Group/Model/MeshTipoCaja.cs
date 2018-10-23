@@ -1,12 +1,7 @@
-﻿using TGC.Core.SceneLoader;
-using TGC.Core.SkeletalAnimation;
-using TGC.Core.Mathematica;
-using TGC.Core.Collision;
-using System.Collections;
-using System.Collections.Generic;
-using TGC.Core.Geometry;
-using System;
+﻿using System.Collections.Generic;
 using TGC.Core.BoundingVolumes;
+using TGC.Core.Mathematica;
+using TGC.Core.SceneLoader;
 //using
 
 namespace TGC.Group.Model
@@ -51,9 +46,7 @@ namespace TGC.Group.Model
             this.caras = new List<Cara>();
         }
 
-        protected abstract int ModificacionEnY();
-
-        internal void Render()
+        public void Render()
         {
             mesh.Render();
         }
