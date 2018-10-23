@@ -56,6 +56,7 @@ namespace TGC.Group.Model
         public Texture TexturaDuraznos;
         public TgcText2D textoVidas;
         public TgcText2D textoDuraznos;
+        public TgcText2D ayuda;
         public TgcMp3Player cancionPpal = new TgcMp3Player();
         public TgcMp3Player woah = new TgcMp3Player();
 
@@ -80,6 +81,8 @@ namespace TGC.Group.Model
             cargarEscenarios();
 
             CargarHud();
+
+            CargarAyuda();
 
             BoundingBox = false;
         }
@@ -109,6 +112,20 @@ namespace TGC.Group.Model
             textoDuraznos.Color = Color.Yellow;
             textoDuraznos.Align = TgcText2D.TextAlign.RIGHT;
             textoDuraznos.Text = personaje.Duraznos.ToString();
+        }
+
+        private void CargarAyuda()
+        {
+            ayuda = new TgcText2D();
+            ayuda.Position = new Point(10, 10);
+            ayuda.Size = new Size(500, 500);
+            ayuda.changeFont(new System.Drawing.Font("Arial", 23, FontStyle.Regular));
+            ayuda.Color = Color.Black;
+            ayuda.Align = TgcText2D.TextAlign.LEFT;
+            ayuda.Text = "Ayuda:\n" +
+                "Q: mostrar/ocultar bounding box\n" +
+                "M: mutear/desmutear\n" +
+                "G: god mode\n";
         }
 
         public void cargarEscenarios()
@@ -239,6 +256,8 @@ namespace TGC.Group.Model
             }
 
             escenarioActual.RenderHud();
+
+            ayuda.render();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
