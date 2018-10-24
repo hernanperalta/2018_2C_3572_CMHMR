@@ -162,6 +162,9 @@ namespace TGC.Group.Model
             if (between(posicionMeshEjeZ, -598f, -464f))
                 escenarioActual = escenarios["hielo"];
 
+            if (between(posicionMeshEjeZ, -750f, -598f))
+                escenarioActual = escenarios["pozo"];
+
             if (between(posicionMeshEjeZ, -850f, -750f))
                 escenarioActual = escenarios["piramide"];
         }
