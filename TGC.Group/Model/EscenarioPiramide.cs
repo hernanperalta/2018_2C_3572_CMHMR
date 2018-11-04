@@ -12,6 +12,7 @@ namespace TGC.Group.Model
         private TgcScene planos;
         private List<Escalon> escalones;
         
+        
         public EscenarioPiramide(GameModel contexto, Personaje personaje) : base(contexto, personaje) { }
 
         protected override void Init()
@@ -31,6 +32,8 @@ namespace TGC.Group.Model
 
             planoPiso = planos.getMeshByName("planoPiso");
             planoPiso.AutoTransform = false;
+
+            
 
             ArmarEscalones();
         }
@@ -145,6 +148,8 @@ namespace TGC.Group.Model
             scene.Meshes.FindAll(unMesh => !unMesh.Name.Contains("Escalon"))
                         .ForEach(unMesh => unMesh.Render());
 
+            
+
             if (contexto.BoundingBox)
             {
                 escalones.ForEach(unEscalon => unEscalon.Render());
@@ -161,6 +166,7 @@ namespace TGC.Group.Model
 
         public override void DisposeAll()
         {
+            
             scene.DisposeAll();
         }
     }

@@ -11,6 +11,7 @@ namespace TGC.Group.Model
     {
         private TgcScene planos;
         public TgcMesh planoArbol;
+        private Canion canion;
 
         // Planos de limite
 
@@ -49,6 +50,8 @@ namespace TGC.Group.Model
             colisionablesConCamara.Add(planoArbol.BoundingBox);
             //
 
+            canion = new Canion(new TGCVector3(-30, 5, -300)); 
+
             GenerarCajas();
         }
 
@@ -64,6 +67,7 @@ namespace TGC.Group.Model
         public override void Renderizar() {
             scene.RenderAll();
             coleccionables.ForEach(coleccionable => coleccionable.Render());
+            canion.Render();
 
             if (contexto.BoundingBox) {
                 //cajas.ForEach((caja) => {caja.RenderizaRayos(); }) ;
@@ -135,6 +139,7 @@ namespace TGC.Group.Model
             planoIzq.Dispose();
             //planoFront.Dispose();
             planoPiso.Dispose();
+            canion.Dispose();
             scene.DisposeAll();
         }
     }

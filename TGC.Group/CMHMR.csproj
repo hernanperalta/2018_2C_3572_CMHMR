@@ -100,6 +100,7 @@
     <Compile Include="Model\AplicarTransformacionDePlataformaAPersonaje.cs" />
     <Compile Include="Model\Caja.cs" />
     <Compile Include="Model\CambiarPisoAlPersonaje.cs" />
+    <Compile Include="Model\Canion.cs" />
     <Compile Include="Model\Cara.cs" />
     <Compile Include="Model\CaraBuilder.cs" />
     <Compile Include="Model\CaraX.cs" />
