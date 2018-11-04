@@ -106,5 +106,17 @@ namespace TGC.Group {
                 this["MediaDir"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..\\..\\Media\\Shaders")]
+        public string ShadersDir {
+            get {
+                return ((string)(this["ShadersDir"]));
+            }
+            set {
+                this["ShadersDir"] = value;
+            }
+        }
     }
 }

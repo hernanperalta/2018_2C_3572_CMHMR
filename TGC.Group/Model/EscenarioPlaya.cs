@@ -50,7 +50,7 @@ namespace TGC.Group.Model
             colisionablesConCamara.Add(planoArbol.BoundingBox);
             //
 
-            canion = new Canion(new TGCVector3(-30, 5, -300)); 
+            canion = new Canion(contexto, new TGCVector3(-30, 5, -300)); 
 
             GenerarCajas();
         }

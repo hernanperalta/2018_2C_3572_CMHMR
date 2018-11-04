@@ -23,5 +23,8 @@
     <Setting Name="MediaDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">..\..\Media\</Value>
     </Setting>
+    <Setting Name="ShadersDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">..\..\Media\Shaders</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
