@@ -16,12 +16,14 @@ namespace TGC.Group.Model
         private TgcScene planos;
         //Plataformas
         private TgcMesh plataforma1Mesh;
-        //private TgcMesh plataforma2Mesh;
+        private TgcMesh plataforma2Mesh;
+
         private Plataforma plataforma1;
-        //private MeshTipoCaja plataforma2;
+        private Plataforma plataforma2;
+        
         //Transformaciones
         private TGCMatrix transformacionBox;
-        //private TGCMatrix transformacionBox2;
+        private TGCMatrix transformacionBox2;
 
         //Constantes para velocidades de movimiento
         private const float MOVEMENT_SPEED = 1f;
@@ -40,13 +42,13 @@ namespace TGC.Group.Model
             var scene2 = loader.loadSceneFromFile(GameModel.Media + "\\objetos\\plataforma\\plataforma-TgcScene.xml");
 
             plataforma1Mesh = scene2.Meshes[0];
-            //plataforma2Mesh = plataforma1Mesh.createMeshInstance(plataforma1Mesh.Name + "2");
+            plataforma2Mesh = scene2.Meshes[0];
 
             plataforma1Mesh.AutoTransform = false;
-            //plataforma2Mesh.AutoTransform = false;
+            plataforma2Mesh.AutoTransform = false;
 
             plataforma1 = new Plataforma(new TGCVector3(0,0,0), plataforma1Mesh, contexto);
-            //plataforma2 = new MeshTipoCaja(new TGCVector3(0, 0, 0), plataforma2Mesh);
+            plataforma2 = new Plataforma(new TGCVector3(0, 0, 0), plataforma1Mesh, contexto);
 
             this.planos = loader.loadSceneFromFile(GameModel.Media + "planos\\plataforma-TgcScene.xml");
 
@@ -69,7 +71,7 @@ namespace TGC.Group.Model
         public override void Update()
         {
             //Muevo las plataformas
-            var Mover = TGCMatrix.Translation(0, 0, 30);
+            var Mover = TGCMatrix.Translation(0, 0, -15);
             var Mover2 = TGCMatrix.Translation(0, 0, 65);
 
             //Punto por donde va a rotar
@@ -83,13 +85,17 @@ namespace TGC.Group.Model
             var RotInversa = TGCMatrix.RotationX(-orbitaDeRotacion);
 
             transformacionBox = Mover * Trasladar * Rot * Trasladar * RotInversa;
-            //transformacionBox2 = Mover2 * Trasladar2 * RotInversa * Trasladar2 * Rot;
+            transformacionBox2 = Mover2 * Trasladar2 * RotInversa * Trasladar2 * Rot;
 
             plataforma1.Update();
             plataforma1.transformacion = transformacionBox;
             plataforma1.Movete();
-            //plataforma2.Update(transformacionBox2);
-            //Console.WriteLine(String.Format("VOY A MOSTRAR LAS CAJAS:"));
+
+
+            plataforma2.Update();
+            plataforma2.transformacion = transformacionBox2;
+            plataforma2.Movete();
+
 
             base.Update();
             //foreach (Caja caja in cajas)
@@ -188,10 +194,10 @@ namespace TGC.Group.Model
             plataforma1Mesh.BoundingBox.Render();
 
             //Dibujar la segunda plataforma en pantalla
-            //plataforma2Mesh.Transform = transformacionBox2;
-            //plataforma2Mesh.Render();
-            //plataforma2Mesh.BoundingBox.transform(plataforma2Mesh.Transform);
-            //plataforma2Mesh.BoundingBox.Render();
+            plataforma2Mesh.Transform = transformacionBox2;
+            plataforma2Mesh.Render();
+            plataforma2Mesh.BoundingBox.transform(plataforma2Mesh.Transform);
+            plataforma2Mesh.BoundingBox.Render();
 
             if (contexto.BoundingBox)
             {
