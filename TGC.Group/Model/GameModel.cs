@@ -290,6 +290,9 @@ namespace TGC.Group.Model
 
         public void Empezar()
         {
+            cancionPpal.closeFile();
+            ReiniciarEscenarios();
+
             CambiarEscenario("playa");
 
             camara = new GameCamera(personaje.Position, 60, 200, this);
@@ -299,6 +302,14 @@ namespace TGC.Group.Model
 
             textoVidas.Text = personaje.Vidas.ToString();
             textoDuraznos.Text = personaje.Duraznos.ToString();
+        }
+
+        private void ReiniciarEscenarios()
+        {
+            foreach (Escenario e in escenarios.Values)
+                e.DisposeAll();
+
+            cargarEscenarios();
         }
 
         public void ReproducirWoah()
