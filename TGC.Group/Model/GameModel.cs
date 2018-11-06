@@ -275,7 +275,9 @@ namespace TGC.Group.Model
 
             RenderShaderSombra();
 
-            PreRender();
+            D3DDevice.Instance.Device.BeginScene();
+
+            D3DDevice.Instance.Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
 
             personaje.Render();
 
@@ -287,7 +289,8 @@ namespace TGC.Group.Model
             escenarioActual.RenderHud();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
-            PostRender();
+            D3DDevice.Instance.Device.EndScene();
+            D3DDevice.Instance.Device.Present();
         }
 
         private void RenderShaderSombra()
@@ -334,7 +337,7 @@ namespace TGC.Group.Model
             sombra.SetValue("g_txShadow", g_pShadowMap);
 
             //mesh.Technique = "RenderShadow";
-            mesh.Render();
+            //mesh.Render();
 
             // Termino
             D3DDevice.Instance.Device.EndScene();
